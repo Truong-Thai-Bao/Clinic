@@ -281,6 +281,7 @@
             this.Controls.Add(this.txtAge);
             this.Controls.Add(this.txtYOE);
             this.Controls.Add(this.txtDocName);
+            this.Controls.Add(this.label1);
             this.ForeColor = System.Drawing.Color.MintCream;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "DoctorForm";

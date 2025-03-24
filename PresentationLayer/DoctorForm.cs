@@ -275,8 +275,8 @@ namespace PresentationLayer
                     catch (Exception ex)
                     {
                         MessageBox.Show("Lỗi: " + ex.Message);
-                        transaction.Rollback();
-                    }
+                            transaction.Rollback();
+                        }
                     finally
                     {
                         conn.Close();
@@ -330,19 +330,19 @@ namespace PresentationLayer
                             LoadDoctors();
                             Reset();
 
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Lỗi: " + ex.Message);
-                            transaction.Rollback();
-                        }
-                        finally
-                        {
-                            conn.Close();
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Lỗi: " + ex.Message);
+                        transaction.Rollback();
+                    }
+                    finally
+                    {
+                        conn.Close();
                     }
                 }
             }
         }
     }
+}
 }
