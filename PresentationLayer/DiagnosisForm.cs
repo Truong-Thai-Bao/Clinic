@@ -15,17 +15,18 @@ namespace PresentationLayer
 {
     public partial class DiagnosisForm : Form
     {
-        SqlConnection sqlCon = new SqlConnection(DBCommon.ConString);
+        SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
         public DiagnosisForm()
         {
             InitializeComponent();
             LoadPatients();
             symptomDataGridView.DefaultCellStyle.ForeColor = Color.Black;
+            medicineDataGridView.DefaultCellStyle.ForeColor = Color.Black;
         }
 
         private void LoadPatients()
         {
-            using (SqlConnection conn = new SqlConnection(DBCommon.ConString))
+            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
             {
                 try
                 {
@@ -62,7 +63,7 @@ namespace PresentationLayer
             int patientId = Convert.ToInt32(cbPatients.SelectedValue);
             if(patientId > 0)
             {
-                SqlConnection conn = new SqlConnection(DBCommon.ConString);
+                SqlConnection conn = new SqlConnection(DBCommon.connString);
 
                 #region Load Patients
                 conn.Open();
@@ -159,7 +160,7 @@ namespace PresentationLayer
             }
             else
             {
-                using (SqlConnection conn = new SqlConnection(DBCommon.ConString))
+                using (SqlConnection conn = new SqlConnection(DBCommon.connString))
                 {
                     conn.Open();
                     SqlTransaction transaction = conn.BeginTransaction();
@@ -208,6 +209,16 @@ namespace PresentationLayer
         }
 
         private void medicineDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void DiagnosisForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtGender_TextChanged(object sender, EventArgs e)
         {
 
         }

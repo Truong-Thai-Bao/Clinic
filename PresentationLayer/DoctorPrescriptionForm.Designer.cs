@@ -37,6 +37,7 @@
             this.btnViewPrescription = new System.Windows.Forms.Button();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).BeginInit();
             this.SuspendLayout();
@@ -60,9 +61,9 @@
             this.label1.ForeColor = System.Drawing.Color.AliceBlue;
             this.label1.Location = new System.Drawing.Point(249, 52);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(302, 29);
+            this.label1.Size = new System.Drawing.Size(306, 29);
             this.label1.TabIndex = 10;
-            this.label1.Text = "PATIENT PRESCRIPTION";
+            this.label1.Text = "ĐƠN THUỐC BỆNH NHÂN";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelClinicManagement
@@ -89,7 +90,9 @@
             // 
             // cbPatientCode
             // 
+            this.cbPatientCode.BackColor = System.Drawing.Color.MintCream;
             this.cbPatientCode.Font = new System.Drawing.Font("Bahnschrift Condensed", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPatientCode.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.cbPatientCode.FormattingEnabled = true;
             this.cbPatientCode.Items.AddRange(new object[] {
             "A+",
@@ -104,7 +107,6 @@
             this.cbPatientCode.Name = "cbPatientCode";
             this.cbPatientCode.Size = new System.Drawing.Size(243, 41);
             this.cbPatientCode.TabIndex = 25;
-            this.cbPatientCode.Text = "PATIENT CODE";
             // 
             // btnViewPrescription
             // 
@@ -115,7 +117,7 @@
             this.btnViewPrescription.Name = "btnViewPrescription";
             this.btnViewPrescription.Size = new System.Drawing.Size(243, 38);
             this.btnViewPrescription.TabIndex = 33;
-            this.btnViewPrescription.Text = "VIEW PRESCRIPTION";
+            this.btnViewPrescription.Text = "XEM ĐƠN THUỐC";
             this.btnViewPrescription.UseVisualStyleBackColor = false;
             this.btnViewPrescription.Click += new System.EventHandler(this.btnViewPrescription_Click);
             // 
@@ -133,12 +135,26 @@
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.Visible = false;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.MintCream;
+            this.label2.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(279, 222);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(124, 28);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "MÃ BỆNH NHÂN";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // DoctorPrescriptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MintCream;
             this.ClientSize = new System.Drawing.Size(800, 574);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.btnViewPrescription);
             this.Controls.Add(this.cbPatientCode);
             this.Controls.Add(this.pictureBoxLogout);
@@ -152,6 +168,7 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -165,5 +182,6 @@
         private System.Windows.Forms.Button btnViewPrescription;
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
+        private System.Windows.Forms.Label label2;
     }
 }

@@ -15,7 +15,7 @@ namespace PresentationLayer
 {
     public partial class DoctorPrescriptionForm : Form
     {
-        SqlConnection sqlCon = new SqlConnection(DBCommon.ConString);
+        SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
         int _patientId = 0;
         public DoctorPrescriptionForm()
         {
@@ -25,7 +25,7 @@ namespace PresentationLayer
 
         private void LoadPatients()
         {
-            using (SqlConnection conn = new SqlConnection(DBCommon.ConString))
+            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
             {
                 try
                 {
@@ -54,10 +54,22 @@ namespace PresentationLayer
         private void btnViewPrescription_Click(object sender, EventArgs e)
         {
             _patientId = Convert.ToInt32(cbPatientCode.SelectedValue);
-            if(printPreviewDialog1.ShowDialog() == DialogResult.OK && _patientId > 0)
+            //if(printPreviewDialog1.ShowDialog() == DialogResult.OK && _patientId > 0)
+            //{
+            //    printDocument1.Print();
+            //}
+            if (_patientId > 0)
             {
-                printDocument1.Print();
+                // Gán tài liệu cho PrintPreviewDialog
+                printPreviewDialog1.Document = printDocument1;
+                printPreviewDialog1.ShowDialog();
             }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn bệnh nhân!");
+            }
+
+
         }
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
@@ -88,19 +100,19 @@ namespace PresentationLayer
 
                 e.Graphics.DrawString("==Hồ sơ bệnh nhân==", new Font("Centuary", 22, FontStyle.Bold), Brushes.Red, new Point(200, 40));
 
-                e.Graphics.DrawString("Tên bệnh nhân" + patient.PatientName, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 105));
-                e.Graphics.DrawString("Giới tính" + patient.Gender, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 125));
-                e.Graphics.DrawString("Tuổi: " + patient.Age, new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(100, 145));
-                e.Graphics.DrawString("Nhóm máu" + patient.BloodGroup, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 165));
-                e.Graphics.DrawString("P-Code" + patient.PCode, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 185));
-                e.Graphics.DrawString("Số điện thoại" + patient.Contact, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 205));
-                e.Graphics.DrawString("Địa chỉ" + patient.Address, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 225));
-                e.Graphics.DrawString("Bác sĩ điều trị" + patient.DoctorName, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 245));
+                e.Graphics.DrawString("Tên bệnh nhân: " + patient.PatientName, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 105));
+                e.Graphics.DrawString("Giới tính: " + patient.Gender, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 125));
+                e.Graphics.DrawString("Tuổi: " + patient.Age, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 145));
+                e.Graphics.DrawString("Nhóm máu: " + patient.BloodGroup, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 165));
+                e.Graphics.DrawString("Mã BN: " + patient.PCode, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 185));
+                e.Graphics.DrawString("Số điện thoại: " + patient.Contact, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 205));
+                e.Graphics.DrawString("Địa chỉ: " + patient.Address, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 225));
+                e.Graphics.DrawString("Bác sĩ điều trị: " + patient.DoctorName, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 245));
 
-                e.Graphics.DrawString("Thuốc", new Font("Centuary", 14, FontStyle.Regular), Brushes.Black, new Point(120, 265));
+                e.Graphics.DrawString("Thuốc: ", new Font("Centuary", 14, FontStyle.Regular), Brushes.Black, new Point(120, 285));
 
                 int rowGap = 20,
-                    lastPoint = 265;
+                    lastPoint = 285;
                 foreach (var medicine in medicines)
                 {
                     lastPoint += rowGap;
@@ -114,14 +126,14 @@ namespace PresentationLayer
             Patient patient = (from rw in dt.AsEnumerable()
                                select new Patient()
                                {
-                                   PatientName = Convert.ToString(rw["PatientName"]),
+                                   PatientName = Convert.ToString(rw["Name"]),
                                    Address = Convert.ToString(rw["Address"]),
                                    Contact = Convert.ToString(rw["Contact"]),
                                    Age = Convert.ToInt32(rw["Age"]),
                                    Gender = Convert.ToString(rw["Gender"]),
                                    BloodGroup = Convert.ToString(rw["BloodGroup"]),
                                    PCode = Convert.ToString(rw["PCode"]),
-                                   DoctorName = Convert.ToString(rw["DoctorName"]),
+                                   DoctorName = Convert.ToString(rw["DoctorName"])
                                }).ToList().FirstOrDefault();
             return patient;
         }

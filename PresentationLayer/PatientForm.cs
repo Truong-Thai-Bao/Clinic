@@ -24,7 +24,7 @@ namespace PresentationLayer
 
         private void LoadDoctors()
         {
-            using (SqlConnection sqlCon = new SqlConnection(DBCommon.ConString))
+            using (SqlConnection sqlCon = new SqlConnection(DBCommon.connString))
             {
                 try
                 {
@@ -166,7 +166,7 @@ namespace PresentationLayer
                     var confirmResult = MessageBox.Show("Bạn có chắc chắn muốn lưu thông tin bệnh nhân này?", "Không thể xóa được", MessageBoxButtons.YesNo);
                     if (confirmResult == DialogResult.Yes)
                     {
-                        using (SqlConnection conn = new SqlConnection(DBCommon.ConString))
+                        using (SqlConnection conn = new SqlConnection(DBCommon.connString))
                         {
                             conn.Open();
                             using (SqlTransaction transaction = conn.BeginTransaction())

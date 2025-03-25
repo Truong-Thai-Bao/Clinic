@@ -16,7 +16,7 @@ namespace PresentationLayer
 {
     public partial class DoctorForm : Form
     {
-        SqlConnection sqlCon = new SqlConnection(DBCommon.ConString);
+        SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
         public DoctorForm()
         {
             InitializeComponent();
@@ -124,7 +124,7 @@ namespace PresentationLayer
             }
             else
             {
-                using (SqlConnection conn = new SqlConnection(DBCommon.ConString))
+                using (SqlConnection conn = new SqlConnection(DBCommon.connString))
                 {
                     conn.Open();
                     SqlTransaction transaction = conn.BeginTransaction();
@@ -205,7 +205,7 @@ namespace PresentationLayer
             }
             else
             {
-                using (SqlConnection conn = new SqlConnection(DBCommon.ConString))
+                using (SqlConnection conn = new SqlConnection(DBCommon.connString))
                 {
                     conn.Open();
                     SqlTransaction transaction = conn.BeginTransaction();
@@ -309,7 +309,7 @@ namespace PresentationLayer
                 }
                 else
                 {
-                    using (SqlConnection conn = new SqlConnection(DBCommon.ConString))
+                    using (SqlConnection conn = new SqlConnection(DBCommon.connString))
                     {
                         conn.Open();
                         SqlTransaction transaction = conn.BeginTransaction();
