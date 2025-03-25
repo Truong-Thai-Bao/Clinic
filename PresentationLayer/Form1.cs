@@ -16,7 +16,7 @@ namespace PresentationLayer
     public partial class Form1 : Form
     {
 
-        SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
+        SqlConnection sqlCon = new SqlConnection(DBCommon.ConString);
         public Form1()
         {
             InitializeComponent();
@@ -33,7 +33,7 @@ namespace PresentationLayer
             {
                 sqlCon = BusinessLayer.CmnMethods.OpenConnectionString(sqlCon);
                 string query = string.Format(@"Select * From View_UserInfo Where Username = '{0}' 
-                                                                    and Password ='{1}'", txtUserName.Text.Trim(),txtPassword.Text.Trim());
+                                                                    and UserPassword ='{1}'", txtUserName.Text.Trim(),txtPassword.Text.Trim());
                 SqlDataAdapter sda = new SqlDataAdapter(query, sqlCon);
                 DataTable dt = new DataTable();
                 sda.Fill(dt);

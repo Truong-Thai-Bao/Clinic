@@ -55,7 +55,7 @@ namespace PresentationLayer
 
         private void pictureBoxDiagnosis_Click(object sender, EventArgs e)
         {
-            if (Global.UserInfo.UserType != 1)
+            if (Global.UserInfo.UserType != 2)
             {
                 MessageBox.Show("Chỉ có admin mới có quyền truy cập chức năng này!");
             }

@@ -36,11 +36,13 @@
             this.pictureBoxDiagnosis = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.pictureBoxLogout = new System.Windows.Forms.PictureBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.labelClinicManagement = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDoctors)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPatients)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDiagnosis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -125,25 +127,35 @@
             this.pictureBoxLogout.TabStop = false;
             this.pictureBoxLogout.Click += new System.EventHandler(this.pictureBoxLogout_Click);
             // 
-            // label5
+            // panel1
             // 
-            this.label5.BackColor = System.Drawing.Color.DarkCyan;
-            this.label5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.AliceBlue;
-            this.label5.Location = new System.Drawing.Point(0, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(800, 100);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "CLINIC MANAGEMENT SYSTEM";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.panel1.BackColor = System.Drawing.Color.DarkCyan;
+            this.panel1.Controls.Add(this.labelClinicManagement);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(800, 100);
+            this.panel1.TabIndex = 32;
+            // 
+            // labelClinicManagement
+            // 
+            this.labelClinicManagement.AutoSize = true;
+            this.labelClinicManagement.BackColor = System.Drawing.Color.DarkCyan;
+            this.labelClinicManagement.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelClinicManagement.ForeColor = System.Drawing.Color.AliceBlue;
+            this.labelClinicManagement.Location = new System.Drawing.Point(171, 34);
+            this.labelClinicManagement.Name = "labelClinicManagement";
+            this.labelClinicManagement.Size = new System.Drawing.Size(459, 32);
+            this.labelClinicManagement.TabIndex = 9;
+            this.labelClinicManagement.Text = "CLINIC MANAGEMENT SYSTEM";
+            this.labelClinicManagement.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 574);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBoxLogout);
             this.Controls.Add(this.pictureBoxDiagnosis);
             this.Controls.Add(this.label4);
@@ -161,6 +173,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPatients)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDiagnosis)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,6 +189,7 @@
         private System.Windows.Forms.PictureBox pictureBoxDiagnosis;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox pictureBoxLogout;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label labelClinicManagement;
     }
 }
