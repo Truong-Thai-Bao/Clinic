@@ -57,7 +57,7 @@ namespace PresentationLayer
         {
             if (Global.UserInfo.UserType != 2)
             {
-                MessageBox.Show("Chỉ có admin mới có quyền truy cập chức năng này!");
+                MessageBox.Show("Chỉ có Bác sĩ mới có quyền truy cập chức năng này!");
             }
             else
             {

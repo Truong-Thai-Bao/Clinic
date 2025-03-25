@@ -43,9 +43,9 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.medicineDataGridView = new System.Windows.Forms.DataGridView();
+            this.txtPatientId = new System.Windows.Forms.TextBox();
             this.Serial = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MedicineName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtPatientId = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.symptomDataGridView)).BeginInit();
@@ -69,11 +69,11 @@
             this.label1.BackColor = System.Drawing.Color.DarkCyan;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.AliceBlue;
-            this.label1.Location = new System.Drawing.Point(328, 52);
+            this.label1.Location = new System.Drawing.Point(323, 52);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(144, 29);
+            this.label1.Size = new System.Drawing.Size(155, 29);
             this.label1.TabIndex = 10;
-            this.label1.Text = "DIAGNOSIS";
+            this.label1.Text = "CHẨN ĐOÁN";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelClinicManagement
@@ -115,7 +115,7 @@
             this.cbPatients.Name = "cbPatients";
             this.cbPatients.Size = new System.Drawing.Size(243, 41);
             this.cbPatients.TabIndex = 24;
-            this.cbPatients.Text = "PATIENTS";
+            this.cbPatients.Text = "BỆNH NHÂN";
             this.cbPatients.SelectedValueChanged += new System.EventHandler(this.cbPatients_SelectedValueChanged);
             // 
             // txtContact
@@ -125,7 +125,7 @@
             this.txtContact.Name = "txtContact";
             this.txtContact.Size = new System.Drawing.Size(243, 40);
             this.txtContact.TabIndex = 25;
-            this.txtContact.Text = "CONTACT";
+            this.txtContact.Text = "LIÊN HỆ";
             this.txtContact.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtPatientCode
@@ -135,7 +135,7 @@
             this.txtPatientCode.Name = "txtPatientCode";
             this.txtPatientCode.Size = new System.Drawing.Size(243, 40);
             this.txtPatientCode.TabIndex = 26;
-            this.txtPatientCode.Text = "PATIENT CODE";
+            this.txtPatientCode.Text = "MÃ BỆNH NHÂN";
             this.txtPatientCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // symptomDataGridView
@@ -155,7 +155,7 @@
             this.txtBlood.Name = "txtBlood";
             this.txtBlood.Size = new System.Drawing.Size(125, 40);
             this.txtBlood.TabIndex = 28;
-            this.txtBlood.Text = "BLOOD";
+            this.txtBlood.Text = "NHÓM MÁU";
             this.txtBlood.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtAge
@@ -165,7 +165,7 @@
             this.txtAge.Name = "txtAge";
             this.txtAge.Size = new System.Drawing.Size(125, 40);
             this.txtAge.TabIndex = 29;
-            this.txtAge.Text = "AGE";
+            this.txtAge.Text = "TUỔI";
             this.txtAge.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtGender
@@ -175,8 +175,9 @@
             this.txtGender.Name = "txtGender";
             this.txtGender.Size = new System.Drawing.Size(226, 40);
             this.txtGender.TabIndex = 30;
-            this.txtGender.Text = "GENDER";
+            this.txtGender.Text = "GIỚI TÍNH";
             this.txtGender.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtGender.TextChanged += new System.EventHandler(this.txtGender_TextChanged);
             // 
             // txtMedicine
             // 
@@ -185,7 +186,7 @@
             this.txtMedicine.Name = "txtMedicine";
             this.txtMedicine.Size = new System.Drawing.Size(256, 40);
             this.txtMedicine.TabIndex = 31;
-            this.txtMedicine.Text = "MEDICINE";
+            this.txtMedicine.Text = "THUỐC";
             this.txtMedicine.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnAdd
@@ -197,7 +198,7 @@
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(113, 38);
             this.btnAdd.TabIndex = 32;
-            this.btnAdd.Text = "ADD";
+            this.btnAdd.Text = "THÊM";
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
@@ -210,7 +211,7 @@
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(113, 38);
             this.btnSave.TabIndex = 33;
-            this.btnSave.Text = "SAVE";
+            this.btnSave.Text = "LƯU";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -229,20 +230,6 @@
             this.medicineDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.medicineDataGridView_CellContentClick);
             this.medicineDataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.medicineDataGridView_CellDoubleClick);
             // 
-            // Serial
-            // 
-            this.Serial.HeaderText = "Serial";
-            this.Serial.MinimumWidth = 6;
-            this.Serial.Name = "Serial";
-            this.Serial.Width = 125;
-            // 
-            // MedicineName
-            // 
-            this.MedicineName.HeaderText = "Medicine Name";
-            this.MedicineName.MinimumWidth = 6;
-            this.MedicineName.Name = "MedicineName";
-            this.MedicineName.Width = 250;
-            // 
             // txtPatientId
             // 
             this.txtPatientId.Font = new System.Drawing.Font("Bahnschrift Condensed", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -254,6 +241,20 @@
             this.txtPatientId.TabIndex = 35;
             this.txtPatientId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtPatientId.Visible = false;
+            // 
+            // Serial
+            // 
+            this.Serial.HeaderText = "STT";
+            this.Serial.MinimumWidth = 6;
+            this.Serial.Name = "Serial";
+            this.Serial.Width = 125;
+            // 
+            // MedicineName
+            // 
+            this.MedicineName.HeaderText = "Tên thuốc";
+            this.MedicineName.MinimumWidth = 6;
+            this.MedicineName.Name = "MedicineName";
+            this.MedicineName.Width = 250;
             // 
             // DiagnosisForm
             // 
@@ -280,6 +281,7 @@
             this.Name = "DiagnosisForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DiagnosisForm";
+            this.Load += new System.EventHandler(this.DiagnosisForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).EndInit();

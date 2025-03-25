@@ -36,6 +36,8 @@
             this.cbSelectDoctor = new System.Windows.Forms.ComboBox();
             this.txtOtherSymptom = new System.Windows.Forms.TextBox();
             this.symptomDataGridView = new System.Windows.Forms.DataGridView();
+            this.Serial = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pictureBoxLogout = new System.Windows.Forms.PictureBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -48,8 +50,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.labelClinicManagement = new System.Windows.Forms.Label();
-            this.Serial = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.symptomDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).BeginInit();
             this.panel1.SuspendLayout();
@@ -62,7 +62,7 @@
             this.txtPatientName.Name = "txtPatientName";
             this.txtPatientName.Size = new System.Drawing.Size(243, 40);
             this.txtPatientName.TabIndex = 9;
-            this.txtPatientName.Text = "PATIENT NAME";
+            this.txtPatientName.Text = "TÊN BỆNH NHÂN";
             this.txtPatientName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtAge
@@ -72,7 +72,7 @@
             this.txtAge.Name = "txtAge";
             this.txtAge.Size = new System.Drawing.Size(125, 40);
             this.txtAge.TabIndex = 12;
-            this.txtAge.Text = "AGE";
+            this.txtAge.Text = "TUỔI";
             this.txtAge.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtAge.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAge_KeyPress);
             // 
@@ -93,7 +93,7 @@
             this.cbBlood.Name = "cbBlood";
             this.cbBlood.Size = new System.Drawing.Size(243, 41);
             this.cbBlood.TabIndex = 13;
-            this.cbBlood.Text = "BLOOD";
+            this.cbBlood.Text = "NHÓM MÁU";
             // 
             // txtAddress
             // 
@@ -104,7 +104,7 @@
             this.txtAddress.Name = "txtAddress";
             this.txtAddress.Size = new System.Drawing.Size(488, 158);
             this.txtAddress.TabIndex = 14;
-            this.txtAddress.Text = "ADDRESS";
+            this.txtAddress.Text = "ĐỊA CHỈ";
             this.txtAddress.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtContact
@@ -114,7 +114,7 @@
             this.txtContact.Name = "txtContact";
             this.txtContact.Size = new System.Drawing.Size(243, 40);
             this.txtContact.TabIndex = 15;
-            this.txtContact.Text = "CONTACT";
+            this.txtContact.Text = "LIÊN HỆ";
             this.txtContact.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // cbSelectDoctor
@@ -125,16 +125,17 @@
             this.cbSelectDoctor.Name = "cbSelectDoctor";
             this.cbSelectDoctor.Size = new System.Drawing.Size(243, 41);
             this.cbSelectDoctor.TabIndex = 16;
-            this.cbSelectDoctor.Text = "SELECT DOCTOR";
+            this.cbSelectDoctor.Text = "CHỌN BÁC SĨ";
             // 
             // txtOtherSymptom
             // 
             this.txtOtherSymptom.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtOtherSymptom.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.txtOtherSymptom.Location = new System.Drawing.Point(451, 138);
             this.txtOtherSymptom.Name = "txtOtherSymptom";
             this.txtOtherSymptom.Size = new System.Drawing.Size(175, 32);
             this.txtOtherSymptom.TabIndex = 20;
-            this.txtOtherSymptom.Text = "Other Symptom";
+            this.txtOtherSymptom.Text = "Triệu chứng khác";
             this.txtOtherSymptom.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // symptomDataGridView
@@ -150,6 +151,20 @@
             this.symptomDataGridView.Size = new System.Drawing.Size(278, 316);
             this.symptomDataGridView.TabIndex = 21;
             this.symptomDataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.symptomDataGridView_CellFormatting);
+            // 
+            // Serial
+            // 
+            this.Serial.HeaderText = "STT";
+            this.Serial.MinimumWidth = 6;
+            this.Serial.Name = "Serial";
+            this.Serial.Width = 125;
+            // 
+            // Name
+            // 
+            this.Name.HeaderText = "Triệu chứng";
+            this.Name.MinimumWidth = 6;
+            this.Name.Name = "Name";
+            this.Name.Width = 125;
             // 
             // pictureBoxLogout
             // 
@@ -169,7 +184,7 @@
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(147, 38);
             this.btnAdd.TabIndex = 23;
-            this.btnAdd.Text = "ADD";
+            this.btnAdd.Text = "THÊM";
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
@@ -182,7 +197,7 @@
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(239, 38);
             this.btnSave.TabIndex = 24;
-            this.btnSave.Text = "SAVE";
+            this.btnSave.Text = "LƯU";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -195,7 +210,7 @@
             this.btnGetPrescription.Name = "btnGetPrescription";
             this.btnGetPrescription.Size = new System.Drawing.Size(488, 38);
             this.btnGetPrescription.TabIndex = 25;
-            this.btnGetPrescription.Text = "Get Prescription";
+            this.btnGetPrescription.Text = "Lấy đơn thuốc";
             this.btnGetPrescription.UseVisualStyleBackColor = false;
             this.btnGetPrescription.Click += new System.EventHandler(this.btnGetPrescription_Click);
             // 
@@ -218,9 +233,9 @@
             this.lblPCode.ForeColor = System.Drawing.Color.Red;
             this.lblPCode.Location = new System.Drawing.Point(261, 473);
             this.lblPCode.Name = "lblPCode";
-            this.lblPCode.Size = new System.Drawing.Size(71, 28);
+            this.lblPCode.Size = new System.Drawing.Size(63, 28);
             this.lblPCode.TabIndex = 27;
-            this.lblPCode.Text = "P-Code:";
+            this.lblPCode.Text = "Mã BN:";
             // 
             // lblPCodeNum
             // 
@@ -238,32 +253,33 @@
             this.cbGender.Font = new System.Drawing.Font("Bahnschrift Condensed", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbGender.FormattingEnabled = true;
             this.cbGender.Items.AddRange(new object[] {
-            "Male",
-            "Female",
-            "Other"});
+            "Nam",
+            "Nữ",
+            "Khác"});
             this.cbGender.Location = new System.Drawing.Point(143, 184);
             this.cbGender.Name = "cbGender";
             this.cbGender.Size = new System.Drawing.Size(112, 41);
             this.cbGender.TabIndex = 29;
-            this.cbGender.Text = "GENDER";
+            this.cbGender.Text = "GIỚI TÍNH";
             // 
             // cbSymptom
             // 
             this.cbSymptom.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbSymptom.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.cbSymptom.FormattingEnabled = true;
             this.cbSymptom.Items.AddRange(new object[] {
-            "Eye Irriation",
-            "Runny nose",
-            "Stuffy nose",
-            "Sneezing",
-            "Cough",
-            "Viral infection",
-            "Other"});
+            "Kích ứng mắt",
+            "Chảy nước mũi",
+            "Ngạt mũi",
+            "Hắt hơi",
+            "Ho",
+            "Nhiễm virus",
+            "Khác"});
             this.cbSymptom.Location = new System.Drawing.Point(261, 138);
             this.cbSymptom.Name = "cbSymptom";
             this.cbSymptom.Size = new System.Drawing.Size(175, 32);
             this.cbSymptom.TabIndex = 30;
-            this.cbSymptom.Text = "Symptom";
+            this.cbSymptom.Text = "Triệu chứng";
             this.cbSymptom.SelectedValueChanged += new System.EventHandler(this.cbSymptom_SelectedValueChanged);
             // 
             // panel1
@@ -283,11 +299,11 @@
             this.label1.BackColor = System.Drawing.Color.DarkCyan;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.AliceBlue;
-            this.label1.Location = new System.Drawing.Point(342, 52);
+            this.label1.Location = new System.Drawing.Point(323, 52);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(116, 29);
+            this.label1.Size = new System.Drawing.Size(154, 29);
             this.label1.TabIndex = 10;
-            this.label1.Text = "PATIENT";
+            this.label1.Text = "BỆNH NHÂN";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelClinicManagement
@@ -302,20 +318,6 @@
             this.labelClinicManagement.TabIndex = 9;
             this.labelClinicManagement.Text = "CLINIC MANAGEMENT SYSTEM";
             this.labelClinicManagement.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Serial
-            // 
-            this.Serial.HeaderText = "Serial";
-            this.Serial.MinimumWidth = 6;
-            this.Serial.Name = "Serial";
-            this.Serial.Width = 125;
-            // 
-            // Name
-            // 
-            this.Name.HeaderText = "Name";
-            this.Name.MinimumWidth = 6;
-            this.Name.Name = "Name";
-            this.Name.Width = 125;
             // 
             // PatientForm
             // 
@@ -343,7 +345,6 @@
             this.Controls.Add(this.txtPatientName);
             this.ForeColor = System.Drawing.Color.Teal;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            //this.Name = "PatientForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PatientForm";
             ((System.ComponentModel.ISupportInitialize)(this.symptomDataGridView)).EndInit();

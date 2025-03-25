@@ -16,7 +16,7 @@ namespace PresentationLayer
     public partial class Form1 : Form
     {
 
-        SqlConnection sqlCon = new SqlConnection(DBCommon.ConString);
+        SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
         public Form1()
         {
             InitializeComponent();
