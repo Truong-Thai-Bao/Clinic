@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PatientForm));
             this.txtPatientName = new System.Windows.Forms.TextBox();
             this.txtAge = new System.Windows.Forms.TextBox();
             this.cbBlood = new System.Windows.Forms.ComboBox();
@@ -94,6 +95,7 @@
             this.cbBlood.Size = new System.Drawing.Size(243, 41);
             this.cbBlood.TabIndex = 13;
             this.cbBlood.Text = "NHÓM MÁU";
+            this.cbBlood.SelectedIndexChanged += new System.EventHandler(this.cbBlood_SelectedIndexChanged);
             // 
             // txtAddress
             // 
@@ -148,7 +150,7 @@
             this.symptomDataGridView.Name = "symptomDataGridView";
             this.symptomDataGridView.RowHeadersWidth = 51;
             this.symptomDataGridView.RowTemplate.Height = 24;
-            this.symptomDataGridView.Size = new System.Drawing.Size(278, 316);
+            this.symptomDataGridView.Size = new System.Drawing.Size(350, 316);
             this.symptomDataGridView.TabIndex = 21;
             this.symptomDataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.symptomDataGridView_CellFormatting);
             // 
@@ -168,9 +170,11 @@
             // 
             // pictureBoxLogout
             // 
-            this.pictureBoxLogout.Location = new System.Drawing.Point(738, 512);
+            this.pictureBoxLogout.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxLogout.Image")));
+            this.pictureBoxLogout.Location = new System.Drawing.Point(810, 512);
             this.pictureBoxLogout.Name = "pictureBoxLogout";
             this.pictureBoxLogout.Size = new System.Drawing.Size(50, 50);
+            this.pictureBoxLogout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxLogout.TabIndex = 22;
             this.pictureBoxLogout.TabStop = false;
             this.pictureBoxLogout.Click += new System.EventHandler(this.pictureBoxLogout_Click);
@@ -218,7 +222,7 @@
             // 
             this.txtPatientId.Font = new System.Drawing.Font("Bahnschrift Condensed", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPatientId.ForeColor = System.Drawing.Color.Teal;
-            this.txtPatientId.Location = new System.Drawing.Point(510, 512);
+            this.txtPatientId.Location = new System.Drawing.Point(561, 512);
             this.txtPatientId.Name = "txtPatientId";
             this.txtPatientId.ReadOnly = true;
             this.txtPatientId.Size = new System.Drawing.Size(204, 40);
@@ -290,7 +294,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 100);
+            this.panel1.Size = new System.Drawing.Size(919, 100);
             this.panel1.TabIndex = 31;
             // 
             // label1
@@ -324,7 +328,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MintCream;
-            this.ClientSize = new System.Drawing.Size(800, 574);
+            this.ClientSize = new System.Drawing.Size(919, 574);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.cbSymptom);
             this.Controls.Add(this.cbGender);
@@ -347,6 +351,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PatientForm";
+            this.Load += new System.EventHandler(this.PatientForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.symptomDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).EndInit();
             this.panel1.ResumeLayout(false);

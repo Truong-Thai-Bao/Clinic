@@ -81,9 +81,11 @@
             // 
             // pictureBoxLogout
             // 
+            this.pictureBoxLogout.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxLogout.Image")));
             this.pictureBoxLogout.Location = new System.Drawing.Point(738, 512);
             this.pictureBoxLogout.Name = "pictureBoxLogout";
             this.pictureBoxLogout.Size = new System.Drawing.Size(50, 50);
+            this.pictureBoxLogout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxLogout.TabIndex = 14;
             this.pictureBoxLogout.TabStop = false;
             this.pictureBoxLogout.Click += new System.EventHandler(this.pictureBoxLogout_Click);
@@ -164,6 +166,7 @@
             this.Name = "DoctorPrescriptionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DoctorPrescriptionForm";
+            this.Load += new System.EventHandler(this.DoctorPrescriptionForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).EndInit();

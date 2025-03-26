@@ -10,9 +10,9 @@ namespace BusinessLayer
     {
         public int MedicineId { get; set; } = 0;
 
-        public string MedicineName { get; set; } = string.Empty;
+        public string MedicineName { get; set; } = "";
 
-        public int DianosisId { get; set; } = 0;
+        public int DiagnosisId { get; set; } = 0;
 
         public int PatientId { get; set; } = 0;
 

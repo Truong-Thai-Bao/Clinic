@@ -18,10 +18,6 @@ namespace PresentationLayer
             InitializeComponent();
         }
 
-        private void MenuForm_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void pictureBoxDoctors_Click(object sender, EventArgs e)
         {
@@ -73,6 +69,18 @@ namespace PresentationLayer
             this.Hide();
             Form1 form1 = new Form1();
             form1.Show();
+        }
+
+        private void MenuForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBoxMedicines_Click(object sender, EventArgs e)
+        {
+            if(Global.UserInfo.UserType != 1) { 
+                
+            }
         }
     }
 }

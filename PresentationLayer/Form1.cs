@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -74,6 +74,11 @@ namespace PresentationLayer
                 MessageBox.Show("Đăng ký thành công! Mời bạn đăng nhập.");
                 sqlCon.Close();
             }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
