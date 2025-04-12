@@ -115,7 +115,7 @@
             // 
             this.chkFiveLoginPermission.AutoSize = true;
             this.chkFiveLoginPermission.BackColor = System.Drawing.Color.MintCream;
-            this.chkFiveLoginPermission.ForeColor = System.Drawing.Color.DarkCyan;
+            this.chkFiveLoginPermission.ForeColor = System.Drawing.Color.DodgerBlue;
             this.chkFiveLoginPermission.Location = new System.Drawing.Point(623, 131);
             this.chkFiveLoginPermission.Name = "chkFiveLoginPermission";
             this.chkFiveLoginPermission.Size = new System.Drawing.Size(168, 20);
@@ -161,7 +161,7 @@
             // 
             // btnEdit
             // 
-            this.btnEdit.BackColor = System.Drawing.Color.DarkCyan;
+            this.btnEdit.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnEdit.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEdit.ForeColor = System.Drawing.Color.White;
             this.btnEdit.Location = new System.Drawing.Point(143, 424);
@@ -174,7 +174,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.BackColor = System.Drawing.Color.DarkCyan;
+            this.btnSave.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnSave.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.Color.White;
             this.btnSave.Location = new System.Drawing.Point(12, 424);
@@ -230,7 +230,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.DarkCyan;
+            this.panel1.BackColor = System.Drawing.Color.DodgerBlue;
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.labelClinicManagement);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -242,7 +242,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.DarkCyan;
+            this.label2.BackColor = System.Drawing.Color.DodgerBlue;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.AliceBlue;
             this.label2.Location = new System.Drawing.Point(356, 52);
@@ -255,7 +255,7 @@
             // labelClinicManagement
             // 
             this.labelClinicManagement.AutoSize = true;
-            this.labelClinicManagement.BackColor = System.Drawing.Color.DarkCyan;
+            this.labelClinicManagement.BackColor = System.Drawing.Color.DodgerBlue;
             this.labelClinicManagement.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelClinicManagement.ForeColor = System.Drawing.Color.AliceBlue;
             this.labelClinicManagement.Location = new System.Drawing.Point(171, 20);

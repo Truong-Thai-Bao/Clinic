@@ -160,6 +160,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppointmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AppointmentForm.Designer.cs">
+      <DependentUpon>AppointmentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AppointmentListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AppointmentListForm.Designer.cs">
+      <DependentUpon>AppointmentListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CMSystemDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMSystemDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="CMSystemDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMSystemDataSet1.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DiagnosisForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,6 +218,12 @@
     <Compile Include="MenuForm.Designer.cs">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PatientArrivalForm .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PatientArrivalForm .Designer.cs">
+      <DependentUpon>PatientArrivalForm .cs</DependentUpon>
+    </Compile>
     <Compile Include="PatientForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -204,6 +232,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResetPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResetPassword.Designer.cs">
+      <DependentUpon>ResetPassword.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AppointmentForm.resx">
+      <DependentUpon>AppointmentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AppointmentListForm.resx">
+      <DependentUpon>AppointmentListForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DiagnosisForm.resx">
       <DependentUpon>DiagnosisForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -222,6 +262,9 @@
     <EmbeddedResource Include="MenuForm.resx">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PatientArrivalForm .resx">
+      <DependentUpon>PatientArrivalForm .cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PatientForm.resx">
       <DependentUpon>PatientForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -234,6 +277,31 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ResetPassword.resx">
+      <DependentUpon>ResetPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="CMSystemDataSet.xsc">
+      <DependentUpon>CMSystemDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="CMSystemDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CMSystemDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="CMSystemDataSet.xss">
+      <DependentUpon>CMSystemDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="CMSystemDataSet1.xsc">
+      <DependentUpon>CMSystemDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="CMSystemDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CMSystemDataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="CMSystemDataSet1.xss">
+      <DependentUpon>CMSystemDataSet1.xsd</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

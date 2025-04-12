@@ -42,7 +42,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.DarkCyan;
+            this.panel1.BackColor = System.Drawing.Color.DodgerBlue;
             this.panel1.Controls.Add(this.labelClinicManagement);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -53,7 +53,7 @@
             // labelClinicManagement
             // 
             this.labelClinicManagement.AutoSize = true;
-            this.labelClinicManagement.BackColor = System.Drawing.Color.DarkCyan;
+            this.labelClinicManagement.BackColor = System.Drawing.Color.DodgerBlue;
             this.labelClinicManagement.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelClinicManagement.ForeColor = System.Drawing.Color.AliceBlue;
             this.labelClinicManagement.Location = new System.Drawing.Point(171, 34);
@@ -103,7 +103,7 @@
             this.Column1.Name = "Column1";
             this.Column1.Width = 125;
             // 
-            // Medicine
+            // MedicineForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -112,7 +112,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBoxLogout);
             this.Controls.Add(this.label1);
-            this.Name = "Medicine";
+            this.Name = "MedicineForm";
             this.Text = "Medicine";
             this.Load += new System.EventHandler(this.Medicine_Load);
             this.panel1.ResumeLayout(false);

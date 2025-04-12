@@ -22,6 +22,7 @@ namespace PresentationLayer
             LoadDoctors();
         }
 
+        // Dùng để load danh sách bác sĩ
         private void LoadDoctors()
         {
             using (SqlConnection sqlCon = new SqlConnection(DBCommon.connString))
@@ -52,6 +53,7 @@ namespace PresentationLayer
             form.Show();
         }
 
+        // Set định dạng các ô trong DataGridView
         private void symptomDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (symptomDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null && !string.IsNullOrWhiteSpace(symptomDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString()))
@@ -64,17 +66,14 @@ namespace PresentationLayer
             }
         }
 
-        private void txtAge_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
-        }
-
+        // Dùng để đặt lại các giá trị trong form
         private void Reset()
         {
             txtPatientId.Text = 0.ToString();
             txtPatientName.Text = "";
             cbBlood.Text = "";
-            txtAge.Text = "";
+            dtpAge.Format = DateTimePickerFormat.Custom;
+            dtpAge.CustomFormat = " ";
             cbGender.Text = "";
             txtContact.Text = "";
             txtAddress.Text = "";
@@ -85,18 +84,20 @@ namespace PresentationLayer
             symptomDataGridView.Columns.Clear();
         }
 
+        // Dùng để ẩn/hiện txtOtherSymptom nhập liệu
         private void cbSymptom_SelectedValueChanged(object sender, EventArgs e)
         {
             txtOtherSymptom.Text = "";
             txtOtherSymptom.ReadOnly = true;
             txtOtherSymptom.Enabled = false;
-            if(cbSymptom.Text == "Other")
+            if(cbSymptom.Text == "Khác")
             {
                 txtOtherSymptom.ReadOnly = false;
                 txtOtherSymptom.Enabled = true;
             }
         }
 
+        // Dùng để thêm triệu chứng vào DataGridView
         private void btnAdd_Click(object sender, EventArgs e)
         {
             if(cbSymptom.Text.Trim() == "")
@@ -104,7 +105,7 @@ namespace PresentationLayer
                 MessageBox.Show("Vui lòng chọn triệu chứng!");
                 cbSymptom.Focus();
             }
-            else if (cbSymptom.Text== "Other" && txtOtherSymptom.Text.Trim() == "")
+            else if (cbSymptom.Text == "Khác" && txtOtherSymptom.Text.Trim() == "")
             {
                 MessageBox.Show("Vui lòng nhập triệu chứng khác!");
                 txtOtherSymptom.Focus();
@@ -112,7 +113,7 @@ namespace PresentationLayer
             else
             {
                 string name = cbSymptom.Text;
-                if(cbSymptom.Text == "Other")
+                if(cbSymptom.Text == "Khác")
                 {
                     name = txtOtherSymptom.Text;
                 }
@@ -140,17 +141,23 @@ namespace PresentationLayer
             }
         }
 
+        // Dùng để kiểm tra DataGridView và lưu triệu chứng vào CSDL
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (txtPatientName.Text.Trim() == "" ||
-                cbBlood.Text.Trim() == "" ||
-                txtAge.Text.Trim() == "" ||
-                cbGender.Text.Trim() == "" ||
-                txtContact.Text.Trim() == "" ||
-                txtAddress.Text.Trim() == "")
+            if (string.IsNullOrWhiteSpace(txtPatientName.Text) ||
+                string.IsNullOrWhiteSpace(cbBlood.Text) ||
+                string.IsNullOrWhiteSpace(cbGender.Text) ||
+                string.IsNullOrWhiteSpace(txtContact.Text) ||
+                string.IsNullOrWhiteSpace(txtAddress.Text))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!");
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            if (!dtpAge.Checked)
+            {
+                MessageBox.Show("Vui lòng chọn ngày sinh!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             else if (cbSelectDoctor.Text.Trim() == "")
             {
                 MessageBox.Show("Vui lòng chọn bác sĩ!");
@@ -163,7 +170,7 @@ namespace PresentationLayer
                 }
                 else
                 {
-                    var confirmResult = MessageBox.Show("Bạn có chắc chắn muốn lưu thông tin bệnh nhân này?", "Không thể xóa được", MessageBoxButtons.YesNo);
+                    var confirmResult = MessageBox.Show("Bạn có chắc chắn muốn lưu thông tin bệnh nhân này?", "Lưu thông tin bệnh nhân", MessageBoxButtons.YesNo);
                     if (confirmResult == DialogResult.Yes)
                     {
                         using (SqlConnection conn = new SqlConnection(DBCommon.connString))
@@ -173,15 +180,15 @@ namespace PresentationLayer
                             {
                                 try
                                 {
-                                    string query = @"INSERT INTO Patient (Name,Address,Contact,Age,Gender,BloodGroup,Pcode,DoctorId,AddedDate,AddedBy) VALUES (@Name,@Address,@Contact,@Age,@Gender,@BloodGroup,@PCode,@DoctorId,@AddedDate,@AddedBy);
+                                    string query = @"INSERT INTO Patient (Name,Address,Contact,DateOfBirth,Gender,BloodGroup,Pcode,DoctorId,AddedDate,AddedBy) VALUES (@Name,@Address,@Contact,@DateOfBirth,@Gender,@BloodGroup,@PCode,@DoctorId,@AddedDate,@AddedBy);
                                     SELECT SCOPE_IDENTITY()";
                                     SqlCommand cmd = new SqlCommand(query, conn, transaction);
                                     cmd.Parameters.AddWithValue("@Name", txtPatientName.Text.Trim());
                                     cmd.Parameters.AddWithValue("@Address", txtAddress.Text.Trim());
                                     cmd.Parameters.AddWithValue("@Contact", txtContact.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@Age", txtAge.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@Gender", cbGender.Text.Trim());
+                                    cmd.Parameters.AddWithValue("@DateOfBirth", dtpAge.Value.Date);
                                     cmd.Parameters.AddWithValue("@BloodGroup", cbBlood.Text.Trim());
+                                    cmd.Parameters.AddWithValue("@Gender", cbGender.Text.Trim());
                                     cmd.Parameters.AddWithValue("@PCode", lblPCodeNum.Text.Trim());
                                     cmd.Parameters.AddWithValue("@DoctorId", cbSelectDoctor.SelectedValue);
                                     cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
@@ -223,21 +230,12 @@ namespace PresentationLayer
             }
         }
 
+        // Dùng để mở form in đơn thuốc
         private void btnGetPrescription_Click(object sender, EventArgs e)
         {
             this.Hide();
             DoctorPrescriptionForm form = new DoctorPrescriptionForm();
             form.Show();
-        }
-
-        private void PatientForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cbBlood_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

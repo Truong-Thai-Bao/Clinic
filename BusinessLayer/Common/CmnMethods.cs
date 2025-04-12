@@ -33,6 +33,5 @@ namespace BusinessLayer
                                    DoctorId = Convert.ToInt32(rw["DoctorId"]),
                                }).ToList().FirstOrDefault();
         }
-
     }
 }

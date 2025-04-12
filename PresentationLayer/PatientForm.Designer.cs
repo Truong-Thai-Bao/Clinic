@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PatientForm));
             this.txtPatientName = new System.Windows.Forms.TextBox();
-            this.txtAge = new System.Windows.Forms.TextBox();
             this.cbBlood = new System.Windows.Forms.ComboBox();
             this.txtAddress = new System.Windows.Forms.TextBox();
             this.txtContact = new System.Windows.Forms.TextBox();
@@ -51,6 +50,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.labelClinicManagement = new System.Windows.Forms.Label();
+            this.dtpAge = new System.Windows.Forms.DateTimePicker();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.symptomDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).BeginInit();
             this.panel1.SuspendLayout();
@@ -65,17 +66,6 @@
             this.txtPatientName.TabIndex = 9;
             this.txtPatientName.Text = "TÊN BỆNH NHÂN";
             this.txtPatientName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtAge
-            // 
-            this.txtAge.Font = new System.Drawing.Font("Bahnschrift Condensed", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAge.Location = new System.Drawing.Point(12, 185);
-            this.txtAge.Name = "txtAge";
-            this.txtAge.Size = new System.Drawing.Size(125, 40);
-            this.txtAge.TabIndex = 12;
-            this.txtAge.Text = "TUỔI";
-            this.txtAge.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtAge.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAge_KeyPress);
             // 
             // cbBlood
             // 
@@ -95,7 +85,6 @@
             this.cbBlood.Size = new System.Drawing.Size(243, 41);
             this.cbBlood.TabIndex = 13;
             this.cbBlood.Text = "NHÓM MÁU";
-            this.cbBlood.SelectedIndexChanged += new System.EventHandler(this.cbBlood_SelectedIndexChanged);
             // 
             // txtAddress
             // 
@@ -133,12 +122,11 @@
             // 
             this.txtOtherSymptom.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtOtherSymptom.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.txtOtherSymptom.Location = new System.Drawing.Point(451, 138);
+            this.txtOtherSymptom.Location = new System.Drawing.Point(530, 140);
             this.txtOtherSymptom.Name = "txtOtherSymptom";
             this.txtOtherSymptom.Size = new System.Drawing.Size(175, 32);
             this.txtOtherSymptom.TabIndex = 20;
             this.txtOtherSymptom.Text = "Triệu chứng khác";
-            this.txtOtherSymptom.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // symptomDataGridView
             // 
@@ -181,10 +169,10 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.BackColor = System.Drawing.Color.DarkCyan;
+            this.btnAdd.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnAdd.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(641, 138);
+            this.btnAdd.Location = new System.Drawing.Point(713, 140);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(147, 38);
             this.btnAdd.TabIndex = 23;
@@ -194,7 +182,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.BackColor = System.Drawing.Color.DarkCyan;
+            this.btnSave.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnSave.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.Color.White;
             this.btnSave.Location = new System.Drawing.Point(16, 468);
@@ -207,7 +195,7 @@
             // 
             // btnGetPrescription
             // 
-            this.btnGetPrescription.BackColor = System.Drawing.Color.DarkCyan;
+            this.btnGetPrescription.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnGetPrescription.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGetPrescription.ForeColor = System.Drawing.Color.White;
             this.btnGetPrescription.Location = new System.Drawing.Point(16, 512);
@@ -260,14 +248,15 @@
             "Nam",
             "Nữ",
             "Khác"});
-            this.cbGender.Location = new System.Drawing.Point(143, 184);
+            this.cbGender.Location = new System.Drawing.Point(154, 184);
             this.cbGender.Name = "cbGender";
-            this.cbGender.Size = new System.Drawing.Size(112, 41);
+            this.cbGender.Size = new System.Drawing.Size(101, 41);
             this.cbGender.TabIndex = 29;
             this.cbGender.Text = "GIỚI TÍNH";
             // 
             // cbSymptom
             // 
+            this.cbSymptom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSymptom.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSymptom.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.cbSymptom.FormattingEnabled = true;
@@ -279,16 +268,15 @@
             "Ho",
             "Nhiễm virus",
             "Khác"});
-            this.cbSymptom.Location = new System.Drawing.Point(261, 138);
+            this.cbSymptom.Location = new System.Drawing.Point(397, 140);
             this.cbSymptom.Name = "cbSymptom";
-            this.cbSymptom.Size = new System.Drawing.Size(175, 32);
+            this.cbSymptom.Size = new System.Drawing.Size(121, 32);
             this.cbSymptom.TabIndex = 30;
-            this.cbSymptom.Text = "Triệu chứng";
             this.cbSymptom.SelectedValueChanged += new System.EventHandler(this.cbSymptom_SelectedValueChanged);
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.DarkCyan;
+            this.panel1.BackColor = System.Drawing.Color.DodgerBlue;
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.labelClinicManagement);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -300,7 +288,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.DarkCyan;
+            this.label1.BackColor = System.Drawing.Color.DodgerBlue;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.AliceBlue;
             this.label1.Location = new System.Drawing.Point(323, 52);
@@ -313,7 +301,7 @@
             // labelClinicManagement
             // 
             this.labelClinicManagement.AutoSize = true;
-            this.labelClinicManagement.BackColor = System.Drawing.Color.DarkCyan;
+            this.labelClinicManagement.BackColor = System.Drawing.Color.DodgerBlue;
             this.labelClinicManagement.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelClinicManagement.ForeColor = System.Drawing.Color.AliceBlue;
             this.labelClinicManagement.Location = new System.Drawing.Point(171, 20);
@@ -323,12 +311,34 @@
             this.labelClinicManagement.Text = "CLINIC MANAGEMENT SYSTEM";
             this.labelClinicManagement.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // dtpAge
+            // 
+            this.dtpAge.Font = new System.Drawing.Font("Bahnschrift Condensed", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpAge.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpAge.Location = new System.Drawing.Point(12, 185);
+            this.dtpAge.Name = "dtpAge";
+            this.dtpAge.Size = new System.Drawing.Size(136, 40);
+            this.dtpAge.TabIndex = 32;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Bahnschrift Condensed", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.Black;
+            this.label8.Location = new System.Drawing.Point(261, 141);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(131, 34);
+            this.label8.TabIndex = 33;
+            this.label8.Text = "Triệu chứng:";
+            // 
             // PatientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MintCream;
             this.ClientSize = new System.Drawing.Size(919, 574);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.dtpAge);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.cbSymptom);
             this.Controls.Add(this.cbGender);
@@ -345,13 +355,11 @@
             this.Controls.Add(this.txtContact);
             this.Controls.Add(this.txtAddress);
             this.Controls.Add(this.cbBlood);
-            this.Controls.Add(this.txtAge);
             this.Controls.Add(this.txtPatientName);
             this.ForeColor = System.Drawing.Color.Teal;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PatientForm";
-            this.Load += new System.EventHandler(this.PatientForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.symptomDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -363,7 +371,6 @@
 
         #endregion
         private System.Windows.Forms.TextBox txtPatientName;
-        private System.Windows.Forms.TextBox txtAge;
         private System.Windows.Forms.ComboBox cbBlood;
         private System.Windows.Forms.TextBox txtAddress;
         private System.Windows.Forms.TextBox txtContact;
@@ -384,5 +391,7 @@
         private System.Windows.Forms.Label labelClinicManagement;
         private System.Windows.Forms.DataGridViewTextBoxColumn Serial;
         private System.Windows.Forms.DataGridViewTextBoxColumn Name;
+        private System.Windows.Forms.DateTimePicker dtpAge;
+        private System.Windows.Forms.Label label8;
     }
 }
