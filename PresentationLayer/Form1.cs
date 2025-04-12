@@ -80,5 +80,22 @@ namespace PresentationLayer
         {
 
         }
+
+        private void txtUserName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblForgotPassword_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            ResetPassword resetPassword = new ResetPassword();
+            resetPassword.Show();
+        }
     }
 }

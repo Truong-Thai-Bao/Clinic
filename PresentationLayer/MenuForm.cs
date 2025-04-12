@@ -43,9 +43,8 @@ namespace PresentationLayer
             else
             {
                 this.Hide();
-                PatientForm patientForm = new PatientForm();
-                patientForm.Show();
-
+                PatientArrivalForm patientArrivalForm = new PatientArrivalForm();
+                patientArrivalForm.Show();
             }
         }
 
@@ -81,6 +80,13 @@ namespace PresentationLayer
             if(Global.UserInfo.UserType != 1) { 
                 
             }
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            AppointmentForm appointmentForm = new AppointmentForm();
+            appointmentForm.Show();
         }
     }
 }
