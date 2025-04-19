@@ -142,7 +142,6 @@
             this.cbPatients.Name = "cbPatients";
             this.cbPatients.Size = new System.Drawing.Size(327, 41);
             this.cbPatients.TabIndex = 24;
-            this.cbPatients.Text = "CHỌN BỆNH NHÂN";
             this.cbPatients.ValueMember = "PatientId";
             this.cbPatients.SelectedValueChanged += new System.EventHandler(this.cbPatients_SelectedValueChanged);
             // 
@@ -316,7 +315,6 @@
             this.cbMedicine.Name = "cbMedicine";
             this.cbMedicine.Size = new System.Drawing.Size(243, 41);
             this.cbMedicine.TabIndex = 24;
-            this.cbMedicine.Text = "CHỌN THUỐC";
             this.cbMedicine.SelectedValueChanged += new System.EventHandler(this.cbPatients_SelectedValueChanged);
             // 
             // medicineBindingSource
