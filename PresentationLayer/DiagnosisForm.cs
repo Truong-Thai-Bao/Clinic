@@ -25,6 +25,19 @@ namespace PresentationLayer
             medicineDataGridView.DefaultCellStyle.ForeColor = Color.Black;
         }
 
+        //Tính tuổi từ ngày sinh
+        private int CalculateAge(DateTime birthDate)
+        {
+            DateTime today = DateTime.Today;
+            int age = today.Year - birthDate.Year;
+
+            // Nếu chưa đến sinh nhật năm nay thì trừ đi 1
+            if (birthDate.Date > today.AddYears(-age))
+                age--;
+
+            return age;
+        }
+
         private void LoadPatients()
         {
             try
@@ -87,7 +100,8 @@ namespace PresentationLayer
                     if (reader.Read())
                     {
                         txtBlood.Text = String.Format("{0}", reader["BloodGroup"]);
-                        dtpAge.Value = Convert.ToDateTime(reader["DateOfBirth"]);
+                        DateTime dateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
+                        txtAge.Text = CalculateAge(dateOfBirth).ToString(); 
                         txtGender.Text = String.Format("{0}", reader["Gender"]);
                         txtContact.Text = String.Format("{0}", reader["Contact"]);
                         txtPatientCode.Text = String.Format("{0}", reader["PCode"]);
@@ -118,15 +132,15 @@ namespace PresentationLayer
             // Lấy tên thuốc từ ComboBox
             string medName = cbMedicine.Text.Trim();
 
-            // Lấy số lượng thuốc nhập từ TextBox (txtNumMes)
-            int dose = 0;
-            int.TryParse(txtNumMes.Text.Trim(), out dose);
+            //// Lấy số lượng thuốc nhập từ TextBox (txtNumMes)
+            //int dose = 0;
+            //int.TryParse(txtNumMes.Text.Trim(), out dose);
 
-            // Xác định số lượng cho từng thời điểm:
-            int qMorning = chkMorning.Checked ? dose : 0;
-            int qNoon = chkNoon.Checked ? dose : 0;
-            int qEvening = chkEvening.Checked ? dose : 0;
-            int qNight = chkNight.Checked ? dose : 0;
+            //// Xác định số lượng cho từng thời điểm:
+            //int qMorning = chkMorning.Checked ? dose : 0;
+            //int qNoon = chkNoon.Checked ? dose : 0;
+            //int qEvening = chkEvening.Checked ? dose : 0;
+            //int qNight = chkNight.Checked ? dose : 0;
 
             // Kiểm tra xem thuốc này đã có trong DataGridView chưa
             int rowIndex = -1;
@@ -145,11 +159,11 @@ namespace PresentationLayer
             }
 
             // Cập nhật thông tin vào các ô của hàng đó
-            medicineDataGridView.Rows[rowIndex].Cells["MedicineName"].Value = medName;
-            medicineDataGridView.Rows[rowIndex].Cells["MorningDose"].Value = qMorning;
-            medicineDataGridView.Rows[rowIndex].Cells["NoonDose"].Value = qNoon;
-            medicineDataGridView.Rows[rowIndex].Cells["EveningDose"].Value = qEvening;
-            medicineDataGridView.Rows[rowIndex].Cells["NightDose"].Value = qNight;
+            //medicineDataGridView.Rows[rowIndex].Cells["MedicineName"].Value = medName;
+            //medicineDataGridView.Rows[rowIndex].Cells["MorningDose"].Value = qMorning;
+            //medicineDataGridView.Rows[rowIndex].Cells["NoonDose"].Value = qNoon;
+            //medicineDataGridView.Rows[rowIndex].Cells["EveningDose"].Value = qEvening;
+            //medicineDataGridView.Rows[rowIndex].Cells["NightDose"].Value = qNight;
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -159,7 +173,7 @@ namespace PresentationLayer
                 MessageBox.Show("Vui lòng chọn bệnh nhân!");
                 return;
             }
-            else if (medicineDataGridView.Rows.Count <= 1)
+            if (medicineDataGridView.Rows.Count <= 1)
             {
                 MessageBox.Show("Vui lòng nhập tên thuốc!");
                 return;
@@ -171,14 +185,15 @@ namespace PresentationLayer
                 try
                 {
                     // Lưu thông tin Diagnosis
-                    string query = @"INSERT INTO Diagnosis (PatientId, DoctorId, AddedDate, AddedBy)
-                             VALUES (@PatientId, @DoctorId, @AddedDate, @AddedBy);
+                    string query = @"INSERT INTO Diagnosis (PatientId, DoctorId, AddedDate, AddedBy,Dianosis)
+                             VALUES (@PatientId, @DoctorId, @AddedDate, @AddedBy,@Dianosis);
                              SELECT SCOPE_IDENTITY();";
                     SqlCommand cmd = new SqlCommand(query, conn, transaction);
                     cmd.Parameters.AddWithValue("@PatientId", cbPatients.SelectedValue);
                     cmd.Parameters.AddWithValue("@DoctorId", Global.UserInfo.DoctorId);
                     cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
                     cmd.Parameters.AddWithValue("@AddedBy", Global.UserInfo.UserId);
+                    cmd.Parameters.AddWithValue("@Dianosis", txtDianosis.Text.Trim());
 
                     int diagnosisId = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -282,6 +297,11 @@ namespace PresentationLayer
             medicineDataGridView.DefaultCellStyle.BackColor = Color.White;
             LoadMedicineComboBox();
             LoadPatients();
+        }
+
+        private void btnAddMedicine_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -330,19 +330,20 @@ namespace PresentationLayer
                             LoadDoctors();
                             Reset();
 
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Lỗi: " + ex.Message);
+                            transaction.Rollback();
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Lỗi: " + ex.Message);
-                        transaction.Rollback();
-                    }
-                    finally
-                    {
-                        conn.Close();
-                    }
-                }
+                }   
             }
         }
     }
-}
 }
