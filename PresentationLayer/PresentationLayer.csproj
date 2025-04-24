@@ -172,6 +172,9 @@
     <Compile Include="AppointmentListForm.Designer.cs">
       <DependentUpon>AppointmentListForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CMSystemDataSet.cs">
+      <DependentUpon>CMSystemDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="CMSystemDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

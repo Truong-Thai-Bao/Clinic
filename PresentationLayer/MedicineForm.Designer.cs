@@ -46,8 +46,9 @@
             this.panel1.Controls.Add(this.labelClinicManagement);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 92);
+            this.panel1.Size = new System.Drawing.Size(613, 75);
             this.panel1.TabIndex = 43;
             // 
             // labelClinicManagement
@@ -56,9 +57,10 @@
             this.labelClinicManagement.BackColor = System.Drawing.Color.DodgerBlue;
             this.labelClinicManagement.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelClinicManagement.ForeColor = System.Drawing.Color.AliceBlue;
-            this.labelClinicManagement.Location = new System.Drawing.Point(171, 34);
+            this.labelClinicManagement.Location = new System.Drawing.Point(128, 28);
+            this.labelClinicManagement.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelClinicManagement.Name = "labelClinicManagement";
-            this.labelClinicManagement.Size = new System.Drawing.Size(459, 32);
+            this.labelClinicManagement.Size = new System.Drawing.Size(368, 26);
             this.labelClinicManagement.TabIndex = 9;
             this.labelClinicManagement.Text = "CLINIC MANAGEMENT SYSTEM";
             this.labelClinicManagement.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -66,9 +68,10 @@
             // pictureBoxLogout
             // 
             this.pictureBoxLogout.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxLogout.Image")));
-            this.pictureBoxLogout.Location = new System.Drawing.Point(738, 490);
+            this.pictureBoxLogout.Location = new System.Drawing.Point(554, 398);
+            this.pictureBoxLogout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBoxLogout.Name = "pictureBoxLogout";
-            this.pictureBoxLogout.Size = new System.Drawing.Size(50, 50);
+            this.pictureBoxLogout.Size = new System.Drawing.Size(38, 41);
             this.pictureBoxLogout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxLogout.TabIndex = 42;
             this.pictureBoxLogout.TabStop = false;
@@ -78,9 +81,10 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label1.Location = new System.Drawing.Point(159, 53);
+            this.label1.Location = new System.Drawing.Point(119, 43);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(483, 32);
+            this.label1.Size = new System.Drawing.Size(388, 26);
             this.label1.TabIndex = 33;
             this.label1.Text = "VUI LÒNG CHỌN MỘT TÙY CHỌN";
             // 
@@ -89,11 +93,12 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
-            this.dataGridView1.Location = new System.Drawing.Point(142, 164);
+            this.dataGridView1.Location = new System.Drawing.Point(106, 133);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView1.Size = new System.Drawing.Size(248, 147);
             this.dataGridView1.TabIndex = 44;
             // 
             // Column1
@@ -105,13 +110,14 @@
             // 
             // MedicineForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(613, 379);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBoxLogout);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "MedicineForm";
             this.Text = "Medicine";
             this.Load += new System.EventHandler(this.Medicine_Load);
