@@ -178,6 +178,18 @@ namespace PresentationLayer
                 MessageBox.Show("Vui lòng nhập tên thuốc!");
                 return;
             }
+            if (string.IsNullOrEmpty(txtDianosis.Text.Trim()))
+            {
+                MessageBox.Show("Vui lòng nhập chẩn đoán!");
+                return;
+            }
+            if (string.IsNullOrEmpty(txtMorning.Text.Trim())&&
+                string.IsNullOrEmpty(txtNoon.Text.Trim())&&
+                string.IsNullOrEmpty(txtAfternoon.Text.Trim()))
+            {
+                MessageBox.Show("Vui lòng nhập số lượng thuốc!");
+                return;
+            }
             using (SqlConnection conn = new SqlConnection(DBCommon.connString))
             {
                 conn.Open();
