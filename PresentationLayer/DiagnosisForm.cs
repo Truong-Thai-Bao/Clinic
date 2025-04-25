@@ -17,12 +17,14 @@ namespace PresentationLayer
     {
         private List<Medicine> medicines = new List<Medicine>();
         SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
+        private static int count = 0;
         public DiagnosisForm()
         {
             InitializeComponent();
             LoadPatients();
             symptomDataGridView.DefaultCellStyle.ForeColor = Color.Black;
             medicineDataGridView.DefaultCellStyle.ForeColor = Color.Black;
+            CalculateTotalPills();
         }
 
         //Tính tuổi từ ngày sinh
@@ -101,7 +103,7 @@ namespace PresentationLayer
                     {
                         txtBlood.Text = String.Format("{0}", reader["BloodGroup"]);
                         DateTime dateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
-                        txtAge.Text = CalculateAge(dateOfBirth).ToString(); 
+                        txtAge.Text = CalculateAge(dateOfBirth).ToString();
                         txtGender.Text = String.Format("{0}", reader["Gender"]);
                         txtContact.Text = String.Format("{0}", reader["Contact"]);
                         txtPatientCode.Text = String.Format("{0}", reader["PCode"]);
@@ -157,6 +159,7 @@ namespace PresentationLayer
             }
 
             // Cập nhật thông tin vào các ô của hàng đó
+            medicineDataGridView.Rows[rowIndex].Cells["Serial"].Value = ++count;
             medicineDataGridView.Rows[rowIndex].Cells["MedicineName"].Value = medName;
             medicineDataGridView.Rows[rowIndex].Cells["MorningDose"].Value = qMorning;
             medicineDataGridView.Rows[rowIndex].Cells["NoonDose"].Value = qNoon;
@@ -181,8 +184,8 @@ namespace PresentationLayer
                 MessageBox.Show("Vui lòng nhập chẩn đoán!");
                 return;
             }
-            if (string.IsNullOrEmpty(txtMorning.Text.Trim())&&
-                string.IsNullOrEmpty(txtNoon.Text.Trim())&&
+            if (string.IsNullOrEmpty(txtMorning.Text.Trim()) &&
+                string.IsNullOrEmpty(txtNoon.Text.Trim()) &&
                 string.IsNullOrEmpty(txtAfternoon.Text.Trim()))
             {
                 MessageBox.Show("Vui lòng nhập số lượng thuốc!");
@@ -271,7 +274,7 @@ namespace PresentationLayer
             using (SqlConnection conn = new SqlConnection(DBCommon.connString))
             {
                 conn.Open();
-                string query = "SELECT MedicineId, MedicineName FROM Medicine";
+                string query = "SELECT MedicineId, MedicineName,Type FROM Medicine";
                 SqlDataAdapter da = new SqlDataAdapter(query, conn);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -323,7 +326,7 @@ namespace PresentationLayer
             int totalPills = (morning + noon + afternoon) * days;
 
             // Hiển thị kết quả lên Label
-            lbNum.Text = $"{totalPills} Viên";
+            lbNum.Text = $"{totalPills}";
         }
         private void txtDay_TextChanged(object sender, EventArgs e)
         {
@@ -334,6 +337,23 @@ namespace PresentationLayer
         private void txtAfternoon_TextChanged(object sender, EventArgs e) => CalculateTotalPills();
 
         private void lbNum_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbMedicine_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbMedicine.SelectedIndex != -1 && cbMedicine.SelectedItem is DataRowView row)
+            {
+                lbType.Text = row["Type"].ToString();
+            }
+            else
+            {
+                lbType.Text = string.Empty;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
 
         }
