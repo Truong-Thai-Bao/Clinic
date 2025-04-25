@@ -132,15 +132,13 @@ namespace PresentationLayer
             // Lấy tên thuốc từ ComboBox
             string medName = cbMedicine.Text.Trim();
 
-            //// Lấy số lượng thuốc nhập từ TextBox (txtNumMes)
-            //int dose = 0;
-            //int.TryParse(txtNumMes.Text.Trim(), out dose);
+            int notEnter = 0;
 
-            //// Xác định số lượng cho từng thời điểm:
-            //int qMorning = chkMorning.Checked ? dose : 0;
-            //int qNoon = chkNoon.Checked ? dose : 0;
-            //int qEvening = chkEvening.Checked ? dose : 0;
-            //int qNight = chkNight.Checked ? dose : 0;
+            // Xác định số lượng cho từng thời điểm:
+            int qMorning = int.TryParse(txtMorning.Text, out notEnter) ? notEnter : 0;
+            int qNoon = int.TryParse(txtNoon.Text, out notEnter) ? notEnter : 0;
+            int qAfternoon = int.TryParse(txtAfternoon.Text, out notEnter) ? notEnter : 0;
+            int day = int.TryParse(txtDay.Text, out notEnter) ? notEnter : 1;
 
             // Kiểm tra xem thuốc này đã có trong DataGridView chưa
             int rowIndex = -1;
@@ -159,11 +157,11 @@ namespace PresentationLayer
             }
 
             // Cập nhật thông tin vào các ô của hàng đó
-            //medicineDataGridView.Rows[rowIndex].Cells["MedicineName"].Value = medName;
-            //medicineDataGridView.Rows[rowIndex].Cells["MorningDose"].Value = qMorning;
-            //medicineDataGridView.Rows[rowIndex].Cells["NoonDose"].Value = qNoon;
-            //medicineDataGridView.Rows[rowIndex].Cells["EveningDose"].Value = qEvening;
-            //medicineDataGridView.Rows[rowIndex].Cells["NightDose"].Value = qNight;
+            medicineDataGridView.Rows[rowIndex].Cells["MedicineName"].Value = medName;
+            medicineDataGridView.Rows[rowIndex].Cells["MorningDose"].Value = qMorning;
+            medicineDataGridView.Rows[rowIndex].Cells["NoonDose"].Value = qNoon;
+            medicineDataGridView.Rows[rowIndex].Cells["AfternoonDose"].Value = qAfternoon;
+            medicineDataGridView.Rows[rowIndex].Cells["day"].Value = day;
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -311,7 +309,31 @@ namespace PresentationLayer
             LoadPatients();
         }
 
-        private void btnAddMedicine_Click(object sender, EventArgs e)
+
+        //Hiển thị lên label 
+        private void CalculateTotalPills()
+        {
+            // Lấy số lượng từ các TextBox (mặc định = 0 nếu không nhập hoặc nhập sai)
+            int morning = int.TryParse(txtMorning.Text, out int m) ? m : 0;
+            int noon = int.TryParse(txtNoon.Text, out int n) ? n : 0;
+            int afternoon = int.TryParse(txtAfternoon.Text, out int a) ? a : 0;
+            int days = int.TryParse(txtDay.Text, out int d) ? d : 0;
+
+            // Tính tổng số viên: (Sáng + Trưa + Chiều) * Số ngày
+            int totalPills = (morning + noon + afternoon) * days;
+
+            // Hiển thị kết quả lên Label
+            lbNum.Text = $"{totalPills} Viên";
+        }
+        private void txtDay_TextChanged(object sender, EventArgs e)
+        {
+            CalculateTotalPills();
+        }
+        private void txtMorning_TextChanged(object sender, EventArgs e) => CalculateTotalPills();
+        private void txtNoon_TextChanged(object sender, EventArgs e) => CalculateTotalPills();
+        private void txtAfternoon_TextChanged(object sender, EventArgs e) => CalculateTotalPills();
+
+        private void lbNum_Click(object sender, EventArgs e)
         {
 
         }
