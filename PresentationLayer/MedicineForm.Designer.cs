@@ -46,7 +46,7 @@
             this.panel1.Controls.Add(this.labelClinicManagement);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(613, 75);
             this.panel1.TabIndex = 43;
@@ -69,7 +69,7 @@
             // 
             this.pictureBoxLogout.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxLogout.Image")));
             this.pictureBoxLogout.Location = new System.Drawing.Point(554, 398);
-            this.pictureBoxLogout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBoxLogout.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBoxLogout.Name = "pictureBoxLogout";
             this.pictureBoxLogout.Size = new System.Drawing.Size(38, 41);
             this.pictureBoxLogout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -94,11 +94,11 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
             this.dataGridView1.Location = new System.Drawing.Point(106, 133);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(248, 147);
+            this.dataGridView1.Size = new System.Drawing.Size(390, 168);
             this.dataGridView1.TabIndex = 44;
             // 
             // Column1
@@ -117,7 +117,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBoxLogout);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MedicineForm";
             this.Text = "Medicine";
             this.Load += new System.EventHandler(this.Medicine_Load);

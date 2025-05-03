@@ -45,12 +45,6 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.medicineDataGridView = new System.Windows.Forms.DataGridView();
-            this.Serial = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MedicineName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MorningDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NoonDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EveningDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NightDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtPatientId = new System.Windows.Forms.TextBox();
             this.cbMedicine = new System.Windows.Forms.ComboBox();
             this.medicineBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -59,23 +53,30 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtDay = new System.Windows.Forms.TextBox();
+            this.txtAfternoon = new System.Windows.Forms.TextBox();
+            this.txtNoon = new System.Windows.Forms.TextBox();
+            this.txtMorning = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.lbNum = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.txtDianosis = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.medicineTableAdapter = new PresentationLayer.CMSystemDataSetTableAdapters.MedicineTableAdapter();
             this.patientTableAdapter = new PresentationLayer.CMSystemDataSet1TableAdapters.PatientTableAdapter();
             this.lblAge = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtMorning = new System.Windows.Forms.TextBox();
-            this.txtNoon = new System.Windows.Forms.TextBox();
-            this.txtAfternoon = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
             this.txtAge = new System.Windows.Forms.TextBox();
+            this.lbType = new System.Windows.Forms.Label();
+            this.Serial = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MedicineName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MorningDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NoonDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AfternoonDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.day = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.patientBindingSource)).BeginInit();
@@ -96,7 +97,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1269, 81);
+            this.panel1.Size = new System.Drawing.Size(1081, 81);
             this.panel1.TabIndex = 0;
             // 
             // label1
@@ -130,7 +131,7 @@
             // pictureBoxLogout
             // 
             this.pictureBoxLogout.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxLogout.Image")));
-            this.pictureBoxLogout.Location = new System.Drawing.Point(1134, 495);
+            this.pictureBoxLogout.Location = new System.Drawing.Point(965, 485);
             this.pictureBoxLogout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBoxLogout.Name = "pictureBoxLogout";
             this.pictureBoxLogout.Size = new System.Drawing.Size(71, 41);
@@ -149,7 +150,7 @@
             this.cbPatients.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbPatients.Name = "cbPatients";
             this.cbPatients.Size = new System.Drawing.Size(246, 35);
-            this.cbPatients.TabIndex = 0;
+            this.cbPatients.TabIndex = 24;
             this.cbPatients.ValueMember = "PatientId";
             this.cbPatients.SelectedValueChanged += new System.EventHandler(this.cbPatients_SelectedValueChanged);
             // 
@@ -212,11 +213,11 @@
             // txtGender
             // 
             this.txtGender.Font = new System.Drawing.Font("Bahnschrift Condensed", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGender.Location = new System.Drawing.Point(1082, 104);
+            this.txtGender.Location = new System.Drawing.Point(763, 98);
             this.txtGender.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtGender.Name = "txtGender";
             this.txtGender.ReadOnly = true;
-            this.txtGender.Size = new System.Drawing.Size(92, 33);
+            this.txtGender.Size = new System.Drawing.Size(71, 33);
             this.txtGender.TabIndex = 30;
             this.txtGender.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -225,7 +226,7 @@
             this.btnAdd.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnAdd.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(582, 495);
+            this.btnAdd.Location = new System.Drawing.Point(599, 495);
             this.btnAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(85, 31);
@@ -239,7 +240,7 @@
             this.btnSave.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnSave.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(1003, 505);
+            this.btnSave.Location = new System.Drawing.Point(850, 495);
             this.btnSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(85, 31);
@@ -256,58 +257,16 @@
             this.MedicineName,
             this.MorningDose,
             this.NoonDose,
-            this.EveningDose,
-            this.NightDose});
-            this.medicineDataGridView.Location = new System.Drawing.Point(561, 277);
+            this.AfternoonDose,
+            this.day});
+            this.medicineDataGridView.Location = new System.Drawing.Point(508, 282);
             this.medicineDataGridView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.medicineDataGridView.Name = "medicineDataGridView";
             this.medicineDataGridView.RowHeadersWidth = 51;
             this.medicineDataGridView.RowTemplate.Height = 24;
-            this.medicineDataGridView.Size = new System.Drawing.Size(678, 200);
+            this.medicineDataGridView.Size = new System.Drawing.Size(558, 200);
             this.medicineDataGridView.TabIndex = 34;
             this.medicineDataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.medicineDataGridView_CellDoubleClick);
-            // 
-            // Serial
-            // 
-            this.Serial.HeaderText = "STT";
-            this.Serial.MinimumWidth = 6;
-            this.Serial.Name = "Serial";
-            this.Serial.Width = 60;
-            // 
-            // MedicineName
-            // 
-            this.MedicineName.HeaderText = "Tên thuốc";
-            this.MedicineName.MinimumWidth = 6;
-            this.MedicineName.Name = "MedicineName";
-            this.MedicineName.Width = 250;
-            // 
-            // MorningDose
-            // 
-            this.MorningDose.HeaderText = "Sáng";
-            this.MorningDose.MinimumWidth = 6;
-            this.MorningDose.Name = "MorningDose";
-            this.MorningDose.Width = 125;
-            // 
-            // NoonDose
-            // 
-            this.NoonDose.HeaderText = "Trưa";
-            this.NoonDose.MinimumWidth = 6;
-            this.NoonDose.Name = "NoonDose";
-            this.NoonDose.Width = 125;
-            // 
-            // EveningDose
-            // 
-            this.EveningDose.HeaderText = "Chiều";
-            this.EveningDose.MinimumWidth = 6;
-            this.EveningDose.Name = "EveningDose";
-            this.EveningDose.Width = 125;
-            // 
-            // NightDose
-            // 
-            this.NightDose.HeaderText = "Tối";
-            this.NightDose.MinimumWidth = 6;
-            this.NightDose.Name = "NightDose";
-            this.NightDose.Width = 125;
             // 
             // txtPatientId
             // 
@@ -328,11 +287,12 @@
             this.cbMedicine.DisplayMember = "MedicineName";
             this.cbMedicine.Font = new System.Drawing.Font("Bahnschrift Condensed", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbMedicine.FormattingEnabled = true;
-            this.cbMedicine.Location = new System.Drawing.Point(561, 176);
+            this.cbMedicine.Location = new System.Drawing.Point(508, 181);
             this.cbMedicine.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbMedicine.Name = "cbMedicine";
-            this.cbMedicine.Size = new System.Drawing.Size(678, 24);
-            this.cbMedicine.TabIndex = 1;
+            this.cbMedicine.Size = new System.Drawing.Size(438, 24);
+            this.cbMedicine.TabIndex = 24;
+            this.cbMedicine.SelectedIndexChanged += new System.EventHandler(this.cbMedicine_SelectedIndexChanged);
             this.cbMedicine.SelectedValueChanged += new System.EventHandler(this.cbPatients_SelectedValueChanged);
             // 
             // medicineBindingSource
@@ -350,7 +310,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Bahnschrift Condensed", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label2.Location = new System.Drawing.Point(339, 97);
+            this.label2.Location = new System.Drawing.Point(370, 97);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 27);
@@ -373,7 +333,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Bahnschrift Condensed", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label4.Location = new System.Drawing.Point(965, 104);
+            this.label4.Location = new System.Drawing.Point(688, 100);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(71, 27);
@@ -382,23 +342,134 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.lbType);
+            this.groupBox1.Controls.Add(this.txtDay);
             this.groupBox1.Controls.Add(this.txtAfternoon);
             this.groupBox1.Controls.Add(this.txtNoon);
             this.groupBox1.Controls.Add(this.txtMorning);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.lbNum);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Location = new System.Drawing.Point(561, 213);
+            this.groupBox1.Location = new System.Drawing.Point(508, 218);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Size = new System.Drawing.Size(678, 51);
+            this.groupBox1.Size = new System.Drawing.Size(558, 51);
             this.groupBox1.TabIndex = 37;
             this.groupBox1.TabStop = false;
+            // 
+            // txtDay
+            // 
+            this.txtDay.Location = new System.Drawing.Point(376, 16);
+            this.txtDay.Name = "txtDay";
+            this.txtDay.Size = new System.Drawing.Size(35, 20);
+            this.txtDay.TabIndex = 1;
+            this.txtDay.Text = "7";
+            this.txtDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtDay.TextChanged += new System.EventHandler(this.txtDay_TextChanged);
+            this.txtDay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumMes_KeyPress);
+            // 
+            // txtAfternoon
+            // 
+            this.txtAfternoon.Location = new System.Drawing.Point(210, 15);
+            this.txtAfternoon.Name = "txtAfternoon";
+            this.txtAfternoon.Size = new System.Drawing.Size(41, 20);
+            this.txtAfternoon.TabIndex = 1;
+            this.txtAfternoon.Text = "1";
+            this.txtAfternoon.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtAfternoon.TextChanged += new System.EventHandler(this.txtAfternoon_TextChanged);
+            this.txtAfternoon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumMes_KeyPress);
+            // 
+            // txtNoon
+            // 
+            this.txtNoon.Location = new System.Drawing.Point(110, 14);
+            this.txtNoon.Name = "txtNoon";
+            this.txtNoon.Size = new System.Drawing.Size(36, 20);
+            this.txtNoon.TabIndex = 1;
+            this.txtNoon.Text = "1";
+            this.txtNoon.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtNoon.TextChanged += new System.EventHandler(this.txtNoon_TextChanged);
+            this.txtNoon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumMes_KeyPress);
+            // 
+            // txtMorning
+            // 
+            this.txtMorning.Location = new System.Drawing.Point(11, 15);
+            this.txtMorning.Name = "txtMorning";
+            this.txtMorning.Size = new System.Drawing.Size(40, 20);
+            this.txtMorning.TabIndex = 8;
+            this.txtMorning.Text = "1";
+            this.txtMorning.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtMorning.TextChanged += new System.EventHandler(this.txtMorning_TextChanged);
+            this.txtMorning.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumMes_KeyPress);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.Black;
+            this.label9.Location = new System.Drawing.Point(354, 18);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(16, 20);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "x";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Black;
+            this.label10.Location = new System.Drawing.Point(417, 18);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(62, 20);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "Ngày = ";
+            // 
+            // lbNum
+            // 
+            this.lbNum.AutoSize = true;
+            this.lbNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbNum.ForeColor = System.Drawing.Color.Black;
+            this.lbNum.Location = new System.Drawing.Point(485, 18);
+            this.lbNum.Name = "lbNum";
+            this.lbNum.Size = new System.Drawing.Size(0, 20);
+            this.lbNum.TabIndex = 0;
+            this.lbNum.Click += new System.EventHandler(this.lbNum_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.Black;
+            this.label8.Location = new System.Drawing.Point(257, 16);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(50, 20);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Chiều";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.Black;
+            this.label7.Location = new System.Drawing.Point(152, 15);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(41, 20);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Trưa";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.Black;
+            this.label6.Location = new System.Drawing.Point(57, 15);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(47, 20);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Sáng";
             // 
             // label5
             // 
@@ -418,7 +489,7 @@
             this.txtDianosis.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtDianosis.Multiline = true;
             this.txtDianosis.Name = "txtDianosis";
-            this.txtDianosis.Size = new System.Drawing.Size(221, 318);
+            this.txtDianosis.Size = new System.Drawing.Size(196, 318);
             this.txtDianosis.TabIndex = 1;
             // 
             // button1
@@ -433,6 +504,7 @@
             this.button1.TabIndex = 32;
             this.button1.Text = "XÓA";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // medicineTableAdapter
             // 
@@ -447,128 +519,88 @@
             this.lblAge.AutoSize = true;
             this.lblAge.Font = new System.Drawing.Font("Bahnschrift Condensed", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAge.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblAge.Location = new System.Drawing.Point(635, 104);
+            this.lblAge.Location = new System.Drawing.Point(556, 100);
             this.lblAge.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAge.Name = "lblAge";
             this.lblAge.Size = new System.Drawing.Size(40, 27);
             this.lblAge.TabIndex = 41;
             this.lblAge.Text = "Tuổi";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(67, 15);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(47, 20);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Sáng";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(216, 18);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(41, 20);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Trưa";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(350, 18);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(50, 20);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Chiều";
-            // 
-            // txtMorning
-            // 
-            this.txtMorning.Location = new System.Drawing.Point(11, 15);
-            this.txtMorning.Name = "txtMorning";
-            this.txtMorning.Size = new System.Drawing.Size(55, 20);
-            this.txtMorning.TabIndex = 8;
-            this.txtMorning.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumMes_KeyPress);
-            // 
-            // txtNoon
-            // 
-            this.txtNoon.Location = new System.Drawing.Point(158, 18);
-            this.txtNoon.Name = "txtNoon";
-            this.txtNoon.Size = new System.Drawing.Size(55, 20);
-            this.txtNoon.TabIndex = 1;
-            this.txtNoon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumMes_KeyPress);
-            // 
-            // txtAfternoon
-            // 
-            this.txtAfternoon.Location = new System.Drawing.Point(289, 18);
-            this.txtAfternoon.Name = "txtAfternoon";
-            this.txtAfternoon.Size = new System.Drawing.Size(55, 20);
-            this.txtAfternoon.TabIndex = 1;
-            this.txtAfternoon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumMes_KeyPress);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(473, 18);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(16, 20);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "x";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(495, 18);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(35, 20);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumMes_KeyPress);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(536, 18);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(62, 20);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "Ngày = ";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(594, 18);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(59, 20);
-            this.label11.TabIndex = 0;
-            this.label11.Text = "xx Viên";
-            // 
             // txtAge
             // 
             this.txtAge.Font = new System.Drawing.Font("Bahnschrift Condensed", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAge.Location = new System.Drawing.Point(689, 101);
-            this.txtAge.Margin = new System.Windows.Forms.Padding(2);
+            this.txtAge.Location = new System.Drawing.Point(599, 95);
+            this.txtAge.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtAge.Name = "txtAge";
             this.txtAge.ReadOnly = true;
             this.txtAge.Size = new System.Drawing.Size(51, 33);
             this.txtAge.TabIndex = 28;
             this.txtAge.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // lbType
+            // 
+            this.lbType.AutoSize = true;
+            this.lbType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbType.ForeColor = System.Drawing.Color.Black;
+            this.lbType.Location = new System.Drawing.Point(507, 18);
+            this.lbType.Name = "lbType";
+            this.lbType.Size = new System.Drawing.Size(41, 20);
+            this.lbType.TabIndex = 9;
+            this.lbType.Text = "Viên";
+            // 
+            // Serial
+            // 
+            this.Serial.HeaderText = "STT";
+            this.Serial.MinimumWidth = 6;
+            this.Serial.Name = "Serial";
+            this.Serial.Width = 30;
+            // 
+            // MedicineName
+            // 
+            this.MedicineName.HeaderText = "Tên thuốc";
+            this.MedicineName.MinimumWidth = 6;
+            this.MedicineName.Name = "MedicineName";
+            this.MedicineName.ReadOnly = true;
+            this.MedicineName.Width = 400;
+            // 
+            // MorningDose
+            // 
+            this.MorningDose.HeaderText = "Sáng";
+            this.MorningDose.MinimumWidth = 6;
+            this.MorningDose.Name = "MorningDose";
+            this.MorningDose.ReadOnly = true;
+            this.MorningDose.Width = 40;
+            // 
+            // NoonDose
+            // 
+            this.NoonDose.HeaderText = "Trưa";
+            this.NoonDose.MinimumWidth = 6;
+            this.NoonDose.Name = "NoonDose";
+            this.NoonDose.ReadOnly = true;
+            this.NoonDose.Width = 40;
+            // 
+            // AfternoonDose
+            // 
+            this.AfternoonDose.HeaderText = "Chiều";
+            this.AfternoonDose.MinimumWidth = 6;
+            this.AfternoonDose.Name = "AfternoonDose";
+            this.AfternoonDose.ReadOnly = true;
+            this.AfternoonDose.Width = 40;
+            // 
+            // day
+            // 
+            this.day.HeaderText = "Ngày";
+            this.day.MinimumWidth = 6;
+            this.day.Name = "day";
+            this.day.ReadOnly = true;
+            this.day.Width = 40;
+            // 
             // DiagnosisForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MintCream;
-            this.ClientSize = new System.Drawing.Size(1269, 547);
+            this.ClientSize = new System.Drawing.Size(1081, 552);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblAge);
             this.Controls.Add(this.txtDianosis);
@@ -638,12 +670,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtDianosis;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Serial;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MedicineName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MorningDose;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NoonDose;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EveningDose;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NightDose;
         private CMSystemDataSet cMSystemDataSet;
         private System.Windows.Forms.BindingSource medicineBindingSource;
         private CMSystemDataSetTableAdapters.MedicineTableAdapter medicineTableAdapter;
@@ -651,7 +677,7 @@
         private System.Windows.Forms.BindingSource patientBindingSource;
         private CMSystemDataSet1TableAdapters.PatientTableAdapter patientTableAdapter;
         private System.Windows.Forms.Label lblAge;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtDay;
         private System.Windows.Forms.TextBox txtAfternoon;
         private System.Windows.Forms.TextBox txtNoon;
         private System.Windows.Forms.TextBox txtMorning;
@@ -660,7 +686,14 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lbNum;
         private System.Windows.Forms.TextBox txtAge;
+        private System.Windows.Forms.Label lbType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Serial;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MedicineName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MorningDose;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NoonDose;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AfternoonDose;
+        private System.Windows.Forms.DataGridViewTextBoxColumn day;
     }
 }
