@@ -162,6 +162,7 @@
     <Compile Include="CommonProps.cs" />
     <Compile Include="Common\CmnMethods.cs" />
     <Compile Include="Common\Global.cs" />
+    <Compile Include="LoginBL.cs" />
     <Compile Include="Medicine.cs" />
     <Compile Include="Patient.cs" />
     <Compile Include="Prescription.cs" />
