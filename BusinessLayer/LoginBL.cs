@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataLayer;
 using DataTransferLayer;
-namespace DataLayer
+namespace BusinessLayer
 {
-    public class LoginDL : DataProvider
+    public class LoginBL
     {
+        private LoginDL loginDL;
+        public LoginBL()
+        {
+            loginDL = new LoginDL();
+        }
         public bool Login(Account account)
         {
-            string sql = $"Select Count(UserName) from UserInfo where UserName= '{account.username}'  and UserPassword = '{account.password}'";
             try
             {
-                return (int)MyExcuteScalar(sql, CommandType.Text) > 0;
+                return loginDL.Login(account);
             }
             catch (Exception ex)
             {

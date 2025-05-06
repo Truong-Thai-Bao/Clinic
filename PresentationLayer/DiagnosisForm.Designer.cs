@@ -561,7 +561,7 @@
             this.MedicineName.MinimumWidth = 6;
             this.MedicineName.Name = "MedicineName";
             this.MedicineName.ReadOnly = true;
-            this.MedicineName.Width = 400;
+            this.MedicineName.Width = 300;
             // 
             // MorningDose
             // 

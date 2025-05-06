@@ -10,18 +10,32 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BusinessLayer;
 using DataLayer;
+using DataTransferLayer;
 namespace PresentationLayer
  
 {
     public partial class Form1 : Form
     {
-
+        private LoginBL loginBL;
         SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
         public Form1()
         {
             InitializeComponent();
+            loginBL = new LoginBL();
         }
 
+        public bool UserLogin(Account account)
+        {
+            try
+            {
+                return loginBL.Login(account);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
         private void btnLogin_Click(object sender, EventArgs e)
         {
             if(txtUserName.Text.Trim() ==""|| txtPassword.Text.Trim() == "")
@@ -31,24 +45,23 @@ namespace PresentationLayer
             }
             else
             {
-                sqlCon = BusinessLayer.CmnMethods.OpenConnectionString(sqlCon);
-                string query = string.Format(@"Select * From View_UserInfo Where Username = '{0}' 
-                                                                    and UserPassword ='{1}'", txtUserName.Text.Trim(),txtPassword.Text.Trim());
-                SqlDataAdapter sda = new SqlDataAdapter(query, sqlCon);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-                if(dt.Rows.Count > 0)
+                Account account = new Account(txtUserName.Text.Trim(),txtPassword.Text.Trim());
+                if (UserLogin(account))
                 {
-                    this.Hide();
-                    MenuForm form = new MenuForm();
-                    form.Show();
-
-                    CmnMethods.GetUserInfo(dt);
+                    this.DialogResult = DialogResult.OK;
                 }
-                else
-                {
-                    MessageBox.Show("Username hoặc Password không đúng!");
-                    txtUserName.Focus();
+                else { 
+                    string message = "Tên tài khoản hoặc mật khẩu không đúng!";
+                    DialogResult result = MessageBox.Show(message, "Thông báo", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    if (result == DialogResult.Retry)
+                    {
+                        txtUserName.Focus();
+                        txtPassword.Clear();
+                    }
+                    else
+                    {
+                        Application.Exit();
+                    }
                 }
             }
         }
