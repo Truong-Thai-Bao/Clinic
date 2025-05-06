@@ -76,6 +76,11 @@
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnAppointmentList = new System.Windows.Forms.Button();
+            this.lblPCodeNum = new System.Windows.Forms.Label();
+            this.lblPCode = new System.Windows.Forms.Label();
+            this.btnGetPrescription = new System.Windows.Forms.Button();
+            this.txtAddress = new System.Windows.Forms.TextBox();
+            this.lblAddress = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).BeginInit();
             this.grbPatientInfo.SuspendLayout();
@@ -91,9 +96,9 @@
             this.panel1.Controls.Add(this.labelClinicManagement);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(880, 81);
+            this.panel1.Size = new System.Drawing.Size(1173, 100);
             this.panel1.TabIndex = 1;
             // 
             // lblAppointment
@@ -102,10 +107,9 @@
             this.lblAppointment.BackColor = System.Drawing.Color.DodgerBlue;
             this.lblAppointment.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAppointment.ForeColor = System.Drawing.Color.AliceBlue;
-            this.lblAppointment.Location = new System.Drawing.Point(374, 42);
-            this.lblAppointment.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblAppointment.Location = new System.Drawing.Point(499, 52);
             this.lblAppointment.Name = "lblAppointment";
-            this.lblAppointment.Size = new System.Drawing.Size(140, 24);
+            this.lblAppointment.Size = new System.Drawing.Size(177, 29);
             this.lblAppointment.TabIndex = 10;
             this.lblAppointment.Text = "ĐẶT LỊCH HẸN";
             this.lblAppointment.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -116,10 +120,9 @@
             this.labelClinicManagement.BackColor = System.Drawing.Color.DodgerBlue;
             this.labelClinicManagement.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelClinicManagement.ForeColor = System.Drawing.Color.AliceBlue;
-            this.labelClinicManagement.Location = new System.Drawing.Point(268, 16);
-            this.labelClinicManagement.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelClinicManagement.Location = new System.Drawing.Point(357, 20);
             this.labelClinicManagement.Name = "labelClinicManagement";
-            this.labelClinicManagement.Size = new System.Drawing.Size(368, 26);
+            this.labelClinicManagement.Size = new System.Drawing.Size(459, 32);
             this.labelClinicManagement.TabIndex = 9;
             this.labelClinicManagement.Text = "CLINIC MANAGEMENT SYSTEM";
             this.labelClinicManagement.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -127,10 +130,10 @@
             // pictureBoxLogout
             // 
             this.pictureBoxLogout.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxLogout.Image")));
-            this.pictureBoxLogout.Location = new System.Drawing.Point(813, 475);
-            this.pictureBoxLogout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBoxLogout.Location = new System.Drawing.Point(1084, 585);
+            this.pictureBoxLogout.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBoxLogout.Name = "pictureBoxLogout";
-            this.pictureBoxLogout.Size = new System.Drawing.Size(58, 41);
+            this.pictureBoxLogout.Size = new System.Drawing.Size(77, 50);
             this.pictureBoxLogout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxLogout.TabIndex = 24;
             this.pictureBoxLogout.TabStop = false;
@@ -153,10 +156,10 @@
             this.lsvAppointment.FullRowSelect = true;
             this.lsvAppointment.GridLines = true;
             this.lsvAppointment.HideSelection = false;
-            this.lsvAppointment.Location = new System.Drawing.Point(41, 365);
-            this.lsvAppointment.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lsvAppointment.Location = new System.Drawing.Point(51, 442);
+            this.lsvAppointment.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lsvAppointment.Name = "lsvAppointment";
-            this.lsvAppointment.Size = new System.Drawing.Size(800, 110);
+            this.lsvAppointment.Size = new System.Drawing.Size(1065, 127);
             this.lsvAppointment.TabIndex = 25;
             this.lsvAppointment.UseCompatibleStateImageBehavior = false;
             this.lsvAppointment.View = System.Windows.Forms.View.Details;
@@ -224,25 +227,26 @@
             // 
             this.txtPatientName.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPatientName.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.txtPatientName.Location = new System.Drawing.Point(114, 30);
-            this.txtPatientName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPatientName.Location = new System.Drawing.Point(152, 37);
+            this.txtPatientName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPatientName.Name = "txtPatientName";
-            this.txtPatientName.Size = new System.Drawing.Size(137, 27);
+            this.txtPatientName.Size = new System.Drawing.Size(181, 32);
             this.txtPatientName.TabIndex = 27;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 36);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(16, 44);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(93, 15);
+            this.label1.Size = new System.Drawing.Size(109, 18);
             this.label1.TabIndex = 28;
             this.label1.Text = "Tên bệnh nhân:";
             // 
             // grbPatientInfo
             // 
+            this.grbPatientInfo.Controls.Add(this.txtAddress);
+            this.grbPatientInfo.Controls.Add(this.lblAddress);
             this.grbPatientInfo.Controls.Add(this.txtContact);
             this.grbPatientInfo.Controls.Add(this.label6);
             this.grbPatientInfo.Controls.Add(this.dtpAge);
@@ -254,11 +258,11 @@
             this.grbPatientInfo.Controls.Add(this.label1);
             this.grbPatientInfo.Controls.Add(this.txtPatientName);
             this.grbPatientInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grbPatientInfo.Location = new System.Drawing.Point(16, 95);
-            this.grbPatientInfo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grbPatientInfo.Location = new System.Drawing.Point(21, 117);
+            this.grbPatientInfo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grbPatientInfo.Name = "grbPatientInfo";
-            this.grbPatientInfo.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.grbPatientInfo.Size = new System.Drawing.Size(258, 252);
+            this.grbPatientInfo.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grbPatientInfo.Size = new System.Drawing.Size(344, 310);
             this.grbPatientInfo.TabIndex = 31;
             this.grbPatientInfo.TabStop = false;
             this.grbPatientInfo.Text = "Thông tin bệnh nhân";
@@ -267,20 +271,19 @@
             // 
             this.txtContact.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtContact.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.txtContact.Location = new System.Drawing.Point(116, 214);
-            this.txtContact.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtContact.Location = new System.Drawing.Point(156, 217);
+            this.txtContact.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtContact.Name = "txtContact";
-            this.txtContact.Size = new System.Drawing.Size(137, 27);
+            this.txtContact.Size = new System.Drawing.Size(181, 32);
             this.txtContact.TabIndex = 38;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(16, 226);
-            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label6.Location = new System.Drawing.Point(22, 234);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(51, 15);
+            this.label6.Size = new System.Drawing.Size(59, 18);
             this.label6.TabIndex = 37;
             this.label6.Text = "Liên hệ:";
             // 
@@ -290,20 +293,19 @@
             this.dtpAge.CalendarTitleForeColor = System.Drawing.SystemColors.WindowFrame;
             this.dtpAge.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpAge.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpAge.Location = new System.Drawing.Point(117, 78);
-            this.dtpAge.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpAge.Location = new System.Drawing.Point(156, 82);
+            this.dtpAge.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dtpAge.Name = "dtpAge";
-            this.dtpAge.Size = new System.Drawing.Size(137, 27);
+            this.dtpAge.Size = new System.Drawing.Size(181, 32);
             this.dtpAge.TabIndex = 33;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(12, 78);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Location = new System.Drawing.Point(16, 87);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 15);
+            this.label5.Size = new System.Drawing.Size(77, 18);
             this.label5.TabIndex = 36;
             this.label5.Text = "Ngày sinh:";
             // 
@@ -322,10 +324,10 @@
             "O-",
             "AB+",
             "AB-"});
-            this.cbBloodGroup.Location = new System.Drawing.Point(116, 162);
-            this.cbBloodGroup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbBloodGroup.Location = new System.Drawing.Point(156, 172);
+            this.cbBloodGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbBloodGroup.Name = "cbBloodGroup";
-            this.cbBloodGroup.Size = new System.Drawing.Size(137, 27);
+            this.cbBloodGroup.Size = new System.Drawing.Size(181, 32);
             this.cbBloodGroup.TabIndex = 35;
             this.cbBloodGroup.ValueMember = "PatientId";
             // 
@@ -333,10 +335,9 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(8, 162);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Location = new System.Drawing.Point(12, 173);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(104, 30);
+            this.label4.Size = new System.Drawing.Size(126, 36);
             this.label4.TabIndex = 34;
             this.label4.Text = "Nhóm máu\r\n(Không bắt buộc):";
             // 
@@ -350,10 +351,10 @@
             "Nam",
             "Nữ",
             "Khác"});
-            this.cbGender.Location = new System.Drawing.Point(116, 112);
-            this.cbGender.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbGender.Location = new System.Drawing.Point(155, 127);
+            this.cbGender.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbGender.Name = "cbGender";
-            this.cbGender.Size = new System.Drawing.Size(137, 27);
+            this.cbGender.Size = new System.Drawing.Size(181, 32);
             this.cbGender.TabIndex = 33;
             this.cbGender.ValueMember = "PatientId";
             // 
@@ -361,10 +362,9 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(12, 124);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Location = new System.Drawing.Point(16, 130);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 15);
+            this.label3.Size = new System.Drawing.Size(66, 18);
             this.label3.TabIndex = 29;
             this.label3.Text = "Giới tính:";
             // 
@@ -373,11 +373,11 @@
             this.grbDoctorInfo.Controls.Add(this.cbSelectDoctor);
             this.grbDoctorInfo.Controls.Add(this.label11);
             this.grbDoctorInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grbDoctorInfo.Location = new System.Drawing.Point(585, 106);
-            this.grbDoctorInfo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grbDoctorInfo.Location = new System.Drawing.Point(780, 130);
+            this.grbDoctorInfo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grbDoctorInfo.Name = "grbDoctorInfo";
-            this.grbDoctorInfo.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.grbDoctorInfo.Size = new System.Drawing.Size(256, 67);
+            this.grbDoctorInfo.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grbDoctorInfo.Size = new System.Drawing.Size(341, 82);
             this.grbDoctorInfo.TabIndex = 39;
             this.grbDoctorInfo.TabStop = false;
             this.grbDoctorInfo.Text = "Thông tin bác sĩ";
@@ -388,10 +388,10 @@
             this.cbSelectDoctor.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSelectDoctor.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.cbSelectDoctor.FormattingEnabled = true;
-            this.cbSelectDoctor.Location = new System.Drawing.Point(116, 20);
-            this.cbSelectDoctor.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbSelectDoctor.Location = new System.Drawing.Point(155, 25);
+            this.cbSelectDoctor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbSelectDoctor.Name = "cbSelectDoctor";
-            this.cbSelectDoctor.Size = new System.Drawing.Size(137, 27);
+            this.cbSelectDoctor.Size = new System.Drawing.Size(181, 32);
             this.cbSelectDoctor.TabIndex = 33;
             this.cbSelectDoctor.ValueMember = "PatientId";
             // 
@@ -399,10 +399,9 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(16, 32);
-            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label11.Location = new System.Drawing.Point(21, 39);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(66, 15);
+            this.label11.Size = new System.Drawing.Size(80, 18);
             this.label11.TabIndex = 28;
             this.label11.Text = "Tên bác sĩ:";
             // 
@@ -413,11 +412,11 @@
             this.grbSchedule.Controls.Add(this.dtpAppointmentDate);
             this.grbSchedule.Controls.Add(this.label2);
             this.grbSchedule.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grbSchedule.Location = new System.Drawing.Point(290, 95);
-            this.grbSchedule.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grbSchedule.Location = new System.Drawing.Point(387, 117);
+            this.grbSchedule.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grbSchedule.Name = "grbSchedule";
-            this.grbSchedule.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.grbSchedule.Size = new System.Drawing.Size(275, 91);
+            this.grbSchedule.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grbSchedule.Size = new System.Drawing.Size(367, 112);
             this.grbSchedule.TabIndex = 40;
             this.grbSchedule.TabStop = false;
             this.grbSchedule.Text = "Thông tin lịch hẹn";
@@ -428,10 +427,10 @@
             this.cbAppointmentTime.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbAppointmentTime.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.cbAppointmentTime.FormattingEnabled = true;
-            this.cbAppointmentTime.Location = new System.Drawing.Point(98, 51);
-            this.cbAppointmentTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbAppointmentTime.Location = new System.Drawing.Point(131, 63);
+            this.cbAppointmentTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbAppointmentTime.Name = "cbAppointmentTime";
-            this.cbAppointmentTime.Size = new System.Drawing.Size(137, 27);
+            this.cbAppointmentTime.Size = new System.Drawing.Size(181, 32);
             this.cbAppointmentTime.TabIndex = 39;
             this.cbAppointmentTime.ValueMember = "PatientId";
             // 
@@ -439,10 +438,9 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(16, 63);
-            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Location = new System.Drawing.Point(21, 78);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 15);
+            this.label7.Size = new System.Drawing.Size(64, 18);
             this.label7.TabIndex = 40;
             this.label7.Text = "Giờ hẹn:";
             // 
@@ -452,20 +450,19 @@
             this.dtpAppointmentDate.CalendarTitleForeColor = System.Drawing.SystemColors.WindowFrame;
             this.dtpAppointmentDate.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpAppointmentDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpAppointmentDate.Location = new System.Drawing.Point(100, 19);
-            this.dtpAppointmentDate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpAppointmentDate.Location = new System.Drawing.Point(133, 23);
+            this.dtpAppointmentDate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dtpAppointmentDate.Name = "dtpAppointmentDate";
-            this.dtpAppointmentDate.Size = new System.Drawing.Size(137, 27);
+            this.dtpAppointmentDate.Size = new System.Drawing.Size(181, 32);
             this.dtpAppointmentDate.TabIndex = 39;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(16, 30);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(21, 37);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(62, 15);
+            this.label2.Size = new System.Drawing.Size(74, 18);
             this.label2.TabIndex = 28;
             this.label2.Text = "Ngày hẹn:";
             // 
@@ -478,11 +475,11 @@
             this.groupBox1.Controls.Add(this.cbSymptom);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(290, 194);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Location = new System.Drawing.Point(387, 239);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Size = new System.Drawing.Size(551, 162);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(735, 199);
             this.groupBox1.TabIndex = 40;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin triệu chứng";
@@ -496,10 +493,10 @@
             this.lsvSymptom.FullRowSelect = true;
             this.lsvSymptom.GridLines = true;
             this.lsvSymptom.HideSelection = false;
-            this.lsvSymptom.Location = new System.Drawing.Point(190, 9);
-            this.lsvSymptom.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lsvSymptom.Location = new System.Drawing.Point(253, 11);
+            this.lsvSymptom.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lsvSymptom.Name = "lsvSymptom";
-            this.lsvSymptom.Size = new System.Drawing.Size(357, 145);
+            this.lsvSymptom.Size = new System.Drawing.Size(475, 178);
             this.lsvSymptom.TabIndex = 42;
             this.lsvSymptom.UseCompatibleStateImageBehavior = false;
             this.lsvSymptom.View = System.Windows.Forms.View.Details;
@@ -520,10 +517,10 @@
             this.btnAddSymptom.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnAddSymptom.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddSymptom.ForeColor = System.Drawing.Color.White;
-            this.btnAddSymptom.Location = new System.Drawing.Point(4, 122);
-            this.btnAddSymptom.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAddSymptom.Location = new System.Drawing.Point(5, 150);
+            this.btnAddSymptom.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAddSymptom.Name = "btnAddSymptom";
-            this.btnAddSymptom.Size = new System.Drawing.Size(178, 31);
+            this.btnAddSymptom.Size = new System.Drawing.Size(237, 38);
             this.btnAddSymptom.TabIndex = 42;
             this.btnAddSymptom.Text = "THÊM TRIỆU CHỨNG";
             this.btnAddSymptom.UseVisualStyleBackColor = false;
@@ -533,10 +530,9 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(2, 63);
-            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label9.Location = new System.Drawing.Point(3, 78);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(104, 15);
+            this.label9.Size = new System.Drawing.Size(125, 18);
             this.label9.TabIndex = 35;
             this.label9.Text = "Triệu chứng khác:";
             // 
@@ -544,11 +540,11 @@
             // 
             this.txtOtherSymptom.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtOtherSymptom.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.txtOtherSymptom.Location = new System.Drawing.Point(4, 80);
-            this.txtOtherSymptom.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtOtherSymptom.Location = new System.Drawing.Point(5, 98);
+            this.txtOtherSymptom.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtOtherSymptom.Multiline = true;
             this.txtOtherSymptom.Name = "txtOtherSymptom";
-            this.txtOtherSymptom.Size = new System.Drawing.Size(180, 36);
+            this.txtOtherSymptom.Size = new System.Drawing.Size(239, 43);
             this.txtOtherSymptom.TabIndex = 34;
             // 
             // cbSymptom
@@ -566,10 +562,10 @@
             "Ho",
             "Nhiễm virus",
             "Khác"});
-            this.cbSymptom.Location = new System.Drawing.Point(80, 25);
-            this.cbSymptom.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbSymptom.Location = new System.Drawing.Point(107, 31);
+            this.cbSymptom.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbSymptom.Name = "cbSymptom";
-            this.cbSymptom.Size = new System.Drawing.Size(104, 27);
+            this.cbSymptom.Size = new System.Drawing.Size(137, 32);
             this.cbSymptom.TabIndex = 33;
             this.cbSymptom.ValueMember = "PatientId";
             this.cbSymptom.SelectedValueChanged += new System.EventHandler(this.cbSymptom_SelectedValueChanged);
@@ -578,10 +574,9 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(2, 30);
-            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label8.Location = new System.Drawing.Point(3, 37);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(75, 15);
+            this.label8.Size = new System.Drawing.Size(89, 18);
             this.label8.TabIndex = 28;
             this.label8.Text = "Triệu chứng:";
             // 
@@ -590,10 +585,10 @@
             this.btnBook.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnBook.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBook.ForeColor = System.Drawing.Color.White;
-            this.btnBook.Location = new System.Drawing.Point(9, 485);
-            this.btnBook.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnBook.Location = new System.Drawing.Point(12, 597);
+            this.btnBook.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnBook.Name = "btnBook";
-            this.btnBook.Size = new System.Drawing.Size(98, 39);
+            this.btnBook.Size = new System.Drawing.Size(131, 48);
             this.btnBook.TabIndex = 41;
             this.btnBook.Text = "ĐẶT LỊCH";
             this.btnBook.UseVisualStyleBackColor = false;
@@ -604,10 +599,10 @@
             this.btnEdit.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnEdit.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEdit.ForeColor = System.Drawing.Color.White;
-            this.btnEdit.Location = new System.Drawing.Point(112, 485);
-            this.btnEdit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnEdit.Location = new System.Drawing.Point(149, 597);
+            this.btnEdit.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(98, 39);
+            this.btnEdit.Size = new System.Drawing.Size(131, 48);
             this.btnEdit.TabIndex = 44;
             this.btnEdit.Text = "SỬA";
             this.btnEdit.UseVisualStyleBackColor = false;
@@ -618,10 +613,10 @@
             this.btnDelete.BackColor = System.Drawing.Color.Crimson;
             this.btnDelete.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(214, 485);
-            this.btnDelete.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDelete.Location = new System.Drawing.Point(285, 597);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(98, 39);
+            this.btnDelete.Size = new System.Drawing.Size(131, 48);
             this.btnDelete.TabIndex = 45;
             this.btnDelete.Text = "XÓA";
             this.btnDelete.UseVisualStyleBackColor = false;
@@ -632,20 +627,78 @@
             this.btnAppointmentList.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnAppointmentList.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAppointmentList.ForeColor = System.Drawing.Color.White;
-            this.btnAppointmentList.Location = new System.Drawing.Point(317, 485);
-            this.btnAppointmentList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAppointmentList.Location = new System.Drawing.Point(423, 597);
+            this.btnAppointmentList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAppointmentList.Name = "btnAppointmentList";
-            this.btnAppointmentList.Size = new System.Drawing.Size(190, 39);
+            this.btnAppointmentList.Size = new System.Drawing.Size(253, 48);
             this.btnAppointmentList.TabIndex = 46;
             this.btnAppointmentList.Text = "XEM DANH SÁCH ĐÃ ĐẶT LỊCH";
             this.btnAppointmentList.UseVisualStyleBackColor = false;
             this.btnAppointmentList.Click += new System.EventHandler(this.btnAppointmentList_Click_1);
             // 
+            // lblPCodeNum
+            // 
+            this.lblPCodeNum.AutoSize = true;
+            this.lblPCodeNum.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPCodeNum.ForeColor = System.Drawing.Color.Red;
+            this.lblPCodeNum.Location = new System.Drawing.Point(787, 571);
+            this.lblPCodeNum.Name = "lblPCodeNum";
+            this.lblPCodeNum.Size = new System.Drawing.Size(112, 28);
+            this.lblPCodeNum.TabIndex = 48;
+            this.lblPCodeNum.Text = "0000000000";
+            // 
+            // lblPCode
+            // 
+            this.lblPCode.AutoSize = true;
+            this.lblPCode.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPCode.ForeColor = System.Drawing.Color.Red;
+            this.lblPCode.Location = new System.Drawing.Point(710, 571);
+            this.lblPCode.Name = "lblPCode";
+            this.lblPCode.Size = new System.Drawing.Size(63, 28);
+            this.lblPCode.TabIndex = 47;
+            this.lblPCode.Text = "Mã BN:";
+            // 
+            // btnGetPrescription
+            // 
+            this.btnGetPrescription.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnGetPrescription.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGetPrescription.ForeColor = System.Drawing.Color.White;
+            this.btnGetPrescription.Location = new System.Drawing.Point(710, 602);
+            this.btnGetPrescription.Name = "btnGetPrescription";
+            this.btnGetPrescription.Size = new System.Drawing.Size(184, 43);
+            this.btnGetPrescription.TabIndex = 49;
+            this.btnGetPrescription.Text = "Lấy đơn thuốc";
+            this.btnGetPrescription.UseVisualStyleBackColor = false;
+            this.btnGetPrescription.Click += new System.EventHandler(this.btnGetPrescription_Click);
+            // 
+            // txtAddress
+            // 
+            this.txtAddress.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAddress.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.txtAddress.Location = new System.Drawing.Point(156, 262);
+            this.txtAddress.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtAddress.Name = "txtAddress";
+            this.txtAddress.Size = new System.Drawing.Size(181, 32);
+            this.txtAddress.TabIndex = 40;
+            // 
+            // lblAddress
+            // 
+            this.lblAddress.AutoSize = true;
+            this.lblAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAddress.Location = new System.Drawing.Point(22, 277);
+            this.lblAddress.Name = "lblAddress";
+            this.lblAddress.Size = new System.Drawing.Size(57, 18);
+            this.lblAddress.TabIndex = 39;
+            this.lblAddress.Text = "Địa chỉ:";
+            // 
             // AppointmentForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(880, 526);
+            this.ClientSize = new System.Drawing.Size(1173, 647);
+            this.Controls.Add(this.btnGetPrescription);
+            this.Controls.Add(this.lblPCodeNum);
+            this.Controls.Add(this.lblPCode);
             this.Controls.Add(this.btnAppointmentList);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEdit);
@@ -658,7 +711,7 @@
             this.Controls.Add(this.pictureBoxLogout);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "AppointmentForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "s";
@@ -675,6 +728,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -727,5 +781,10 @@
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnAppointmentList;
+        private System.Windows.Forms.Label lblPCodeNum;
+        private System.Windows.Forms.Label lblPCode;
+        private System.Windows.Forms.Button btnGetPrescription;
+        private System.Windows.Forms.TextBox txtAddress;
+        private System.Windows.Forms.Label lblAddress;
     }
 }

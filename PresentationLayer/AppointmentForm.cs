@@ -1,16 +1,9 @@
-﻿using BusinessLayer;
-using DataLayer;
+﻿using DataLayer;
 using Microsoft.Data.SqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using DataLayer;
 namespace PresentationLayer
 {
     public partial class AppointmentForm : Form
@@ -19,6 +12,7 @@ namespace PresentationLayer
         {
             InitializeComponent();
             LoadDoctors();
+            lblPCodeNum.Text = DateTime.Now.ToString("ddMMhhmmss");
         }
 
         // Dùng để chuyển đến form MenuForm (Back Button)
@@ -148,23 +142,44 @@ namespace PresentationLayer
             {
                 conn.Open();
 
-                string query = @"INSERT INTO Appointment
-                    (PatientName, Contact, BloodGroup, Gender, DateOfBirth, DoctorName, AppointmentDate, AppointmentTime, Symptoms)
-                    VALUES
-                    (@PatientName, @Contact, @BloodGroup, @Gender, @DateOfBirth, @DoctorName, @AppointmentDate, @AppointmentTime, @Symptoms)";
+                //Thêm bệnh nhân và lấy ID
+                string insertPatientQuery = @"
+                INSERT INTO Patient (Name, Contact, DateOfBirth, Gender, BloodGroup, DoctorId, Address, PCode)
+                VALUES (@Name, @Contact, @DateOfBirth, @Gender, @BloodGroup, @DoctorId, @Address, @PCode);
+                SELECT SCOPE_IDENTITY();";
 
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                int patientId;
+
+                using (SqlCommand cmd = new SqlCommand(insertPatientQuery, conn))
                 {
-                    cmd.Parameters.AddWithValue("@PatientName", txtPatientName.Text.Trim());
-                    cmd.Parameters.AddWithValue("@DateOfBirth", dtpAge.Value.Date);
-                    cmd.Parameters.AddWithValue("@BloodGroup", cbBloodGroup.Text);
-                    cmd.Parameters.AddWithValue("@Gender", cbGender.Text);
+                    cmd.Parameters.AddWithValue("@Name", txtPatientName.Text.Trim());
                     cmd.Parameters.AddWithValue("@Contact", txtContact.Text.Trim());
+                    cmd.Parameters.AddWithValue("@DateOfBirth", dtpAge.Value.Date);
+                    cmd.Parameters.AddWithValue("@Gender", cbGender.Text);
+                    cmd.Parameters.AddWithValue("@BloodGroup", cbBloodGroup.Text);
+                    cmd.Parameters.AddWithValue("@Address", txtAddress.Text);
+                    cmd.Parameters.AddWithValue("@DoctorId", cbSelectDoctor.SelectedValue);
+                    cmd.Parameters.AddWithValue("@PCode", lblPCodeNum.Text.Trim());
+
+                    patientId = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+
+                //Thêm lịch hẹn
+                string insertAppointmentQuery = @"
+                INSERT INTO Appointment
+                (PatientId, DoctorName, AppointmentDate, AppointmentTime, Symptoms, Status, IsArrived)
+                VALUES
+                (@PatientId, @DoctorName, @AppointmentDate, @AppointmentTime, @Symptoms, @Status, @IsArrived);";
+
+                using (SqlCommand cmd = new SqlCommand(insertAppointmentQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@PatientId", patientId);
                     cmd.Parameters.AddWithValue("@DoctorName", cbSelectDoctor.Text);
-                    cmd.Parameters.AddWithValue("@AppointmentDate", dtpAppointmentDate.Value);
-                    string appointmentTime = cbAppointmentTime.SelectedItem.ToString() + ":00";
-                    cmd.Parameters.AddWithValue("@AppointmentTime", TimeSpan.Parse(appointmentTime));
+                    cmd.Parameters.AddWithValue("@AppointmentDate", dtpAppointmentDate.Value.Date);
+                    cmd.Parameters.AddWithValue("@AppointmentTime", TimeSpan.Parse(cbAppointmentTime.SelectedItem.ToString() + ":00"));
                     cmd.Parameters.AddWithValue("@Symptoms", symptoms);
+                    cmd.Parameters.AddWithValue("@Status", "Chưa khám");
+                    cmd.Parameters.AddWithValue("@IsArrived", false);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -172,7 +187,9 @@ namespace PresentationLayer
                 conn.Close();
                 MessageBox.Show("Đặt lịch hẹn thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+
             Reset();
+
         }
 
         // Dùng để xóa triệu chứng trong danh sách triệu chứng
@@ -284,7 +301,7 @@ namespace PresentationLayer
             }
 
             MessageBox.Show("Cập nhật thành công!");
-            
+
             // Cập nhật lại danh sách lịch hẹn
 
             editingAppointmentID = null;
@@ -363,6 +380,13 @@ namespace PresentationLayer
 
             cbAppointmentTime.Text = item.SubItems[8].Text.Substring(0, 5); // Cắt bớt :00 nếu cần
             cbSymptom.Text = item.SubItems[9].Text;
+        }
+
+        private void btnGetPrescription_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            DoctorPrescriptionForm form = new DoctorPrescriptionForm();
+            form.Show();
         }
     }
 }

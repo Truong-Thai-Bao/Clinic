@@ -24,13 +24,14 @@ namespace PresentationLayer
             loginBL = new LoginBL();
         }
 
-        public bool UserLogin(Account account)
+
+        private bool UserLogin(Account account)
         {
             try
             {
                 return loginBL.Login(account);
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message);
                 return false;
@@ -38,19 +39,55 @@ namespace PresentationLayer
         }
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if(txtUserName.Text.Trim() ==""|| txtPassword.Text.Trim() == "")
+            string username = txtUserName.Text.Trim();
+            string pass = txtPassword.Text.Trim();
+            if (username ==""|| pass == "")
             {
-                MessageBox.Show("Vui lòng nhập Username & Password!");
+                MessageBox.Show("Vui lòng nhập đầy đủ Username & Password!");
                 txtUserName.Focus();
             }
             else
             {
-                Account account = new Account(txtUserName.Text.Trim(),txtPassword.Text.Trim());
-                if (UserLogin(account))
+                //Account account = new Account(username, pass);
+                //if (UserLogin(account))
+                //{
+                //    this.DialogResult = DialogResult.OK;
+                //    this.Hide();
+                //    MenuForm menuForm = new MenuForm();
+                //    menuForm.ShowDialog();
+                //}
+                //else
+                //{
+                //    DialogResult result = MessageBox.Show("Tên người dùng hoặc mật khẩu không đúng", "Danger",
+                //        MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                //    if (result == DialogResult.Retry)
+                //    {
+                //        txtPassword.Clear();
+                //        txtUserName.Focus();
+                //        txtPassword.Clear();
+                //    }
+                //    else
+                //    {
+                //        Application.Exit();
+                //    }
+                //}
+
+                sqlCon = CmnMethods.OpenConnectionString(sqlCon);
+                string query = string.Format(@"Select * From View_UserInfo Where Username = '{0}' 
+                                                                    and UserPassword ='{1}'", txtUserName.Text.Trim(), txtPassword.Text.Trim());
+                SqlDataAdapter sda = new SqlDataAdapter(query, sqlCon);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                if (dt.Rows.Count > 0)
                 {
+                    CmnMethods.GetUserInfo(dt);
                     this.DialogResult = DialogResult.OK;
+                    this.Hide();
+                    MenuForm menuForm = new MenuForm();
+                    menuForm.ShowDialog();
                 }
-                else { 
+                else
+                {
                     string message = "Tên tài khoản hoặc mật khẩu không đúng!";
                     DialogResult result = MessageBox.Show(message, "Thông báo", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                     if (result == DialogResult.Retry)

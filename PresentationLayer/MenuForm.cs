@@ -50,16 +50,17 @@ namespace PresentationLayer
 
         private void pictureBoxDiagnosis_Click(object sender, EventArgs e)
         {
+
             if (Global.UserInfo.UserType != 2)
             {
                 MessageBox.Show("Chỉ có Bác sĩ mới có quyền truy cập chức năng này!");
             }
             else
             {
+
                 this.Hide();
                 DiagnosisForm diagnosisForm = new DiagnosisForm();
                 diagnosisForm.Show();
-
             }
         }
 

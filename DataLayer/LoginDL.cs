@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 using DataTransferLayer;
 namespace DataLayer
 {
-    public class LoginDL : DataProvider
+    public class LoginDL : DBCommon
     {
         public bool Login(Account account)
         {
             string sql = $"Select Count(UserName) from UserInfo where UserName= '{account.username}'  and UserPassword = '{account.password}'";
             try
             {
-                return (int)MyExcuteScalar(sql, CommandType.Text) > 0;
+                return (int)MyExecutaScalar(sql, CommandType.Text) > 0;
             }
             catch (Exception ex)
             {

@@ -133,7 +133,7 @@ namespace PresentationLayer
 
             // Lấy tên thuốc từ ComboBox
             string medName = cbMedicine.Text.Trim();
-
+            int medId = Convert.ToInt32(cbMedicine.SelectedValue);
             int notEnter = 0;
 
             // Xác định số lượng cho từng thời điểm:
@@ -159,12 +159,14 @@ namespace PresentationLayer
             }
 
             // Cập nhật thông tin vào các ô của hàng đó
-            medicineDataGridView.Rows[rowIndex].Cells["Serial"].Value = ++count;
+            medicineDataGridView.Rows[rowIndex].Cells["Serial"].Value = medicineDataGridView.Rows.Count - 1;
             medicineDataGridView.Rows[rowIndex].Cells["MedicineName"].Value = medName;
             medicineDataGridView.Rows[rowIndex].Cells["MorningDose"].Value = qMorning;
             medicineDataGridView.Rows[rowIndex].Cells["NoonDose"].Value = qNoon;
             medicineDataGridView.Rows[rowIndex].Cells["AfternoonDose"].Value = qAfternoon;
             medicineDataGridView.Rows[rowIndex].Cells["day"].Value = day;
+            medicineDataGridView.Rows[rowIndex].Cells["MedicineId"].Value = medId;
+            medicineDataGridView.Rows[rowIndex].Cells["Type"].Value = lbType.Text.Trim();
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -179,9 +181,9 @@ namespace PresentationLayer
                 MessageBox.Show("Vui lòng nhập tên thuốc!");
                 return;
             }
-            if (string.IsNullOrEmpty(txtDianosis.Text.Trim()))
+            if (lsvDiagnosis.Items.Count==0)
             {
-                MessageBox.Show("Vui lòng nhập chẩn đoán!");
+                MessageBox.Show("Vui lòng thêm chẩn đoán!");
                 return;
             }
             if (string.IsNullOrEmpty(txtMorning.Text.Trim()) &&
@@ -206,7 +208,15 @@ namespace PresentationLayer
                     cmd.Parameters.AddWithValue("@DoctorId", Global.UserInfo.DoctorId);
                     cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
                     cmd.Parameters.AddWithValue("@AddedBy", Global.UserInfo.UserId);
-                    cmd.Parameters.AddWithValue("@Dianosis", txtDianosis.Text.Trim());
+
+                    // Tạo chuỗi chẩn đoán từ ListView triệu chứng
+                    string diagnosises = "";
+                    foreach (ListViewItem item in lsvDiagnosis.Items)
+                    {
+                        diagnosises += item.SubItems[1].Text + ", ";
+                    }
+                    diagnosises = diagnosises.TrimEnd(',', ' ');
+                    cmd.Parameters.AddWithValue("@Dianosis", diagnosises);
 
                     int diagnosisId = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -218,27 +228,25 @@ namespace PresentationLayer
                             if (medicineDataGridView.Rows[i].IsNewRow)
                                 continue;
 
-                            string medName = medicineDataGridView.Rows[i].Cells["MedicineName"].Value?.ToString();
-                            if (string.IsNullOrEmpty(medName))
-                                continue;
+                            int medId = Convert.ToInt32(medicineDataGridView.Rows[i].Cells["MedicineId"].Value);
 
                             int morning = Convert.ToInt32(medicineDataGridView.Rows[i].Cells["MorningDose"].Value ?? 0);
                             int noon = Convert.ToInt32(medicineDataGridView.Rows[i].Cells["NoonDose"].Value ?? 0);
-                            int evening = Convert.ToInt32(medicineDataGridView.Rows[i].Cells["EveningDose"].Value ?? 0);
-                            int night = Convert.ToInt32(medicineDataGridView.Rows[i].Cells["NightDose"].Value ?? 0);
+                            int afternoon = Convert.ToInt32(medicineDataGridView.Rows[i].Cells["AfternoonDose"].Value ?? 0);
+                            int day = Convert.ToInt32(medicineDataGridView.Rows[i].Cells["day"].Value ?? 0);
 
                             // Chú ý: Sửa INSERT vào bảng Prescription
-                            query = @"INSERT INTO Prescription 
-                              (MedicineName, DiagnosisId, MorningDose, NoonDose, EveningDose, NightDose, PatientId, AddedDate, AddedBy)
+                            query = @"INSERT INTO Prescriptions 
+                              (MedicineId, DiagnosisId, MorningDose, NoonDose, AfternoonDose, day, PatientId, AddedDate, AddedBy)
                               VALUES 
-                              (@MedicineName, @DiagnosisId, @MorningDose, @NoonDose, @EveningDose, @NightDose, @PatientId, @AddedDate, @AddedBy);";
+                              (@MedicineId, @DiagnosisId, @MorningDose, @NoonDose, @AfternoonDose, @day, @PatientId, @AddedDate, @AddedBy);";
                             cmd = new SqlCommand(query, conn, transaction);
-                            cmd.Parameters.AddWithValue("@MedicineName", medName);
+                            cmd.Parameters.AddWithValue("@MedicineId", medId);
                             cmd.Parameters.AddWithValue("@DiagnosisId", diagnosisId);
                             cmd.Parameters.AddWithValue("@MorningDose", morning);
                             cmd.Parameters.AddWithValue("@NoonDose", noon);
-                            cmd.Parameters.AddWithValue("@EveningDose", evening);
-                            cmd.Parameters.AddWithValue("@NightDose", night);
+                            cmd.Parameters.AddWithValue("@AfternoonDose", noon);
+                            cmd.Parameters.AddWithValue("@Day", day);
                             cmd.Parameters.AddWithValue("@PatientId", cbPatients.SelectedValue);
                             cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
                             cmd.Parameters.AddWithValue("@AddedBy", Global.UserInfo.UserId);
@@ -336,10 +344,6 @@ namespace PresentationLayer
         private void txtNoon_TextChanged(object sender, EventArgs e) => CalculateTotalPills();
         private void txtAfternoon_TextChanged(object sender, EventArgs e) => CalculateTotalPills();
 
-        private void lbNum_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void cbMedicine_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -353,9 +357,37 @@ namespace PresentationLayer
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnAddDiagnosis_Click(object sender, EventArgs e)
         {
-
+            if(txtDiagnosis.Text.Trim() == "")
+            {
+                MessageBox.Show("Vui lòng nhập chẩn đoán!");
+                txtDiagnosis.Focus();
+                return;
+            }
+            // Thêm chẩn đoán vào ListView
+            bool exists = false;
+            foreach (ListViewItem item in lsvDiagnosis.Items)
+            {
+                if (item.SubItems[1].Text.Equals(txtDiagnosis.Text, StringComparison.OrdinalIgnoreCase))
+                {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists)
+            {
+                int stt = lsvDiagnosis.Items.Count + 1;
+                ListViewItem listItem = new ListViewItem(stt.ToString());
+                listItem.SubItems.Add(txtDiagnosis.Text.Trim());
+                lsvDiagnosis.Items.Add(listItem);
+                txtDiagnosis.Clear();
+            }
+            else
+            {
+                MessageBox.Show("Chẩn đoán đã tồn tại trong danh sách!");
+                txtDiagnosis.Focus();
+            }
         }
     }
 }
