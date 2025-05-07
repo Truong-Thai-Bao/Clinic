@@ -41,12 +41,15 @@
             this.labelClinicManagement = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblViewRevenue = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDoctors)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMedicines)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDiagnosis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -184,11 +187,35 @@
             this.label6.TabIndex = 33;
             this.label6.Text = "ĐẶT LỊCH HẸN";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.pictureBox1.Location = new System.Drawing.Point(300, 438);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(200, 173);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 36;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // lblViewRevenue
+            // 
+            this.lblViewRevenue.AutoSize = true;
+            this.lblViewRevenue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblViewRevenue.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.lblViewRevenue.Location = new System.Drawing.Point(304, 410);
+            this.lblViewRevenue.Name = "lblViewRevenue";
+            this.lblViewRevenue.Size = new System.Drawing.Size(192, 25);
+            this.lblViewRevenue.TabIndex = 35;
+            this.lblViewRevenue.Text = "XEM DOANH THU";
+            // 
             // MenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 642);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.lblViewRevenue);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.panel1);
@@ -212,6 +239,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -230,5 +258,7 @@
         private System.Windows.Forms.Label labelClinicManagement;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label lblViewRevenue;
     }
 }
