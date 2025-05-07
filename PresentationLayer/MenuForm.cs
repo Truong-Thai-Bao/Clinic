@@ -89,5 +89,12 @@ namespace PresentationLayer
             AppointmentForm appointmentForm = new AppointmentForm();
             appointmentForm.Show();
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            RevenueStatistics revenueStatistics = new RevenueStatistics();
+            revenueStatistics.Show();
+        }
     }
 }

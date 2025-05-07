@@ -236,7 +236,7 @@ namespace PresentationLayer
                             int day = Convert.ToInt32(medicineDataGridView.Rows[i].Cells["day"].Value ?? 0);
 
                             // Chú ý: Sửa INSERT vào bảng Prescription
-                            query = @"INSERT INTO Prescriptions 
+                            query = @"INSERT INTO Prescription
                               (MedicineId, DiagnosisId, MorningDose, NoonDose, AfternoonDose, day, PatientId, AddedDate, AddedBy)
                               VALUES 
                               (@MedicineId, @DiagnosisId, @MorningDose, @NoonDose, @AfternoonDose, @day, @PatientId, @AddedDate, @AddedBy);";
