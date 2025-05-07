@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 using DataTransferLayer;
 namespace DataLayer
 {
-    public class LoginDL
+    public class LoginDL : DBCommon
     {
-   //     public bool LoginDL(Account account) {
-   //         string sql = $"Select Count(UserName) from UserInfo where UserName= '{account.username}'  and UserPassword = '{account.password}'";
-   //         try
-			//{
-   //             return (int)MyExecutaScalar(sql, CommandType.Text) > 0;
-   //         }
-			//catch (Exception)
-			//{
-
-			//	throw;
-			//}
-   //     }
+        public bool Login(Account account)
+        {
+            string sql = $"Select Count(UserName) from UserInfo where UserName= '{account.username}'  and UserPassword = '{account.password}'";
+            try
+            {
+                return (int)MyExecutaScalar(sql, CommandType.Text) > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

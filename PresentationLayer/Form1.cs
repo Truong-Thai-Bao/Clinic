@@ -10,45 +10,95 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BusinessLayer;
 using DataLayer;
+using DataTransferLayer;
 namespace PresentationLayer
  
 {
     public partial class Form1 : Form
     {
-
+        private LoginBL loginBL;
         SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
         public Form1()
         {
             InitializeComponent();
+            loginBL = new LoginBL();
         }
 
+
+        private bool UserLogin(Account account)
+        {
+            try
+            {
+                return loginBL.Login(account);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if(txtUserName.Text.Trim() ==""|| txtPassword.Text.Trim() == "")
+            string username = txtUserName.Text.Trim();
+            string pass = txtPassword.Text.Trim();
+            if (username ==""|| pass == "")
             {
-                MessageBox.Show("Vui lòng nhập Username & Password!");
+                MessageBox.Show("Vui lòng nhập đầy đủ Username & Password!");
                 txtUserName.Focus();
             }
             else
             {
-                sqlCon = BusinessLayer.CmnMethods.OpenConnectionString(sqlCon);
+                //Account account = new Account(username, pass);
+                //if (UserLogin(account))
+                //{
+                //    this.DialogResult = DialogResult.OK;
+                //    this.Hide();
+                //    MenuForm menuForm = new MenuForm();
+                //    menuForm.ShowDialog();
+                //}
+                //else
+                //{
+                //    DialogResult result = MessageBox.Show("Tên người dùng hoặc mật khẩu không đúng", "Danger",
+                //        MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                //    if (result == DialogResult.Retry)
+                //    {
+                //        txtPassword.Clear();
+                //        txtUserName.Focus();
+                //        txtPassword.Clear();
+                //    }
+                //    else
+                //    {
+                //        Application.Exit();
+                //    }
+                //}
+
+                sqlCon = CmnMethods.OpenConnectionString(sqlCon);
                 string query = string.Format(@"Select * From View_UserInfo Where Username = '{0}' 
-                                                                    and UserPassword ='{1}'", txtUserName.Text.Trim(),txtPassword.Text.Trim());
+                                                                    and UserPassword ='{1}'", txtUserName.Text.Trim(), txtPassword.Text.Trim());
                 SqlDataAdapter sda = new SqlDataAdapter(query, sqlCon);
                 DataTable dt = new DataTable();
                 sda.Fill(dt);
-                if(dt.Rows.Count > 0)
+                if (dt.Rows.Count > 0)
                 {
-                    this.Hide();
-                    MenuForm form = new MenuForm();
-                    form.Show();
-
                     CmnMethods.GetUserInfo(dt);
+                    this.DialogResult = DialogResult.OK;
+                    this.Hide();
+                    MenuForm menuForm = new MenuForm();
+                    menuForm.ShowDialog();
                 }
                 else
                 {
-                    MessageBox.Show("Username hoặc Password không đúng!");
-                    txtUserName.Focus();
+                    string message = "Tên tài khoản hoặc mật khẩu không đúng!";
+                    DialogResult result = MessageBox.Show(message, "Thông báo", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    if (result == DialogResult.Retry)
+                    {
+                        txtUserName.Focus();
+                        txtPassword.Clear();
+                    }
+                    else
+                    {
+                        Application.Exit();
+                    }
                 }
             }
         }

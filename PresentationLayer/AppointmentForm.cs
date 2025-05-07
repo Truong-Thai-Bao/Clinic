@@ -3,7 +3,7 @@ using Microsoft.Data.SqlClient;
 using System;
 using System.Data;
 using System.Windows.Forms;
-
+using DataLayer;
 namespace PresentationLayer
 {
     public partial class AppointmentForm : Form
