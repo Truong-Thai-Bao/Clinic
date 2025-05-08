@@ -16,16 +16,18 @@ namespace PresentationLayer
 {
     public partial class PatientArrivalForm : Form
     {
-        public PatientArrivalForm()
+        private DataTransferLayer.UserInfo currentUser;
+        public PatientArrivalForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
+            this.currentUser = currentUser;
         }
 
         // Dùng để logout quat về menu 
         private void pictureBoxLogout_Click(object sender, EventArgs e)
         {
             this.Hide();
-            MenuForm menuForm = new MenuForm();
+            MenuForm menuForm = new MenuForm(currentUser);
             menuForm.Show();
         }
 
@@ -104,7 +106,7 @@ namespace PresentationLayer
         private void btnNewAdmission_Click(object sender, EventArgs e)
         {
             this.Hide();
-            PatientForm patientForm = new PatientForm();
+            PatientForm patientForm = new PatientForm(currentUser);
             patientForm.Show();
         }
 

@@ -16,6 +16,7 @@ namespace PresentationLayer
 {
     public partial class DoctorForm : Form
     {
+        private DataTransferLayer.UserInfo currentUser;
         SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
         public DoctorForm()
         {
@@ -62,7 +63,7 @@ namespace PresentationLayer
         private void pictureBoxLogout_Click(object sender, EventArgs e)
         {
             this.Hide();
-            MenuForm menuForm = new MenuForm();
+            MenuForm menuForm = new MenuForm(currentUser);
             menuForm.Show();
         }
 

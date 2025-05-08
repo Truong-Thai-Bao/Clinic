@@ -9,10 +9,10 @@ namespace DataLayer
 {
     public class DBCommon
     {
-        public static string connString = @"Data Source=OZLADE\SQLEXPRESS;Initial Catalog=CMSystem;
-                        Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-        //public static string connString = @"Data Source=THAI-BAO\SQLEXPRESS;Initial Catalog=CMSystem;
-        //                  Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+        //public static string connString = @"Data Source=OZLADE\SQLEXPRESS;Initial Catalog=CMSystem;
+        //                Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+        public static string connString = @"Data Source=THAI-BAO\SQLEXPRESS;Initial Catalog=CMSystem;
+                          Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
         //public static string connString = @"Data Source=.\SQLEXPRESS;Initial Catalog=CMSystem;
         //                Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
         public SqlConnection cn;
@@ -37,7 +37,7 @@ namespace DataLayer
             }
         }
 
-        public object MyExecutaScalar(string sql, CommandType type)
+        public object MyExecutaScalar(string sql, CommandType type,List<SqlParameter> parameters = null)
         {
             try
             {
@@ -45,6 +45,9 @@ namespace DataLayer
 
                 SqlCommand cmd = new SqlCommand(sql, cn);
                 cmd.CommandType = type;
+                if (parameters != null)
+                    foreach (var param in parameters)
+                        cmd.Parameters.Add(param);
 
                 return cmd.ExecuteScalar();
             }
@@ -59,13 +62,17 @@ namespace DataLayer
             }
         }
 
-        public SqlDataReader SqlDataReader(string sql, CommandType type)
+        public SqlDataReader MyExcuteSqlDataReader(string sql, CommandType type,List<SqlParameter> parameters)
         {
             try
             {
                 Connect();
                 SqlCommand cmd = new SqlCommand(sql, cn);
                 cmd.CommandType = type;
+                foreach(var param in parameters)
+                {
+                    cmd.Parameters.Add(param);
+                }
                 return cmd.ExecuteReader();
             }
             catch (SqlException ex)

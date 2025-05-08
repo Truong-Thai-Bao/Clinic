@@ -8,20 +8,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using BusinessLayer;
+using DataTransferLayer;
 namespace PresentationLayer
 {
     public partial class MenuForm : Form
     {
-        public MenuForm()
+        private DataTransferLayer.UserInfo currentUser;
+        public MenuForm(DataTransferLayer.UserInfo userInfo)
         {
             InitializeComponent();
+            currentUser = userInfo;
         }
-
 
         private void pictureBoxDoctors_Click(object sender, EventArgs e)
         {
-            if (Global.UserInfo.UserType != 1)
+            if (currentUser.UserType != 1)
             {
                 MessageBox.Show("Chỉ có admin mới có quyền truy cập chức năng này!");
             }
@@ -36,14 +38,14 @@ namespace PresentationLayer
 
         private void pictureBoxPatients_Click(object sender, EventArgs e)
         {
-            if (Global.UserInfo.UserType != 1)
+            if (currentUser.UserType != 1)
             {
                 MessageBox.Show("Chỉ có admin mới có quyền truy cập chức năng này!");
             }
             else
             {
                 this.Hide();
-                PatientArrivalForm patientArrivalForm = new PatientArrivalForm();
+                PatientArrivalForm patientArrivalForm = new PatientArrivalForm(currentUser);
                 patientArrivalForm.Show();
             }
         }
@@ -51,7 +53,7 @@ namespace PresentationLayer
         private void pictureBoxDiagnosis_Click(object sender, EventArgs e)
         {
 
-            if (Global.UserInfo.UserType != 2)
+            if (currentUser.UserType  != 2)
             {
                 MessageBox.Show("Chỉ có Bác sĩ mới có quyền truy cập chức năng này!");
             }
@@ -59,7 +61,7 @@ namespace PresentationLayer
             {
 
                 this.Hide();
-                DiagnosisForm diagnosisForm = new DiagnosisForm();
+                DiagnosisForm diagnosisForm = new DiagnosisForm(currentUser);
                 diagnosisForm.Show();
             }
         }
@@ -86,7 +88,7 @@ namespace PresentationLayer
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             this.Hide();
-            AppointmentForm appointmentForm = new AppointmentForm();
+            AppointmentForm appointmentForm = new AppointmentForm(currentUser);
             appointmentForm.Show();
         }
 

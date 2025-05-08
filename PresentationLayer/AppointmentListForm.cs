@@ -15,9 +15,11 @@ namespace PresentationLayer
 {
     public partial class AppointmentListForm : Form
     {
-        public AppointmentListForm()
+        private DataTransferLayer.UserInfo currentUser;
+        public AppointmentListForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
+            this.currentUser = currentUser;
         }
 
         // Dùng để load danh sách bác sĩ vào combobox
@@ -181,7 +183,7 @@ namespace PresentationLayer
         private void pictureBoxLogout_Click(object sender, EventArgs e)
         {
             this.Hide();
-            AppointmentForm appointmentForm = new AppointmentForm();
+            AppointmentForm appointmentForm = new AppointmentForm(currentUser);
             appointmentForm.Show();
         }
 

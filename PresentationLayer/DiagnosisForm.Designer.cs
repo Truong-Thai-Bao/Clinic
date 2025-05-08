@@ -44,14 +44,6 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.medicineDataGridView = new System.Windows.Forms.DataGridView();
-            this.Serial = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MedicineName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MorningDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NoonDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AfternoonDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.day = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MedicineId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtPatientId = new System.Windows.Forms.TextBox();
             this.cbMedicine = new System.Windows.Forms.ComboBox();
             this.medicineBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -71,7 +63,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.medicineTableAdapter = new PresentationLayer.CMSystemDataSetTableAdapters.MedicineTableAdapter();
             this.patientTableAdapter = new PresentationLayer.CMSystemDataSet1TableAdapters.PatientTableAdapter();
             this.lblAge = new System.Windows.Forms.Label();
@@ -86,6 +77,15 @@
             this.label12 = new System.Windows.Forms.Label();
             this.txtContact = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.Serial = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MedicineName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MorningDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NoonDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AfternoonDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.day = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MedicineId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.patientBindingSource)).BeginInit();
@@ -118,7 +118,7 @@
             this.label1.ForeColor = System.Drawing.Color.AliceBlue;
             this.label1.Location = new System.Drawing.Point(453, 52);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(124, 24);
+            this.label1.Size = new System.Drawing.Size(155, 29);
             this.label1.TabIndex = 10;
             this.label1.Text = "CHẨN ĐOÁN";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -131,7 +131,7 @@
             this.labelClinicManagement.ForeColor = System.Drawing.Color.AliceBlue;
             this.labelClinicManagement.Location = new System.Drawing.Point(309, 20);
             this.labelClinicManagement.Name = "labelClinicManagement";
-            this.labelClinicManagement.Size = new System.Drawing.Size(368, 26);
+            this.labelClinicManagement.Size = new System.Drawing.Size(459, 32);
             this.labelClinicManagement.TabIndex = 9;
             this.labelClinicManagement.Text = "CLINIC MANAGEMENT SYSTEM";
             this.labelClinicManagement.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -157,7 +157,7 @@
             this.cbPatients.Location = new System.Drawing.Point(14, 116);
             this.cbPatients.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbPatients.Name = "cbPatients";
-            this.cbPatients.Size = new System.Drawing.Size(327, 35);
+            this.cbPatients.Size = new System.Drawing.Size(327, 41);
             this.cbPatients.TabIndex = 24;
             this.cbPatients.ValueMember = "PatientId";
             this.cbPatients.SelectedValueChanged += new System.EventHandler(this.cbPatients_SelectedValueChanged);
@@ -179,7 +179,7 @@
             this.txtPatientCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPatientCode.Name = "txtPatientCode";
             this.txtPatientCode.ReadOnly = true;
-            this.txtPatientCode.Size = new System.Drawing.Size(327, 33);
+            this.txtPatientCode.Size = new System.Drawing.Size(327, 40);
             this.txtPatientCode.TabIndex = 26;
             this.txtPatientCode.Text = "MÃ BỆNH NHÂN";
             this.txtPatientCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -202,7 +202,7 @@
             this.txtBlood.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtBlood.Name = "txtBlood";
             this.txtBlood.ReadOnly = true;
-            this.txtBlood.Size = new System.Drawing.Size(66, 33);
+            this.txtBlood.Size = new System.Drawing.Size(66, 40);
             this.txtBlood.TabIndex = 28;
             this.txtBlood.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -213,7 +213,7 @@
             this.txtGender.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtGender.Name = "txtGender";
             this.txtGender.ReadOnly = true;
-            this.txtGender.Size = new System.Drawing.Size(93, 33);
+            this.txtGender.Size = new System.Drawing.Size(93, 40);
             this.txtGender.TabIndex = 30;
             this.txtGender.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -222,7 +222,7 @@
             this.btnAdd.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnAdd.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(619, 642);
+            this.btnAdd.Location = new System.Drawing.Point(716, 642);
             this.btnAdd.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(114, 38);
@@ -236,7 +236,7 @@
             this.btnSave.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnSave.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(887, 642);
+            this.btnSave.Location = new System.Drawing.Point(872, 642);
             this.btnSave.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(114, 38);
@@ -247,6 +247,7 @@
             // 
             // medicineDataGridView
             // 
+            this.medicineDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.medicineDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.medicineDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Serial,
@@ -256,74 +257,18 @@
             this.AfternoonDose,
             this.day,
             this.MedicineId,
-            this.Type});
+            this.Type,
+            this.Delete});
             this.medicineDataGridView.Location = new System.Drawing.Point(368, 467);
             this.medicineDataGridView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.medicineDataGridView.Name = "medicineDataGridView";
+            this.medicineDataGridView.ReadOnly = true;
             this.medicineDataGridView.RowHeadersWidth = 51;
             this.medicineDataGridView.RowTemplate.Height = 24;
             this.medicineDataGridView.Size = new System.Drawing.Size(752, 133);
             this.medicineDataGridView.TabIndex = 34;
+            this.medicineDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.medicineDataGridView_CellContentClick);
             this.medicineDataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.medicineDataGridView_CellDoubleClick);
-            // 
-            // Serial
-            // 
-            this.Serial.HeaderText = "STT";
-            this.Serial.MinimumWidth = 6;
-            this.Serial.Name = "Serial";
-            this.Serial.Width = 30;
-            // 
-            // MedicineName
-            // 
-            this.MedicineName.HeaderText = "Tên thuốc";
-            this.MedicineName.MinimumWidth = 6;
-            this.MedicineName.Name = "MedicineName";
-            this.MedicineName.ReadOnly = true;
-            this.MedicineName.Width = 300;
-            // 
-            // MorningDose
-            // 
-            this.MorningDose.HeaderText = "Sáng";
-            this.MorningDose.MinimumWidth = 6;
-            this.MorningDose.Name = "MorningDose";
-            this.MorningDose.ReadOnly = true;
-            this.MorningDose.Width = 45;
-            // 
-            // NoonDose
-            // 
-            this.NoonDose.HeaderText = "Trưa";
-            this.NoonDose.MinimumWidth = 6;
-            this.NoonDose.Name = "NoonDose";
-            this.NoonDose.ReadOnly = true;
-            this.NoonDose.Width = 45;
-            // 
-            // AfternoonDose
-            // 
-            this.AfternoonDose.HeaderText = "Chiều";
-            this.AfternoonDose.MinimumWidth = 6;
-            this.AfternoonDose.Name = "AfternoonDose";
-            this.AfternoonDose.ReadOnly = true;
-            this.AfternoonDose.Width = 45;
-            // 
-            // day
-            // 
-            this.day.HeaderText = "Ngày";
-            this.day.MinimumWidth = 6;
-            this.day.Name = "day";
-            this.day.ReadOnly = true;
-            this.day.Width = 45;
-            // 
-            // MedicineId
-            // 
-            this.MedicineId.HeaderText = "Column1";
-            this.MedicineId.Name = "MedicineId";
-            this.MedicineId.Visible = false;
-            // 
-            // Type
-            // 
-            this.Type.HeaderText = "Loại";
-            this.Type.Name = "Type";
-            this.Type.Width = 45;
             // 
             // txtPatientId
             // 
@@ -333,7 +278,7 @@
             this.txtPatientId.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPatientId.Name = "txtPatientId";
             this.txtPatientId.ReadOnly = true;
-            this.txtPatientId.Size = new System.Drawing.Size(324, 33);
+            this.txtPatientId.Size = new System.Drawing.Size(324, 40);
             this.txtPatientId.TabIndex = 35;
             this.txtPatientId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtPatientId.Visible = false;
@@ -347,7 +292,7 @@
             this.cbMedicine.Location = new System.Drawing.Point(368, 370);
             this.cbMedicine.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbMedicine.Name = "cbMedicine";
-            this.cbMedicine.Size = new System.Drawing.Size(715, 24);
+            this.cbMedicine.Size = new System.Drawing.Size(715, 27);
             this.cbMedicine.TabIndex = 24;
             this.cbMedicine.SelectedIndexChanged += new System.EventHandler(this.cbMedicine_SelectedIndexChanged);
             this.cbMedicine.SelectedValueChanged += new System.EventHandler(this.cbPatients_SelectedValueChanged);
@@ -369,7 +314,7 @@
             this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label2.Location = new System.Drawing.Point(468, 114);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(89, 27);
+            this.label2.Size = new System.Drawing.Size(114, 34);
             this.label2.TabIndex = 36;
             this.label2.Text = "Nhóm máu";
             // 
@@ -380,7 +325,7 @@
             this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label4.Location = new System.Drawing.Point(892, 118);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(71, 27);
+            this.label4.Size = new System.Drawing.Size(94, 34);
             this.label4.TabIndex = 36;
             this.label4.Text = "Giới tính";
             // 
@@ -413,7 +358,7 @@
             this.lbType.Location = new System.Drawing.Point(676, 22);
             this.lbType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbType.Name = "lbType";
-            this.lbType.Size = new System.Drawing.Size(41, 20);
+            this.lbType.Size = new System.Drawing.Size(52, 25);
             this.lbType.TabIndex = 9;
             this.lbType.Text = "Viên";
             // 
@@ -422,7 +367,7 @@
             this.txtDay.Location = new System.Drawing.Point(501, 20);
             this.txtDay.Margin = new System.Windows.Forms.Padding(4);
             this.txtDay.Name = "txtDay";
-            this.txtDay.Size = new System.Drawing.Size(45, 22);
+            this.txtDay.Size = new System.Drawing.Size(45, 26);
             this.txtDay.TabIndex = 1;
             this.txtDay.Text = "7";
             this.txtDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -434,7 +379,7 @@
             this.txtAfternoon.Location = new System.Drawing.Point(280, 18);
             this.txtAfternoon.Margin = new System.Windows.Forms.Padding(4);
             this.txtAfternoon.Name = "txtAfternoon";
-            this.txtAfternoon.Size = new System.Drawing.Size(54, 22);
+            this.txtAfternoon.Size = new System.Drawing.Size(54, 26);
             this.txtAfternoon.TabIndex = 1;
             this.txtAfternoon.Text = "1";
             this.txtAfternoon.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -446,7 +391,7 @@
             this.txtNoon.Location = new System.Drawing.Point(147, 18);
             this.txtNoon.Margin = new System.Windows.Forms.Padding(4);
             this.txtNoon.Name = "txtNoon";
-            this.txtNoon.Size = new System.Drawing.Size(47, 22);
+            this.txtNoon.Size = new System.Drawing.Size(47, 26);
             this.txtNoon.TabIndex = 1;
             this.txtNoon.Text = "1";
             this.txtNoon.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -458,7 +403,7 @@
             this.txtMorning.Location = new System.Drawing.Point(14, 18);
             this.txtMorning.Margin = new System.Windows.Forms.Padding(4);
             this.txtMorning.Name = "txtMorning";
-            this.txtMorning.Size = new System.Drawing.Size(52, 22);
+            this.txtMorning.Size = new System.Drawing.Size(52, 26);
             this.txtMorning.TabIndex = 8;
             this.txtMorning.Text = "1";
             this.txtMorning.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -473,7 +418,7 @@
             this.label9.Location = new System.Drawing.Point(472, 22);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(16, 20);
+            this.label9.Size = new System.Drawing.Size(22, 25);
             this.label9.TabIndex = 0;
             this.label9.Text = "x";
             // 
@@ -485,7 +430,7 @@
             this.label10.Location = new System.Drawing.Point(556, 22);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(62, 20);
+            this.label10.Size = new System.Drawing.Size(80, 25);
             this.label10.TabIndex = 0;
             this.label10.Text = "Ngày = ";
             // 
@@ -497,7 +442,7 @@
             this.lbNum.Location = new System.Drawing.Point(647, 22);
             this.lbNum.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbNum.Name = "lbNum";
-            this.lbNum.Size = new System.Drawing.Size(0, 20);
+            this.lbNum.Size = new System.Drawing.Size(0, 25);
             this.lbNum.TabIndex = 0;
             // 
             // label8
@@ -508,7 +453,7 @@
             this.label8.Location = new System.Drawing.Point(343, 20);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(50, 20);
+            this.label8.Size = new System.Drawing.Size(64, 25);
             this.label8.TabIndex = 0;
             this.label8.Text = "Chiều";
             // 
@@ -520,7 +465,7 @@
             this.label7.Location = new System.Drawing.Point(203, 18);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(41, 20);
+            this.label7.Size = new System.Drawing.Size(53, 25);
             this.label7.TabIndex = 0;
             this.label7.Text = "Trưa";
             // 
@@ -532,7 +477,7 @@
             this.label6.Location = new System.Drawing.Point(76, 18);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(47, 20);
+            this.label6.Size = new System.Drawing.Size(59, 25);
             this.label6.TabIndex = 0;
             this.label6.Text = "Sáng";
             // 
@@ -543,22 +488,9 @@
             this.label5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label5.Location = new System.Drawing.Point(391, 166);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(127, 27);
+            this.label5.Size = new System.Drawing.Size(165, 34);
             this.label5.TabIndex = 36;
             this.label5.Text = "Chẩn đoán bệnh";
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.DodgerBlue;
-            this.button1.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(763, 642);
-            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(114, 38);
-            this.button1.TabIndex = 32;
-            this.button1.Text = "XÓA";
-            this.button1.UseVisualStyleBackColor = false;
             // 
             // medicineTableAdapter
             // 
@@ -575,7 +507,7 @@
             this.lblAge.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblAge.Location = new System.Drawing.Point(716, 118);
             this.lblAge.Name = "lblAge";
-            this.lblAge.Size = new System.Drawing.Size(40, 27);
+            this.lblAge.Size = new System.Drawing.Size(52, 34);
             this.lblAge.TabIndex = 41;
             this.lblAge.Text = "Tuổi";
             // 
@@ -586,7 +518,7 @@
             this.txtAge.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtAge.Name = "txtAge";
             this.txtAge.ReadOnly = true;
-            this.txtAge.Size = new System.Drawing.Size(66, 33);
+            this.txtAge.Size = new System.Drawing.Size(66, 40);
             this.txtAge.TabIndex = 28;
             this.txtAge.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -654,7 +586,7 @@
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(3, 78);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(104, 15);
+            this.label11.Size = new System.Drawing.Size(125, 18);
             this.label11.TabIndex = 35;
             this.label11.Text = "Triệu chứng khác:";
             // 
@@ -675,7 +607,7 @@
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(3, 37);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(75, 15);
+            this.label12.Size = new System.Drawing.Size(89, 18);
             this.label12.TabIndex = 28;
             this.label12.Text = "Triệu chứng:";
             // 
@@ -686,7 +618,7 @@
             this.txtContact.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtContact.Name = "txtContact";
             this.txtContact.ReadOnly = true;
-            this.txtContact.Size = new System.Drawing.Size(327, 33);
+            this.txtContact.Size = new System.Drawing.Size(327, 40);
             this.txtContact.TabIndex = 25;
             this.txtContact.Text = "LIÊN HỆ";
             this.txtContact.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -698,12 +630,76 @@
             this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label3.Location = new System.Drawing.Point(846, 123);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(0, 27);
+            this.label3.Size = new System.Drawing.Size(0, 34);
             this.label3.TabIndex = 36;
+            // 
+            // Serial
+            // 
+            this.Serial.HeaderText = "STT";
+            this.Serial.MinimumWidth = 6;
+            this.Serial.Name = "Serial";
+            this.Serial.ReadOnly = true;
+            // 
+            // MedicineName
+            // 
+            this.MedicineName.HeaderText = "Tên thuốc";
+            this.MedicineName.MinimumWidth = 6;
+            this.MedicineName.Name = "MedicineName";
+            this.MedicineName.ReadOnly = true;
+            // 
+            // MorningDose
+            // 
+            this.MorningDose.HeaderText = "Sáng";
+            this.MorningDose.MinimumWidth = 6;
+            this.MorningDose.Name = "MorningDose";
+            this.MorningDose.ReadOnly = true;
+            // 
+            // NoonDose
+            // 
+            this.NoonDose.HeaderText = "Trưa";
+            this.NoonDose.MinimumWidth = 6;
+            this.NoonDose.Name = "NoonDose";
+            this.NoonDose.ReadOnly = true;
+            // 
+            // AfternoonDose
+            // 
+            this.AfternoonDose.HeaderText = "Chiều";
+            this.AfternoonDose.MinimumWidth = 6;
+            this.AfternoonDose.Name = "AfternoonDose";
+            this.AfternoonDose.ReadOnly = true;
+            // 
+            // day
+            // 
+            this.day.HeaderText = "Ngày";
+            this.day.MinimumWidth = 6;
+            this.day.Name = "day";
+            this.day.ReadOnly = true;
+            // 
+            // MedicineId
+            // 
+            this.MedicineId.HeaderText = "Column1";
+            this.MedicineId.MinimumWidth = 6;
+            this.MedicineId.Name = "MedicineId";
+            this.MedicineId.ReadOnly = true;
+            this.MedicineId.Visible = false;
+            // 
+            // Type
+            // 
+            this.Type.HeaderText = "Loại";
+            this.Type.MinimumWidth = 6;
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
+            // 
+            // Delete
+            // 
+            this.Delete.HeaderText = "Xóa";
+            this.Delete.MinimumWidth = 6;
+            this.Delete.Name = "Delete";
+            this.Delete.ReadOnly = true;
             // 
             // DiagnosisForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MintCream;
             this.ClientSize = new System.Drawing.Size(1172, 688);
@@ -718,7 +714,6 @@
             this.Controls.Add(this.txtPatientId);
             this.Controls.Add(this.medicineDataGridView);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.txtGender);
             this.Controls.Add(this.txtAge);
@@ -775,7 +770,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button1;
         private CMSystemDataSet cMSystemDataSet;
         private System.Windows.Forms.BindingSource medicineBindingSource;
         private CMSystemDataSetTableAdapters.MedicineTableAdapter medicineTableAdapter;
@@ -813,5 +807,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn day;
         private System.Windows.Forms.DataGridViewTextBoxColumn MedicineId;
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
+        private System.Windows.Forms.DataGridViewImageColumn Delete;
     }
 }

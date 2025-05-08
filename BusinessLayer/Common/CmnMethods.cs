@@ -9,10 +9,10 @@ namespace BusinessLayer
 {
     public static class CmnMethods
     {
-        public static void ResetGlobal()
-        {
-            Global.UserInfo = new UserInfo();
-        }
+        //public static void ResetGlobal()
+        //{
+        //    Global.UserInfo = new UserInfo();
+        //}
 
         public static SqlConnection OpenConnectionString(SqlConnection sqlCon)
         {
@@ -21,17 +21,17 @@ namespace BusinessLayer
             return sqlCon;
         }
 
-        public static void GetUserInfo(DataTable dt)
-        {
-            Global.UserInfo = (from rw in dt.AsEnumerable()
-                               select new UserInfo()
-                               {
-                                   UserId = Convert.ToInt32(rw["UserId"]),
-                                   UserName = Convert.ToString(rw["UserName"]),
-                                   UserPassword = Convert.ToString(rw["UserPassword"]),
-                                   UserType = Convert.ToInt32(rw["UserType"]),
-                                   DoctorId = Convert.ToInt32(rw["DoctorId"]),
-                               }).ToList().FirstOrDefault();
-        }
+        //public static void GetUserInfo(DataTable dt)
+        //{
+        //    Global.UserInfo = (from rw in dt.AsEnumerable()
+        //                       select new UserInfo()
+        //                       {
+        //                           UserId = Convert.ToInt32(rw["UserId"]),
+        //                           UserName = Convert.ToString(rw["UserName"]),
+        //                           UserPassword = Convert.ToString(rw["UserPassword"]),
+        //                           UserType = Convert.ToInt32(rw["UserType"]),
+        //                           DoctorId = Convert.ToInt32(rw["DoctorId"]),
+        //                       }).ToList().FirstOrDefault();
+        //}
     }
 }
