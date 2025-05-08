@@ -15,11 +15,13 @@ namespace PresentationLayer
 {
     public partial class PatientForm : Form
     {
-        public PatientForm()
+        private DataTransferLayer.UserInfo currentUser;
+        public PatientForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
             lblPCodeNum.Text = DateTime.Now.ToString("ddMMhhmmss");
             LoadDoctors();
+            this.currentUser = currentUser;
         }
 
         // Dùng để load danh sách bác sĩ
@@ -49,7 +51,7 @@ namespace PresentationLayer
         private void pictureBoxLogout_Click(object sender, EventArgs e)
         {
             this.Hide();
-            MenuForm form = new MenuForm();
+            MenuForm form = new MenuForm(currentUser);
             form.Show();
         }
 

@@ -17,13 +17,13 @@ namespace PresentationLayer
     public partial class Form1 : Form
     {
         private LoginBL loginBL;
-        private GetUserInfoBL getUserInfoBL;
+        private UserInfoBL getUserInfoBL;
         SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
         public Form1()
         {
             InitializeComponent();
             loginBL = new LoginBL();
-            getUserInfoBL = new GetUserInfoBL();
+            getUserInfoBL = new UserInfoBL();
         }
 
 

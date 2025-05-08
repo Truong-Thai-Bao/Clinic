@@ -9,7 +9,7 @@ using System.Data;
 
 namespace DataLayer
 {
-    public class GetUserInfoDL : DBCommon
+    public class UserInfoDL : DBCommon
     {
         public UserInfo GetUserInfo(Account account)
         {

@@ -9,11 +9,11 @@ using DataLayer;
 using DataTransferLayer;
 namespace BusinessLayer
 {
-    public class GetUserInfoBL
+    public class UserInfoBL
     {
-        private GetUserInfoDL getUserInfoDL;
-        public GetUserInfoBL() { 
-            getUserInfoDL = new GetUserInfoDL();
+        private UserInfoDL getUserInfoDL;
+        public UserInfoBL() { 
+            getUserInfoDL = new UserInfoDL();
         }
 
         public DataTransferLayer.UserInfo GetUserInfo(Account account)

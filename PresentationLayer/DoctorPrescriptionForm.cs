@@ -16,6 +16,7 @@ namespace PresentationLayer
 {
     public partial class DoctorPrescriptionForm : Form
     {
+        private DataTransferLayer.UserInfo currentUser;
         Patient patient = new Patient();
         List<Medicine> medicines = new List<Medicine>();
         List<Prescription> prescriptions = new List<Prescription>();
@@ -52,7 +53,7 @@ namespace PresentationLayer
         private void pictureBoxLogout_Click(object sender, EventArgs e)
         {
             this.Hide();
-            MenuForm form = new MenuForm();
+            MenuForm form = new MenuForm(currentUser);
             form.Show();
         }
 

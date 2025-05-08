@@ -15,16 +15,18 @@ namespace PresentationLayer
 {
     public partial class DiagnosisForm : Form
     {
+        private DataTransferLayer.UserInfo currentUser;
         private List<Medicine> medicines = new List<Medicine>();
         SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
         private static int count = 0;
-        public DiagnosisForm()
+        public DiagnosisForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
             LoadPatients();
             symptomDataGridView.DefaultCellStyle.ForeColor = Color.Black;
             medicineDataGridView.DefaultCellStyle.ForeColor = Color.Black;
             CalculateTotalPills();
+            this.currentUser = currentUser;
         }
 
         //Tính tuổi từ ngày sinh
@@ -72,7 +74,7 @@ namespace PresentationLayer
         private void pictureBoxLogout_Click(object sender, EventArgs e)
         {
             this.Hide();
-            MenuForm form = new MenuForm();
+            MenuForm form = new MenuForm(currentUser);
             form.Show();
         }
 
@@ -388,6 +390,27 @@ namespace PresentationLayer
                 MessageBox.Show("Chẩn đoán đã tồn tại trong danh sách!");
                 txtDiagnosis.Focus();
             }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if(medicineDataGridView.SelectedRows.Count > 0)
+            {
+                MessageBox.Show(medicineDataGridView.SelectedRows.ToString());
+                foreach(DataGridViewRow row in medicineDataGridView.SelectedRows)
+                {
+                    medicineDataGridView.Rows.Remove(row);
+                }
+                medicineDataGridView.Refresh();
+            }
+        }
+
+        private void medicineDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+             if(e.RowIndex<0) { return; }
+
+            if (medicineDataGridView.Columns[e.ColumnIndex].Name.ToString()=="Delete")
+                medicineDataGridView.Rows.RemoveAt(e.RowIndex);
         }
     }
 }

@@ -8,18 +8,20 @@ namespace PresentationLayer
 {
     public partial class AppointmentForm : Form
     {
-        public AppointmentForm()
+        private DataTransferLayer.UserInfo currentUser;
+        public AppointmentForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
             LoadDoctors();
             lblPCodeNum.Text = DateTime.Now.ToString("ddMMhhmmss");
+            this.currentUser = currentUser;
         }
 
         // Dùng để chuyển đến form MenuForm (Back Button)
         private void pictureBoxLogout_Click(object sender, EventArgs e)
         {
             this.Hide();
-            MenuForm menuForm = new MenuForm();
+            MenuForm menuForm = new MenuForm(currentUser);
             menuForm.Show();
         }
 
@@ -352,7 +354,7 @@ namespace PresentationLayer
         private void btnAppointmentList_Click_1(object sender, EventArgs e)
         {
             this.Hide();
-            AppointmentListForm appointmentListForm = new AppointmentListForm();
+            AppointmentListForm appointmentListForm = new AppointmentListForm(currentUser);
             appointmentListForm.Show();
         }
 

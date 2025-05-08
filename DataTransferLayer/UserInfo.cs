@@ -25,5 +25,6 @@ namespace DataTransferLayer
              this.UserType = type;
             this.DoctorId = doctorId;
         }
+        public UserInfo() { }   
     }
 }

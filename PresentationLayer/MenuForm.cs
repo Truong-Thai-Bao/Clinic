@@ -15,10 +15,6 @@ namespace PresentationLayer
     public partial class MenuForm : Form
     {
         private DataTransferLayer.UserInfo currentUser;
-        public MenuForm()
-        {
-            InitializeComponent();
-        }
         public MenuForm(DataTransferLayer.UserInfo userInfo)
         {
             InitializeComponent();
@@ -27,84 +23,47 @@ namespace PresentationLayer
 
         private void pictureBoxDoctors_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if(currentUser.UserType == 1)
-                {
-                    this.Hide();
-                    DoctorForm doctorForm = new DoctorForm();
-                    doctorForm.Show();
-                }
-            }
-            catch (Exception)
+            if (currentUser.UserType != 1)
             {
                 MessageBox.Show("Chỉ có admin mới có quyền truy cập chức năng này!");
             }
-            //if (currentUser.UserType != 1)
-            //{
-            //    MessageBox.Show("Chỉ có admin mới có quyền truy cập chức năng này!");
-            //}
-            //else
-            //{
-            //    this.Hide();
-            //    DoctorForm doctorForm = new DoctorForm();
-            //    doctorForm.Show();
+            else
+            {
+                this.Hide();
+                DoctorForm doctorForm = new DoctorForm();
+                doctorForm.Show();
 
-            //}    
+            }    
         }
 
         private void pictureBoxPatients_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (currentUser.UserType == 1)
-                {
-                    this.Hide();
-                    PatientArrivalForm patientArrivalForm = new PatientArrivalForm();
-                    patientArrivalForm.Show();
-                }
-            }
-            catch (Exception)
+            if (currentUser.UserType != 1)
             {
                 MessageBox.Show("Chỉ có admin mới có quyền truy cập chức năng này!");
             }
-            //if (currentUser.UserType != 1)
-            //{
-            //    MessageBox.Show("Chỉ có admin mới có quyền truy cập chức năng này!");
-            //}
-            //else
-            //{
-            //    this.Hide();
-            //    PatientArrivalForm patientArrivalForm = new PatientArrivalForm();
-            //    patientArrivalForm.Show();
-            //}
+            else
+            {
+                this.Hide();
+                PatientArrivalForm patientArrivalForm = new PatientArrivalForm(currentUser);
+                patientArrivalForm.Show();
+            }
         }
 
         private void pictureBoxDiagnosis_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (currentUser.UserType == 2)
-                {
-                    this.Hide();
-                    DiagnosisForm diagnosisForm = new DiagnosisForm();
-                    diagnosisForm.Show();
-                }
-            }
-            catch (Exception)
+
+            if (currentUser.UserType  != 2)
             {
                 MessageBox.Show("Chỉ có Bác sĩ mới có quyền truy cập chức năng này!");
             }
-            //if (currentUser.UserType  != 2)
-            //{
-            //    MessageBox.Show("Chỉ có Bác sĩ mới có quyền truy cập chức năng này!");
-            //}
-            //else
-            //{
-            //    this.Hide();
-            //    DiagnosisForm diagnosisForm = new DiagnosisForm();
-            //    diagnosisForm.Show();
-            //}
+            else
+            {
+
+                this.Hide();
+                DiagnosisForm diagnosisForm = new DiagnosisForm(currentUser);
+                diagnosisForm.Show();
+            }
         }
 
         private void pictureBoxLogout_Click(object sender, EventArgs e)
@@ -129,7 +88,7 @@ namespace PresentationLayer
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             this.Hide();
-            AppointmentForm appointmentForm = new AppointmentForm();
+            AppointmentForm appointmentForm = new AppointmentForm(currentUser);
             appointmentForm.Show();
         }
 
