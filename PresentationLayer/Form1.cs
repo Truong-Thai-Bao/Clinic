@@ -17,11 +17,13 @@ namespace PresentationLayer
     public partial class Form1 : Form
     {
         private LoginBL loginBL;
+        private GetUserInfoBL getUserInfoBL;
         SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
         public Form1()
         {
             InitializeComponent();
             loginBL = new LoginBL();
+            getUserInfoBL = new GetUserInfoBL();
         }
 
 
@@ -48,50 +50,22 @@ namespace PresentationLayer
             }
             else
             {
-                //Account account = new Account(username, pass);
-                //if (UserLogin(account))
-                //{
-                //    this.DialogResult = DialogResult.OK;
-                //    this.Hide();
-                //    MenuForm menuForm = new MenuForm();
-                //    menuForm.ShowDialog();
-                //}
-                //else
-                //{
-                //    DialogResult result = MessageBox.Show("Tên người dùng hoặc mật khẩu không đúng", "Danger",
-                //        MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-                //    if (result == DialogResult.Retry)
-                //    {
-                //        txtPassword.Clear();
-                //        txtUserName.Focus();
-                //        txtPassword.Clear();
-                //    }
-                //    else
-                //    {
-                //        Application.Exit();
-                //    }
-                //}
-
-                sqlCon = CmnMethods.OpenConnectionString(sqlCon);
-                string query = string.Format(@"Select * From View_UserInfo Where Username = '{0}' 
-                                                                    and UserPassword ='{1}'", txtUserName.Text.Trim(), txtPassword.Text.Trim());
-                SqlDataAdapter sda = new SqlDataAdapter(query, sqlCon);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-                if (dt.Rows.Count > 0)
+                Account account = new Account(username, pass);
+                if (UserLogin(account))
                 {
-                    CmnMethods.GetUserInfo(dt);
+                    DataTransferLayer.UserInfo userInfo = getUserInfoBL.GetUserInfo(account);
                     this.DialogResult = DialogResult.OK;
                     this.Hide();
-                    MenuForm menuForm = new MenuForm();
+                    MenuForm menuForm = new MenuForm(userInfo);
                     menuForm.ShowDialog();
                 }
                 else
                 {
-                    string message = "Tên tài khoản hoặc mật khẩu không đúng!";
-                    DialogResult result = MessageBox.Show(message, "Thông báo", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    DialogResult result = MessageBox.Show("Tên người dùng hoặc mật khẩu không đúng", "Danger",
+                        MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                     if (result == DialogResult.Retry)
                     {
+                        txtPassword.Clear();
                         txtUserName.Focus();
                         txtPassword.Clear();
                     }
@@ -100,6 +74,35 @@ namespace PresentationLayer
                         Application.Exit();
                     }
                 }
+
+                //sqlCon = CmnMethods.OpenConnectionString(sqlCon);
+                //string query = string.Format(@"Select * From View_UserInfo Where Username = '{0}' 
+                //                                                    and UserPassword ='{1}'", txtUserName.Text.Trim(), txtPassword.Text.Trim());
+                //SqlDataAdapter sda = new SqlDataAdapter(query, sqlCon);
+                //DataTable dt = new DataTable();
+                //sda.Fill(dt);
+                //if (dt.Rows.Count > 0)
+                //{
+                //    CmnMethods.GetUserInfo(dt);
+                //    this.DialogResult = DialogResult.OK;
+                //    this.Hide();
+                //    MenuForm menuForm = new MenuForm();
+                //    menuForm.ShowDialog();
+                //}
+                //else
+                //{
+                //    string message = "Tên tài khoản hoặc mật khẩu không đúng!";
+                //    DialogResult result = MessageBox.Show(message, "Thông báo", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                //    if (result == DialogResult.Retry)
+                //    {
+                //        txtUserName.Focus();
+                //        txtPassword.Clear();
+                //    }
+                //    else
+                //    {
+                //        Application.Exit();
+                //    }
+                //}
             }
         }
 
@@ -119,7 +122,7 @@ namespace PresentationLayer
                 command.Parameters.AddWithValue("@UserPassword", txtPassword.Text.Trim());
                 command.Parameters.AddWithValue("@UserType", 1); //1 means Admin
                 command.Parameters.AddWithValue("@AddedDate", DateTime.Now);
-                command.Parameters.AddWithValue("@AddedBy", Global.UserInfo.UserId);
+                //command.Parameters.AddWithValue("@AddedBy", Global.UserInfo.UserId);
                 command.ExecuteNonQuery();
                 MessageBox.Show("Đăng ký thành công! Mời bạn đăng nhập.");
                 sqlCon.Close();

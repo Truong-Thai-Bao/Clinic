@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="DBCommon.cs" />
     <Compile Include="GetUserInfoDL.cs" />
+    <Compile Include="GetUserTypeDL.cs" />
     <Compile Include="LoginDL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

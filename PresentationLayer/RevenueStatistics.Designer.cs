@@ -99,6 +99,7 @@
             this.btnExportExcel.TabIndex = 34;
             this.btnExportExcel.Text = "XUẤT RA FILE EXCEL";
             this.btnExportExcel.UseVisualStyleBackColor = false;
+            this.btnExportExcel.Click += new System.EventHandler(this.btnExportExcel_Click);
             // 
             // btnViewRevenue
             // 

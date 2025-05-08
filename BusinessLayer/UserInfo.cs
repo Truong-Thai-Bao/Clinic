@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer
 {
-    public class UserInfo
+    public class UserInfo 
     {
-
         public int UserId { get; set; } = 0;
 
         public string UserName { get; set; } = "";
@@ -16,6 +15,7 @@ namespace BusinessLayer
         public string UserPassword { get; set; } = string.Empty;
 
         public int UserType { get; set; } = 0;
-        public int DoctorId { get; set; } = 0;
+
+        public int DoctorId { get; set; }
     }
 }

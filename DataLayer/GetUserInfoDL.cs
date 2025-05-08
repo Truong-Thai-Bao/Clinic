@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataTransferLayer;
+using System.Data;
 
 namespace DataLayer
 {
@@ -12,26 +13,23 @@ namespace DataLayer
     {
         public UserInfo GetUserInfo(Account account)
         {
-            string sql = "Select * From UserInfo Where UserName = @UserName and UserPassword = @UserPassword";
+            string sql = "Select * From View_UserInfo Where Username = @UserName and UserPassword = @UserPassword";
             try
             {
                 Connect();
-                SqlCommand cmd = new SqlCommand(sql, cn);
-                cmd.Parameters.AddWithValue("@UserName", account.username);
-                cmd.Parameters.AddWithValue("@UserPassword", account.password);
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                if(reader.Read()) 
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@UserName", account.username));
+                parameters.Add(new SqlParameter("@UserPassword", account.password));
+                SqlDataReader reader = MyExcuteSqlDataReader(sql, CommandType.Text,parameters);
+                if (reader.Read())
                 {
-                    return new UserInfo(
-                        name: reader["UserName"].ToString(),
-                        pass: reader["UserPassword"].ToString(),
-                        type: Convert.ToInt32(reader["UserType"]));
-
+                    return new UserInfo(Convert.ToInt32(reader[0]),
+                                            reader[1].ToString(),
+                                            reader[2].ToString(),
+                                           Convert.ToInt32(reader[3]),
+                                            Convert.ToInt32(reader[8]));
                 }
-                else
-                {
-                    return null;
-                }
+                return null;
             }
             catch (SqlException ex)
             {

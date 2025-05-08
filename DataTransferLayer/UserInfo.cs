@@ -16,11 +16,14 @@ namespace DataTransferLayer
 
         public int UserType { get; set; } = 0;
 
-        public UserInfo(string name,string pass,int type)
+        public int DoctorId { get; set; }
+        public UserInfo(int id,string name,string pass,int type,int doctorId)
         {
+            UserId = id;
            this.UserName = name;
             this.UserPassword = pass;
              this.UserType = type;
+            this.DoctorId = doctorId;
         }
     }
 }
