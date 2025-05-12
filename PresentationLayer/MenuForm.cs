@@ -30,7 +30,7 @@ namespace PresentationLayer
             else
             {
                 this.Hide();
-                DoctorForm doctorForm = new DoctorForm();
+                DoctorForm doctorForm = new DoctorForm(currentUser);
                 doctorForm.Show();
 
             }    
@@ -52,8 +52,7 @@ namespace PresentationLayer
 
         private void pictureBoxDiagnosis_Click(object sender, EventArgs e)
         {
-
-            if (currentUser.UserType  != 2)
+            if (currentUser.UserType != 2)
             {
                 MessageBox.Show("Chỉ có Bác sĩ mới có quyền truy cập chức năng này!");
             }
@@ -94,9 +93,23 @@ namespace PresentationLayer
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            if (currentUser.UserType != 1)
+            {
+                MessageBox.Show("Chỉ có admin mới có quyền truy cập chức năng này!");
+            }
+            else
+            {
+                this.Hide();
+                RevenueStatistics revenueStatistics = new RevenueStatistics();
+                revenueStatistics.Show();
+            }
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
             this.Hide();
-            RevenueStatistics revenueStatistics = new RevenueStatistics();
-            revenueStatistics.Show();
+            PatientForm patientForm = new PatientForm(currentUser);
+            patientForm.Show();
         }
     }
 }

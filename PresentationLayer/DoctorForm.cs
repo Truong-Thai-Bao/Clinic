@@ -11,16 +11,20 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataTransferLayer;
 
 namespace PresentationLayer
 {
     public partial class DoctorForm : Form
     {
         private DataTransferLayer.UserInfo currentUser;
+        private DoctorBL doctorBL = new DoctorBL();
+
         SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
-        public DoctorForm()
+        public DoctorForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
+            this.currentUser = currentUser;
 
             txtUserName.Visible = false;
             txtPassword.Visible = false;
@@ -30,16 +34,19 @@ namespace PresentationLayer
 
         private void LoadDoctors()
         {
-            sqlCon = BusinessLayer.CmnMethods.OpenConnectionString(sqlCon);
-            string query = "SELECT * FROM View_Doctor";
-            SqlDataAdapter sda = new SqlDataAdapter(query, sqlCon);
-            SqlCommandBuilder scb = new SqlCommandBuilder(sda);
-            var dataSet = new DataSet();
-            sda.Fill(dataSet);
-            doctorDataGridView.DataSource = dataSet.Tables[0];
-            sqlCon.Close();
-
-            doctorDataGridView.Columns[0].Visible = false;
+            try
+            {
+                var doctors = doctorBL.GetAllDoctorsFromView();
+                doctorDataGridView.DataSource = doctors;
+                if (doctorDataGridView.Columns["DoctorId"] != null)
+                {
+                    doctorDataGridView.Columns["DoctorId"].Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải danh sách bác sĩ: " + ex.Message);
+            }
         }
 
         private void Reset()
@@ -80,12 +87,12 @@ namespace PresentationLayer
 
         private void txtYOE_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar); //Only allow int
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar); //Chỉ cho phép int
         }
 
         private void txtAge_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar); //Only allow int
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar); //Chỉ cho phép int
         }
 
         private void doctorDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -102,248 +109,155 @@ namespace PresentationLayer
 
         private void doctorDataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            txtDocId.Text = doctorDataGridView.Rows[e.RowIndex].Cells["DoctorId"].Value.ToString();
-            txtUserLoginId.Text = doctorDataGridView.Rows[e.RowIndex].Cells["LoginUserId"].Value.ToString();
-            txtDocName.Text = doctorDataGridView.Rows[e.RowIndex].Cells["DocName"].Value.ToString();
-            txtAge.Text = doctorDataGridView.Rows[e.RowIndex].Cells["Age"].Value.ToString();
-            txtYOE.Text = doctorDataGridView.Rows[e.RowIndex].Cells["YearOfExperience"].Value.ToString();
-            txtContact.Text = doctorDataGridView.Rows[e.RowIndex].Cells["Contact"].Value.ToString();
-            txtAddress.Text = doctorDataGridView.Rows[e.RowIndex].Cells["Address"].Value.ToString();
-
-            int loginUserId = Convert.ToInt32(doctorDataGridView.Rows[e.RowIndex].Cells["LoginUserId"].Value.ToString());
-            chkFiveLoginPermission.Checked = loginUserId > 0 ? true : false;
-            HideShowUsernamePassword();
-            txtUserName.Text = doctorDataGridView.Rows[e.RowIndex].Cells["Username"].Value.ToString();
-            txtPassword.Text = doctorDataGridView.Rows[e.RowIndex].Cells["UserPassword"].Value.ToString();
+            if (e.RowIndex > 0)
+            {
+                var doctor = doctorDataGridView.Rows[e.RowIndex].DataBoundItem as DoctorDTO;
+                if (doctor != null)
+                {
+                    txtDocId.Text = doctor.DoctorId.ToString();
+                    txtUserLoginId.Text = doctor.LoginUserId.ToString();
+                    txtDocName.Text = doctor.DocName;
+                    txtAge.Text = doctor.Age.ToString();
+                    txtYOE.Text = doctor.YearOfExperience.ToString();
+                    txtContact.Text = doctor.Contact;
+                    txtAddress.Text = doctor.Address;
+                    chkFiveLoginPermission.Checked = doctor.LoginUserId > 0 ? true : false;
+                    HideShowUsernamePassword();
+                    txtUserName.Text = doctor.UserName;
+                    txtPassword.Text = doctor.UserPassword;
+                }
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (txtDocName.Text.Trim() == "" || txtYOE.Text.Trim() == "" || txtAge.Text.Trim() == "" || txtContact.Text.Trim() == "Category" || txtAddress.Text.Trim() == "")
+            if (string.IsNullOrWhiteSpace(txtDocName.Text) || string.IsNullOrWhiteSpace(txtYOE.Text) ||
+                string.IsNullOrWhiteSpace(txtAge.Text) || string.IsNullOrWhiteSpace(txtContact.Text) ||
+                string.IsNullOrWhiteSpace(txtAddress.Text))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!");
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!","Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            else
+
+            if (chkFiveLoginPermission.Checked && (string.IsNullOrWhiteSpace(txtUserName.Text)
+                || string.IsNullOrWhiteSpace(txtPassword.Text)))
             {
-                using (SqlConnection conn = new SqlConnection(DBCommon.connString))
+                MessageBox.Show("Vui lòng nhập Username & Password!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var doctor = new DoctorDTO
                 {
-                    conn.Open();
-                    SqlTransaction transaction = conn.BeginTransaction();
+                    DocName = txtDocName.Text.Trim(),
+                    Age = Convert.ToInt32(txtAge.Text.Trim()),
+                    YearOfExperience = Convert.ToInt32(txtYOE.Text.Trim()),
+                    Contact = txtContact.Text.Trim(),
+                    Address = txtAddress.Text.Trim(),
+                };
 
-                    try
-                    {
-                        string query = "";
-                        int userLoginId = 0;
-                        bool hasError = false;
-                        if (chkFiveLoginPermission.Checked)
-                        {
-                            if (txtUserName.Text.Trim() == "" || txtPassword.Text.Trim() == "")
-                            {
-                                MessageBox.Show("Vui lòng nhập Username & Password!");
-                                hasError = true;
-                            }
-                            else
-                            {
-                                query = @"INSERT INTO UserInfo (Username,UserPassword,UserType,AddedDate,AddedBy) VALUES (@Username,@UserPassword,@UserType,@AddedDate,@AddedBy);
-                                    SELECT SCOPE_IDENTITY();";
+                doctorBL.AddDoctor(
+                    doctor,
+                    chkFiveLoginPermission.Checked ? txtUserName.Text.Trim() : null,
+                    chkFiveLoginPermission.Checked ? txtPassword.Text.Trim() : null,
+                    2, //2 = Doctor
+                    currentUser.UserId
+                );
 
-                                SqlCommand cmd = new SqlCommand(query, conn, transaction);
-                                cmd.Parameters.AddWithValue("@Username", txtUserName.Text.Trim());
-                                cmd.Parameters.AddWithValue("@UserPassword", txtPassword.Text.Trim());
-                                cmd.Parameters.AddWithValue("@UserType", 2); //2 means Doctor
-                                cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
-                                cmd.Parameters.AddWithValue("@AddedBy", Global.UserInfo.UserId);
-
-                                userLoginId = Convert.ToInt32(cmd.ExecuteScalar());
-                            }
-                        }
-                        if (!hasError)
-                        {
-                            query = @"INSERT INTO Doctor (DocName, Age, YearOfExperience, Contact, Address, LoginUserId, AddedDate, AddedBy) VALUES (@DocName, @Age, @YearOfExperience, @Contact, @Address, @LoginUserId, @AddedDate, @AddedBy)";
-                            SqlCommand cmd = new SqlCommand(query, conn, transaction);
-                            cmd.Parameters.AddWithValue("@DocName", txtDocName.Text.Trim());
-                            cmd.Parameters.AddWithValue("@Age", txtAge.Text.Trim());
-                            cmd.Parameters.AddWithValue("@YearOfExperience", txtYOE.Text.Trim());
-                            cmd.Parameters.AddWithValue("@Contact", txtContact.Text.Trim());
-                            cmd.Parameters.AddWithValue("@Address", txtAddress.Text.Trim());
-                            cmd.Parameters.AddWithValue("@LoginUserId", userLoginId);
-                            cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
-                            cmd.Parameters.AddWithValue("@AddedBy", Global.UserInfo.UserId); //Login User ID;
-                            cmd.ExecuteNonQuery();
-                            transaction.Commit();
-
-                            MessageBox.Show("Lưu thành công!");
-                            LoadDoctors();
-                            Reset();
-                        }
-                        else
-                        {
-                            transaction.Rollback();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Lỗi: " + ex.Message);
-                        transaction.Rollback();
-                    }
-                    finally
-                    {
-                        conn.Close();
-                    }
-                }
+                MessageBox.Show("Lưu thành công!", "Thành công", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadDoctors();
+                Reset();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi lưu bác sĩ: " + ex.Message, "Lỗi",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            if (txtDocId.Text.Trim() == "" || txtDocId.Text.Trim() == 0.ToString())
+
+            if (string.IsNullOrWhiteSpace(txtDocId.Text) || txtDocId.Text.Trim() == "0")
             {
-                MessageBox.Show("Vui lòng chọn bác sĩ cần sửa!");
+                MessageBox.Show("Vui lòng chọn bác sĩ cần sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            if (txtDocName.Text.Trim() == "" || txtYOE.Text.Trim() == "" || txtAge.Text.Trim() == "" || txtContact.Text.Trim() == "Category" || txtAddress.Text.Trim() == "")
+
+            if (string.IsNullOrWhiteSpace(txtDocName.Text) || string.IsNullOrWhiteSpace(txtYOE.Text) ||
+                string.IsNullOrWhiteSpace(txtAge.Text) || string.IsNullOrWhiteSpace(txtContact.Text) ||
+                string.IsNullOrWhiteSpace(txtAddress.Text))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!");
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            else
+
+            if (chkFiveLoginPermission.Checked && (string.IsNullOrWhiteSpace(txtUserName.Text) || string.IsNullOrWhiteSpace(txtPassword.Text)))
             {
-                using (SqlConnection conn = new SqlConnection(DBCommon.connString))
+                MessageBox.Show("Vui lòng nhập Username và Password!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var doctor = new DoctorDTO
                 {
-                    conn.Open();
-                    SqlTransaction transaction = conn.BeginTransaction();
-                    try
-                    {
-                        string query = "";
-                        bool hasError = false;
-                        if (chkFiveLoginPermission.Checked)
-                        {
-                            if (txtUserName.Text.Trim() == "" || txtPassword.Text.Trim() == "")
-                            {
-                                MessageBox.Show("Vui lòng nhập Username & Password!");
-                                hasError = true;
-                            }
-                            else
-                            {
-                                query = @"UPDATE UserInfo SET Username=@Username, UserPassword=@UserPassword WHERE UserId = @UserId";
-                                SqlCommand cmd = new SqlCommand(query, conn, transaction);
-                                cmd.Parameters.AddWithValue("@UserId", txtUserLoginId.Text.Trim());
-                                cmd.Parameters.AddWithValue("@Username", txtUserName.Text.Trim());
-                                cmd.Parameters.AddWithValue("@UserPassword", txtPassword.Text.Trim());
-                                cmd.Parameters.AddWithValue("@UpdatedDate", DateTime.Now);
-                                cmd.Parameters.AddWithValue("@UpdatedBy", Global.UserInfo.UserId); 
-                                cmd.ExecuteNonQuery();
-                            }
-                        }
-                        else
-                        {
-                            if(txtUserLoginId.Text.Trim() == "" || txtUserLoginId.Text.Trim() == 0.ToString())
-                            {
-                                MessageBox.Show("ID đăng nhập người dùng không hợp lệ");
-                                hasError = true;
-                            }
-                            else
-                            {
-                                query = @"DELETE FROM UserInfo WHERE UserId = @UserId";
-                                SqlCommand cmd = new SqlCommand(query, conn, transaction);
-                                cmd.Parameters.AddWithValue("@UserId", txtUserLoginId.Text.Trim());
-                                cmd.ExecuteNonQuery();
-                            }
-                        }
-                        if (!hasError)
-                        {
-                            query = @"UPDATE Doctor SET DocName=@DocName, Age=@Age, YearOfExperience=@YearOfExperience, Contact=@Contact, Address=@Address, LoginUserId=@LoginUserId, UpdatedDate=@UpdatedDate, UpdatedBy=@UpdatedBy WHERE DoctorId = @DoctorId";
-                            SqlCommand cmd = new SqlCommand(query, conn, transaction);
-                            cmd.Parameters.AddWithValue("@DoctorId", txtDocId.Text.Trim());
-                            cmd.Parameters.AddWithValue("@DocName", txtDocName.Text.Trim());
-                            cmd.Parameters.AddWithValue("@Age", txtAge.Text.Trim());
-                            cmd.Parameters.AddWithValue("@YearOfExperience", txtYOE.Text.Trim());
-                            cmd.Parameters.AddWithValue("@Contact", txtContact.Text.Trim());
-                            cmd.Parameters.AddWithValue("@Address", txtAddress.Text.Trim());
-                            cmd.Parameters.AddWithValue("@LoginUserId", txtUserLoginId.Text.Trim());
-                            cmd.Parameters.AddWithValue("@UpdatedDate", DateTime.Now);
-                            cmd.Parameters.AddWithValue("@UpdatedBy", Global.UserInfo.UserId);
-                            cmd.ExecuteNonQuery();
-                            transaction.Commit();
+                    DoctorId = int.Parse(txtDocId.Text.Trim()),
+                    DocName = txtDocName.Text.Trim(),
+                    Age = int.Parse(txtAge.Text.Trim()),
+                    YearOfExperience = int.Parse(txtYOE.Text.Trim()),
+                    Contact = txtContact.Text.Trim(),
+                    Address = txtAddress.Text.Trim(),
+                    LoginUserId = string.IsNullOrWhiteSpace(txtUserLoginId.Text) ? 0 : int.Parse(txtUserLoginId.Text.Trim())
+                };
 
-                            MessageBox.Show("Sửa thành công!");
-                            LoadDoctors();
-                            Reset();
-                        }
-                        else
-                        {
-                            transaction.Rollback();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Lỗi: " + ex.Message);
-                            transaction.Rollback();
-                        }
-                    finally
-                    {
-                        conn.Close();
-                    }   
-                }
+                doctorBL.UpdateDoctor(
+                    doctor,
+                    chkFiveLoginPermission.Checked ? txtUserName.Text.Trim() : null,
+                    chkFiveLoginPermission.Checked ? txtPassword.Text.Trim() : null,
+                    currentUser.UserId,
+                    chkFiveLoginPermission.Checked
+                );
 
+                MessageBox.Show("Sửa thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadDoctors();
+                Reset();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi sửa bác sĩ: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if(txtDocId.Text.Trim() == "" || Convert.ToInt32(txtDocId.Text) == 0)
+            if (string.IsNullOrWhiteSpace(txtDocId.Text) || txtDocId.Text.Trim() == "0")
             {
-                MessageBox.Show("Vui lòng chọn bác sĩ cần xóa!");
+                MessageBox.Show("Vui lòng chọn bác sĩ cần xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            else
+
+            try
             {
-                sqlCon = BusinessLayer.CmnMethods.OpenConnectionString(sqlCon);
-                string query = string.Format(@"SELECT * FROM Dianosis WHERE DoctorId = {0}", Convert.ToInt32(txtDocId.Text));
-                SqlDataAdapter sda = new SqlDataAdapter(query, sqlCon);
-                SqlCommandBuilder scb = new SqlCommandBuilder(sda);
-                var dataSet = new DataSet();
-                sda.Fill(dataSet);
-                var doctors = dataSet.Tables[0];
-                sqlCon.Close();
-
-                if(doctors.Rows != null && doctors.Rows.Count > 0)
+                int doctorId = int.Parse(txtDocId.Text.Trim());
+                if (doctorBL.CheckDiagnosisExists(doctorId))
                 {
-                    MessageBox.Show("Đã có chẩn đoán của bác sĩ này");
+                    MessageBox.Show("Đã có chẩn đoán của bác sĩ này, không thể xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
-                else
-                {
-                    using (SqlConnection conn = new SqlConnection(DBCommon.connString))
-                    {
-                        conn.Open();
-                        SqlTransaction transaction = conn.BeginTransaction();
-                        try
-                        {
-                            query = string.Format(@"DELETE FROM Doctor WHERE DoctorId = {0}", Convert.ToInt32(txtDocId.Text));
-                            SqlCommand cmd = new SqlCommand(query, conn, transaction);
-                            cmd = new SqlCommand(query, conn, transaction);
-                            cmd.ExecuteNonQuery();
 
-                            query = @"DELETE FROM UserInfo WHERE UserId = @UserId";
-                            cmd = new SqlCommand(query, conn, transaction);
-                            cmd.Parameters.AddWithValue("@UserId", txtUserLoginId.Text.Trim());
-                            cmd.ExecuteNonQuery();
-                            transaction.Commit();
+                int loginUserId = string.IsNullOrWhiteSpace(txtUserLoginId.Text) ? 0 : int.Parse(txtUserLoginId.Text.Trim());
+                doctorBL.DeleteDoctor(doctorId, loginUserId);
 
-                            MessageBox.Show("Xóa thành công!");
-                            LoadDoctors();
-                            Reset();
-
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Lỗi: " + ex.Message);
-                            transaction.Rollback();
-                        }
-                        finally
-                        {
-                            conn.Close();
-                        }
-                    
-                    }
-                }   
+                MessageBox.Show("Xóa thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadDoctors();
+                Reset();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi xóa bác sĩ: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

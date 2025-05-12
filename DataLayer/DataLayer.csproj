@@ -41,7 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppointmentDL.cs" />
     <Compile Include="DBCommon.cs" />
+    <Compile Include="DoctorDL.cs" />
+    <Compile Include="MedicineDL.cs" />
+    <Compile Include="PatientDL.cs" />
+    <Compile Include="PrescriptionDL.cs" />
     <Compile Include="UserInfoDL.cs" />
     <Compile Include="LoginDL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
