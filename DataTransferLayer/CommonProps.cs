@@ -8,7 +8,7 @@ namespace DataTransferLayer
 {
     public  class CommonProps
     {
-        public DateTime? AddDate { get; set; } = null;
+        public DateTime? AddedDate { get; set; } = null;
 
         public int AddedBy { get; set; } = 0;
 

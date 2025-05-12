@@ -10,13 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataTransferLayer;
 
 namespace PresentationLayer
 {
     public partial class DiagnosisForm : Form
     {
         private DataTransferLayer.UserInfo currentUser;
-        private List<Medicine> medicines = new List<Medicine>();
+        private List<MedicineDTO> medicines = new List<MedicineDTO>();
         SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
         private static int count = 0;
         public DiagnosisForm(DataTransferLayer.UserInfo currentUser)
@@ -411,6 +412,11 @@ namespace PresentationLayer
 
             if (medicineDataGridView.Columns[e.ColumnIndex].Name.ToString()=="Delete")
                 medicineDataGridView.Rows.RemoveAt(e.RowIndex);
+        }
+
+        private void cbPatients_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

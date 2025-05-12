@@ -44,6 +44,15 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.medicineDataGridView = new System.Windows.Forms.DataGridView();
+            this.Serial = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MedicineName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MorningDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NoonDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AfternoonDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.day = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MedicineId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.txtPatientId = new System.Windows.Forms.TextBox();
             this.cbMedicine = new System.Windows.Forms.ComboBox();
             this.medicineBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -77,15 +86,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.txtContact = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.Serial = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MedicineName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MorningDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NoonDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AfternoonDose = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.day = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MedicineId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.patientBindingSource)).BeginInit();
@@ -160,6 +160,7 @@
             this.cbPatients.Size = new System.Drawing.Size(327, 41);
             this.cbPatients.TabIndex = 24;
             this.cbPatients.ValueMember = "PatientId";
+            this.cbPatients.SelectedIndexChanged += new System.EventHandler(this.cbPatients_SelectedIndexChanged);
             this.cbPatients.SelectedValueChanged += new System.EventHandler(this.cbPatients_SelectedValueChanged);
             // 
             // patientBindingSource
@@ -269,6 +270,70 @@
             this.medicineDataGridView.TabIndex = 34;
             this.medicineDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.medicineDataGridView_CellContentClick);
             this.medicineDataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.medicineDataGridView_CellDoubleClick);
+            // 
+            // Serial
+            // 
+            this.Serial.HeaderText = "STT";
+            this.Serial.MinimumWidth = 6;
+            this.Serial.Name = "Serial";
+            this.Serial.ReadOnly = true;
+            // 
+            // MedicineName
+            // 
+            this.MedicineName.HeaderText = "Tên thuốc";
+            this.MedicineName.MinimumWidth = 6;
+            this.MedicineName.Name = "MedicineName";
+            this.MedicineName.ReadOnly = true;
+            // 
+            // MorningDose
+            // 
+            this.MorningDose.HeaderText = "Sáng";
+            this.MorningDose.MinimumWidth = 6;
+            this.MorningDose.Name = "MorningDose";
+            this.MorningDose.ReadOnly = true;
+            // 
+            // NoonDose
+            // 
+            this.NoonDose.HeaderText = "Trưa";
+            this.NoonDose.MinimumWidth = 6;
+            this.NoonDose.Name = "NoonDose";
+            this.NoonDose.ReadOnly = true;
+            // 
+            // AfternoonDose
+            // 
+            this.AfternoonDose.HeaderText = "Chiều";
+            this.AfternoonDose.MinimumWidth = 6;
+            this.AfternoonDose.Name = "AfternoonDose";
+            this.AfternoonDose.ReadOnly = true;
+            // 
+            // day
+            // 
+            this.day.HeaderText = "Ngày";
+            this.day.MinimumWidth = 6;
+            this.day.Name = "day";
+            this.day.ReadOnly = true;
+            // 
+            // MedicineId
+            // 
+            this.MedicineId.HeaderText = "Column1";
+            this.MedicineId.MinimumWidth = 6;
+            this.MedicineId.Name = "MedicineId";
+            this.MedicineId.ReadOnly = true;
+            this.MedicineId.Visible = false;
+            // 
+            // Type
+            // 
+            this.Type.HeaderText = "Loại";
+            this.Type.MinimumWidth = 6;
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
+            // 
+            // Delete
+            // 
+            this.Delete.HeaderText = "Xóa";
+            this.Delete.MinimumWidth = 6;
+            this.Delete.Name = "Delete";
+            this.Delete.ReadOnly = true;
             // 
             // txtPatientId
             // 
@@ -632,70 +697,6 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(0, 34);
             this.label3.TabIndex = 36;
-            // 
-            // Serial
-            // 
-            this.Serial.HeaderText = "STT";
-            this.Serial.MinimumWidth = 6;
-            this.Serial.Name = "Serial";
-            this.Serial.ReadOnly = true;
-            // 
-            // MedicineName
-            // 
-            this.MedicineName.HeaderText = "Tên thuốc";
-            this.MedicineName.MinimumWidth = 6;
-            this.MedicineName.Name = "MedicineName";
-            this.MedicineName.ReadOnly = true;
-            // 
-            // MorningDose
-            // 
-            this.MorningDose.HeaderText = "Sáng";
-            this.MorningDose.MinimumWidth = 6;
-            this.MorningDose.Name = "MorningDose";
-            this.MorningDose.ReadOnly = true;
-            // 
-            // NoonDose
-            // 
-            this.NoonDose.HeaderText = "Trưa";
-            this.NoonDose.MinimumWidth = 6;
-            this.NoonDose.Name = "NoonDose";
-            this.NoonDose.ReadOnly = true;
-            // 
-            // AfternoonDose
-            // 
-            this.AfternoonDose.HeaderText = "Chiều";
-            this.AfternoonDose.MinimumWidth = 6;
-            this.AfternoonDose.Name = "AfternoonDose";
-            this.AfternoonDose.ReadOnly = true;
-            // 
-            // day
-            // 
-            this.day.HeaderText = "Ngày";
-            this.day.MinimumWidth = 6;
-            this.day.Name = "day";
-            this.day.ReadOnly = true;
-            // 
-            // MedicineId
-            // 
-            this.MedicineId.HeaderText = "Column1";
-            this.MedicineId.MinimumWidth = 6;
-            this.MedicineId.Name = "MedicineId";
-            this.MedicineId.ReadOnly = true;
-            this.MedicineId.Visible = false;
-            // 
-            // Type
-            // 
-            this.Type.HeaderText = "Loại";
-            this.Type.MinimumWidth = 6;
-            this.Type.Name = "Type";
-            this.Type.ReadOnly = true;
-            // 
-            // Delete
-            // 
-            this.Delete.HeaderText = "Xóa";
-            this.Delete.MinimumWidth = 6;
-            this.Delete.Name = "Delete";
-            this.Delete.ReadOnly = true;
             // 
             // DiagnosisForm
             // 

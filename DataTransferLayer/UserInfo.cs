@@ -20,9 +20,9 @@ namespace DataTransferLayer
         public UserInfo(int id,string name,string pass,int type,int doctorId)
         {
             UserId = id;
-           this.UserName = name;
+            this.UserName = name;
             this.UserPassword = pass;
-             this.UserType = type;
+            this.UserType = type;
             this.DoctorId = doctorId;
         }
         public UserInfo() { }   
