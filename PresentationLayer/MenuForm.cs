@@ -100,7 +100,7 @@ namespace PresentationLayer
             else
             {
                 this.Hide();
-                RevenueStatistics revenueStatistics = new RevenueStatistics();
+                RevenueStatistics revenueStatistics = new RevenueStatistics(currentUser);
                 revenueStatistics.Show();
             }
         }

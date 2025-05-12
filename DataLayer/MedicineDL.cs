@@ -26,7 +26,7 @@ namespace DataLayer
                     {
                         MedicineId = Convert.ToInt32(reader["MedicineId"]),
                         MedicineName = reader["MedicineName"].ToString(),
-                        Price = (decimal)reader["Price"],
+                        Price = Convert.ToInt32(reader["Price"]),
                         Type = reader["Type"].ToString()
                     });
                 }

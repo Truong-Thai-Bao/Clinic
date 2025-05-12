@@ -17,7 +17,9 @@ namespace PresentationLayer
     public partial class DiagnosisForm : Form
     {
         private DataTransferLayer.UserInfo currentUser;
+        private SymptomBL symptomBL;
         private DiagnosisBL diagnosisBL;
+        private MedicineBL mediicineBL;
         private PatientBL patientBL;
         private PrescriptionBL prescriptionBL;
         private List<MedicineDTO> medicines = new List<MedicineDTO>();
@@ -26,12 +28,13 @@ namespace PresentationLayer
         public DiagnosisForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
-            symptomDataGridView.DefaultCellStyle.ForeColor = Color.Black;
             medicineDataGridView.DefaultCellStyle.ForeColor = Color.Black;
             patientBL = new PatientBL();
             this.currentUser = currentUser;
+            this.symptomBL = new SymptomBL();
             this.diagnosisBL = new DiagnosisBL();
             this.prescriptionBL = new PrescriptionBL();
+            mediicineBL = new MedicineBL();
             CalculateTotalPills();
             LoadPatients();
         }
@@ -240,6 +243,7 @@ namespace PresentationLayer
                 MessageBox.Show("Lưu thành công!");
                 lsvDiagnosis.Items.Clear();
                 medicineDataGridView.Rows.Clear();
+                cbMedicine.Text = string.Empty;
                 LoadPatients();
                 }
                 catch (Exception ex)
@@ -258,38 +262,21 @@ namespace PresentationLayer
         }
         private void LoadMedicineComboBox()
         {
-            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
-            {
-                conn.Open();
-                string query = "SELECT MedicineId, MedicineName,Type FROM Medicine";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                cbMedicine.DataSource = dt;
+                List<MedicineDTO> medicines = mediicineBL.GetMedicines();
+                cbMedicine.DataSource = medicines;
                 cbMedicine.DisplayMember = "MedicineName";
                 cbMedicine.ValueMember = "MedicineId";
                 cbMedicine.SelectedIndex = -1; // Không chọn gì mặc định
-            }
         }
 
         private void LoadSymptoms(int patientId)
         {
-            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
-            {
-                conn.Open();
-                string query = @"SELECT Name FROM Symptom WHERE PatientId = @PatientId";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@PatientId", patientId);
-
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                symptomDataGridView.DataSource = dt;
-            }
+            List<Symptom> symptoms = symptomBL.GetSymptomsByPatientId(patientId);
+            symptomDataGridView.DataSource = symptoms;
         }
+
+        
+            
 
         private void DiagnosisForm_Load(object sender, EventArgs e)
         {
@@ -300,8 +287,8 @@ namespace PresentationLayer
         }
 
 
-        //Hiển thị lên label 
-        private void CalculateTotalPills()
+    //Hiển thị lên label 
+    private void CalculateTotalPills()
         {
             // Lấy số lượng từ các TextBox (mặc định = 0 nếu không nhập hoặc nhập sai)
             int morning = int.TryParse(txtMorning.Text, out int m) ? m : 0;
@@ -391,6 +378,26 @@ namespace PresentationLayer
         }
 
         private void cbPatients_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void symptomDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void lbSymptom_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label13_Click(object sender, EventArgs e)
         {
 
         }
