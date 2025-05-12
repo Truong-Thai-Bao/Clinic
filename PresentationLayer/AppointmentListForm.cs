@@ -16,6 +16,9 @@ namespace PresentationLayer
     public partial class AppointmentListForm : Form
     {
         private DataTransferLayer.UserInfo currentUser;
+        private AppointmentBL appointmentBL = new AppointmentBL();
+        private DoctorBL doctorBL = new DoctorBL();
+
         public AppointmentListForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
@@ -25,21 +28,22 @@ namespace PresentationLayer
         // Dùng để load danh sách bác sĩ vào combobox
         private void LoadDoctorFilter()
         {
-            cbDoctorFilter.Items.Clear();
-            cbDoctorFilter.Items.Add("Tất cả");
-
-            string query = "SELECT DISTINCT DoctorName FROM Appointment";
-            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
+           try
             {
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                cbDoctorFilter.Items.Clear();
+                cbDoctorFilter.Items.Add("Tất cả");
+
+                var doctorNames = doctorBL.GetDoctorNames();
+                foreach (var doctorName in doctorNames)
                 {
-                    cbDoctorFilter.Items.Add(reader["DoctorName"].ToString());
+                    cbDoctorFilter.Items.Add(doctorName);
                 }
+                cbDoctorFilter.SelectedIndex = 0;
             }
-            cbDoctorFilter.SelectedIndex = 0;
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải danh sách bác sĩ: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         // Dùng để lọc danh sách lịch hẹn theo bác sĩ và ngày
@@ -58,44 +62,41 @@ namespace PresentationLayer
         private void LoadAppointments()
         {
             lsvAppointmentList.Items.Clear();
-            string query = "SELECT * FROM Appointment";
-
-            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
+            try
             {
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-
+                DataTable dt = appointmentBL.GetAllAppointments();
                 int stt = 1;
-                while (reader.Read())
+                foreach (DataRow row in dt.Rows)
                 {
-                    int isArrived = 0;
-                    object isArrivedValue = reader["IsArrived"];
-                    if (isArrivedValue != DBNull.Value)
-                    {
-                        isArrived = Convert.ToInt32(isArrivedValue);
-                    }
-                    // Lấy trạng thái của lịch hẹn
+                    int isArrived = Convert.ToInt32(row["IsArrived"] ?? 0);
                     string status = AppointmentBUS.GetAppointmentStatus(
-                           reader.GetDateTime(reader.GetOrdinal("AppointmentDate")),
-                           reader.GetTimeSpan(reader.GetOrdinal("AppointmentTime")),
-                           isArrived);
+                            Convert.ToDateTime(row["AppointmentDate"]),
+                            TimeSpan.Parse(row["AppointmentTime"].ToString()),
+                            isArrived);
 
-                    ListViewItem item = new ListViewItem(reader["AppointmentID"].ToString());
-                    item.SubItems.Add(reader["PatientName"].ToString());
-                    item.SubItems.Add(Convert.ToDateTime(reader["DateOfBirth"]).ToString("dd/MM/yyyy"));
-                    item.SubItems.Add(reader["Gender"].ToString());
-                    item.SubItems.Add(reader["BloodGroup"].ToString());
-                    item.SubItems.Add(reader["Contact"].ToString());
-                    item.SubItems.Add(reader["DoctorName"].ToString());
-                    item.SubItems.Add(Convert.ToDateTime(reader["AppointmentDate"]).ToString("dd/MM/yyyy"));
-                    item.SubItems.Add(reader["AppointmentTime"].ToString());
-                    item.SubItems.Add(reader["Symptoms"].ToString());
+                    ListViewItem item = new ListViewItem(row["AppointmentID"].ToString());
+                    item.SubItems.Add(row["PatientName"].ToString());
+                    item.SubItems.Add(row["DateOfBirth"] != DBNull.Value
+                        ? Convert.ToDateTime(row["DateOfBirth"]).ToString("dd/MM/yyyy")
+                        :"");
+                    item.SubItems.Add(row["Gender"].ToString());
+                    item.SubItems.Add(row["BloodGroup"].ToString());
+                    item.SubItems.Add(row["Contact"].ToString());
+                    item.SubItems.Add(row["DoctorName"].ToString());
+                    item.SubItems.Add(row["AppointmentDate"] != DBNull.Value
+                        ? Convert.ToDateTime(row["AppointmentDate"]).ToString("dd/MM/yyyy")
+                        : "");
+                    item.SubItems.Add(row["AppointmentTime"].ToString());
+                    item.SubItems.Add(row["Symptoms"].ToString());
                     item.SubItems.Add(status);
 
                     lsvAppointmentList.Items.Add(item);
                     stt++;
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải danh sách lịch hẹn: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -103,63 +104,51 @@ namespace PresentationLayer
         private void FilterAppointments()
         {
             string doctor = cbDoctorFilter.Text;
-            DateTime selectedDate = dtpDateFilter.Value.Date;
+            DateTime? selectedDate = chkFilterByDate.Checked ? dtpDateFilter.Value.Date : (DateTime?)null;
+            //DateTime selectedDate = dtpDateFilter.Value.Date;
             string keyword = txtSearch.Text.Trim().ToLower();
 
             bool filterDoctor = chkFilterByDoctor.Checked && doctor != "Tất cả";
-            bool filterDate = chkFilterByDate.Checked;
+            //bool filterDate = chkFilterByDate.Checked;
 
             lsvAppointmentList.Items.Clear();
-
-            string query = "SELECT * FROM Appointment WHERE 1=1";
-
-            if (filterDoctor)
-                query += " AND DoctorName = @DoctorName";
-            if (filterDate)
-                query += " AND AppointmentDate = @Date";
-
-            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
+            try
             {
-                if (filterDoctor)
-                    cmd.Parameters.AddWithValue("@DoctorName", doctor);
-                if (filterDate)
-                    cmd.Parameters.AddWithValue("@Date", selectedDate);
+                DataTable dt = appointmentBL.FilterAppointments(
+                    filterDoctor ? doctor : null,
+                    selectedDate,
+                    keyword);
 
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                foreach (DataRow row in dt.Rows)
                 {
-                    string patientName = reader["PatientName"].ToString();
-                    string contact = reader["Contact"].ToString();
-
-                    // Kiểm tra từ khóa tìm kiếm
-                    if (!string.IsNullOrEmpty(keyword))
-                    {
-                        if (!patientName.ToLower().Contains(keyword) && !contact.Contains(keyword))
-                            continue;
-                    }
-
-                    int isArrived = Convert.ToInt32(reader["IsArrived"]);
+                    int isArrived = Convert.ToInt32(row["IsArrived"] ?? 0);
                     string status = AppointmentBUS.GetAppointmentStatus(
-                           reader.GetDateTime(reader.GetOrdinal("AppointmentDate")),
-                           reader.GetTimeSpan(reader.GetOrdinal("AppointmentTime")),
-                           isArrived);
+                          Convert.ToDateTime(row["AppointmentDate"]),
+                          TimeSpan.Parse(row["AppointmentTime"].ToString()),
+                          isArrived);
 
-                    ListViewItem item = new ListViewItem(reader["AppointmentID"].ToString());
-                    item.SubItems.Add(patientName);
-                    item.SubItems.Add(Convert.ToDateTime(reader["DateOfBirth"]).ToString("dd/MM/yyyy"));
-                    item.SubItems.Add(reader["Gender"].ToString());
-                    item.SubItems.Add(reader["BloodGroup"].ToString());
-                    item.SubItems.Add(contact);
-                    item.SubItems.Add(reader["DoctorName"].ToString());
-                    item.SubItems.Add(Convert.ToDateTime(reader["AppointmentDate"]).ToString("dd/MM/yyyy"));
-                    item.SubItems.Add(reader["AppointmentTime"].ToString());
-                    item.SubItems.Add(reader["Symptoms"].ToString());
+                    ListViewItem item = new ListViewItem(row["AppointmentID"].ToString());
+                    item.SubItems.Add(row["PatientName"].ToString());
+                    item.SubItems.Add(row["DateOfBirth"] != DBNull.Value
+                        ? Convert.ToDateTime(row["DateOfBirth"]).ToString("dd/MM/yyyy")
+                        : "");
+                    item.SubItems.Add(row["Gender"].ToString());
+                    item.SubItems.Add(row["BloodGroup"].ToString());
+                    item.SubItems.Add(row["Contact"].ToString());
+                    item.SubItems.Add(row["DoctorName"].ToString());
+                    item.SubItems.Add(row["AppointmentDate"] != DBNull.Value
+                        ? Convert.ToDateTime(row["AppointmentDate"]).ToString("dd/MM/yyyy")
+                        : "");
+                    item.SubItems.Add(row["AppointmentTime"].ToString());
+                    item.SubItems.Add(row["Symptoms"].ToString());
                     item.SubItems.Add(status);
 
                     lsvAppointmentList.Items.Add(item);
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi lọc danh sách lịch hẹn: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -204,23 +193,17 @@ namespace PresentationLayer
 
                 if (result == DialogResult.Yes)
                 {
-                    DeleteAppointment(appointmentId);
-                    LoadAppointments(); // Load lại danh sách
+                    try
+                    {
+                        appointmentBL.DeleteAppointment(int.Parse(appointmentId));
+                        MessageBox.Show("Xoá lịch hẹn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadAppointments(); // Load lại danh sách
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Lỗi khi xoá lịch hẹn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-            }
-        }
-
-        // Dùng để xóa lịch hẹn khỏi CSDL
-        private void DeleteAppointment(string appointmentId)
-        {
-            string query = "DELETE FROM Appointment WHERE AppointmentID = @AppointmentID";
-
-            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
-            {
-                cmd.Parameters.AddWithValue("@AppointmentID", appointmentId);
-                conn.Open();
-                cmd.ExecuteNonQuery();
             }
         }
 
@@ -280,14 +263,15 @@ namespace PresentationLayer
             var result = MessageBox.Show("Xác nhận xoá lịch hẹn?", "Xác nhận", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                using (SqlConnection conn = new SqlConnection(DBCommon.connString))
+                try
                 {
-                    string query = "DELETE FROM Appointment WHERE AppointmentID = @ID";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@ID", id);
-
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    appointmentBL.DeleteAppointment(int.Parse(id));
+                    MessageBox.Show("Xoá lịch hẹn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadAppointments();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Lỗi khi xoá lịch hẹn: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             LoadAppointments();

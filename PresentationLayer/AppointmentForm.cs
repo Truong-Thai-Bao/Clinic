@@ -4,11 +4,18 @@ using System;
 using System.Data;
 using System.Windows.Forms;
 using DataLayer;
+using BusinessLayer;
+using DataTransferLayer;
+
 namespace PresentationLayer
 {
     public partial class AppointmentForm : Form
     {
         private DataTransferLayer.UserInfo currentUser;
+        private DoctorBL DoctorBL = new DoctorBL();
+        private PatientBL PatientBL = new PatientBL();
+        private AppointmentBL AppointmentBL = new AppointmentBL();
+
         public AppointmentForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
@@ -28,23 +35,16 @@ namespace PresentationLayer
         // Dùng để load danh sách bác sĩ
         private void LoadDoctors()
         {
-            using (SqlConnection sqlCon = new SqlConnection(DBCommon.connString))
+            try
             {
-                try
-                {
-                    string query = "SELECT DoctorId, DocName FROM Doctor";
-                    SqlDataAdapter da = new SqlDataAdapter(query, sqlCon);
-                    sqlCon.Open();
-                    DataSet ds = new DataSet();
-                    da.Fill(ds, "Doctor");
-                    cbSelectDoctor.DisplayMember = "DocName";
-                    cbSelectDoctor.ValueMember = "DoctorId";
-                    cbSelectDoctor.DataSource = ds.Tables["Doctor"];
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Đã xảy ra lỗi!");
-                }
+                var doctors = DoctorBL.GetAllDoctors();
+                cbSelectDoctor.DisplayMember = "DocName";
+                cbSelectDoctor.ValueMember = "DoctorId";
+                cbSelectDoctor.DataSource = doctors;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Đã xảy ra lỗi khi tải danh sách bác sĩ: "+ex.Message);
             }
         }
 
@@ -53,18 +53,22 @@ namespace PresentationLayer
         {
             txtPatientName.Text = "";
             txtContact.Text = "";
-            cbBloodGroup.Text = "";
-            dtpAge.Format = DateTimePickerFormat.Short;
-            cbGender.Text = "";
-            cbSymptom.Text = "";
+            dtpAge.CustomFormat = " ";
+            dtpAge.Format = DateTimePickerFormat.Custom;
             txtOtherSymptom.Text = "";
-            cbSelectDoctor.Text = "";
-            dtpAppointmentDate.Format = DateTimePickerFormat.Short;
+            dtpAppointmentDate.CustomFormat = " ";
+            dtpAppointmentDate.Format = DateTimePickerFormat.Custom;
             cbAppointmentTime.Text = "";
             lsvSymptom.Items.Clear();
             txtPatientName.Focus();
             txtOtherSymptom.ReadOnly = true;
             txtOtherSymptom.Enabled = false;
+            txtAddress.Text = "";
+            cbGender.SelectedIndex = -1;
+            cbBloodGroup.SelectedIndex = -1;
+            cbSelectDoctor.SelectedIndex = -1;
+            cbSymptom.SelectedIndex = -1;
+            cbAppointmentTime.SelectedIndex = -1;
         }
 
         // Dùng để thêm triệu chứng vào danh sách triệu chứng
@@ -111,6 +115,7 @@ namespace PresentationLayer
                 string.IsNullOrEmpty(cbAppointmentTime.Text))
             {
                 MessageBox.Show("Vui lòng điền đầy đủ thông tin!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
             if (lsvSymptom.Items.Count == 0)
             {
@@ -118,7 +123,7 @@ namespace PresentationLayer
                 return;
             }
 
-            // Tạo chuỗi triệu chứng từ ListView triệu chứng
+            // Lấy triệu chứng từ danh sách triệu chứng
             string symptoms = "";
             foreach (ListViewItem item in lsvSymptom.Items)
             {
@@ -126,72 +131,61 @@ namespace PresentationLayer
             }
             symptoms = symptoms.TrimEnd(',', ' ');
 
-            // Thêm vào ListView hiển thị lịch hẹn
-            int stt = lsvAppointment.Items.Count + 1;
-            ListViewItem appointmentItem = new ListViewItem(stt.ToString());
-            appointmentItem.SubItems.Add(txtPatientName.Text.Trim());
-            appointmentItem.SubItems.Add(dtpAge.Text);
-            appointmentItem.SubItems.Add(cbGender.Text);
-            appointmentItem.SubItems.Add(cbBloodGroup.Text);
-            appointmentItem.SubItems.Add(txtContact.Text.Trim());
-            appointmentItem.SubItems.Add(cbSelectDoctor.Text);
-            appointmentItem.SubItems.Add(dtpAppointmentDate.Value.ToString("dd-MM-yyyy"));
-            appointmentItem.SubItems.Add(cbAppointmentTime.Text);
-            appointmentItem.SubItems.Add(symptoms);
-            lsvAppointment.Items.Add(appointmentItem);
-
-            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
+            try
             {
-                conn.Open();
-
-                //Thêm bệnh nhân và lấy ID
-                string insertPatientQuery = @"
-                INSERT INTO Patient (Name, Contact, DateOfBirth, Gender, BloodGroup, DoctorId, Address, PCode)
-                VALUES (@Name, @Contact, @DateOfBirth, @Gender, @BloodGroup, @DoctorId, @Address, @PCode);
-                SELECT SCOPE_IDENTITY();";
-
-                int patientId;
-
-                using (SqlCommand cmd = new SqlCommand(insertPatientQuery, conn))
+                // Tạo và lưu thông tin bệnh nhân
+                PatientDTO patient = new PatientDTO();
                 {
-                    cmd.Parameters.AddWithValue("@Name", txtPatientName.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Contact", txtContact.Text.Trim());
-                    cmd.Parameters.AddWithValue("@DateOfBirth", dtpAge.Value.Date);
-                    cmd.Parameters.AddWithValue("@Gender", cbGender.Text);
-                    cmd.Parameters.AddWithValue("@BloodGroup", cbBloodGroup.Text);
-                    cmd.Parameters.AddWithValue("@Address", txtAddress.Text);
-                    cmd.Parameters.AddWithValue("@DoctorId", cbSelectDoctor.SelectedValue);
-                    cmd.Parameters.AddWithValue("@PCode", lblPCodeNum.Text.Trim());
+                    patient.Name = txtPatientName.Text.Trim();
+                    patient.Contact = txtContact.Text.Trim();
+                    patient.DateOfBirth = dtpAge.Value.Date;
+                    patient.Gender = cbGender.Text.Trim();
+                    patient.BloodGroup = cbBloodGroup.Text.Trim();
+                    patient.Address = txtAddress.Text.Trim();
+                    patient.DoctorId = (int)cbSelectDoctor.SelectedValue;
+                    patient.PCode = lblPCodeNum.Text.Trim();
+                };
+                int patientId = PatientBL.AddPatient(patient);
 
-                    patientId = Convert.ToInt32(cmd.ExecuteScalar());
-                }
-
-                //Thêm lịch hẹn
-                string insertAppointmentQuery = @"
-                INSERT INTO Appointment
-                (PatientId, DoctorName, AppointmentDate, AppointmentTime, Symptoms, Status, IsArrived)
-                VALUES
-                (@PatientId, @DoctorName, @AppointmentDate, @AppointmentTime, @Symptoms, @Status, @IsArrived);";
-
-                using (SqlCommand cmd = new SqlCommand(insertAppointmentQuery, conn))
+                // Tạo và lưu thông tin lịch hẹn
+                AppointmentDTO appointment = new AppointmentDTO();
                 {
-                    cmd.Parameters.AddWithValue("@PatientId", patientId);
-                    cmd.Parameters.AddWithValue("@DoctorName", cbSelectDoctor.Text);
-                    cmd.Parameters.AddWithValue("@AppointmentDate", dtpAppointmentDate.Value.Date);
-                    cmd.Parameters.AddWithValue("@AppointmentTime", TimeSpan.Parse(cbAppointmentTime.SelectedItem.ToString() + ":00"));
-                    cmd.Parameters.AddWithValue("@Symptoms", symptoms);
-                    cmd.Parameters.AddWithValue("@Status", "Chưa khám");
-                    cmd.Parameters.AddWithValue("@IsArrived", false);
+                    appointment.PatientId = patientId;
+                    appointment.DoctorName = cbSelectDoctor.Text.Trim();
+                    appointment.AppointmentDate = dtpAppointmentDate.Value.Date;
+                    appointment.AppointmentTime = TimeSpan.Parse(cbAppointmentTime.SelectedItem.ToString() + ":00");
+                    appointment.Symptoms = symptoms;
+                    appointment.Status = "Chưa khám";
+                    appointment.IsArrived = false;
+                };
+                AppointmentBL.AddAppointment(appointment);
 
-                    cmd.ExecuteNonQuery();
-                }
+                // Tạo và lưu thông tin đơn thuốc
+                PrescriptionDTO prescription = new PrescriptionDTO();
+                {
+                    prescription.PatientId = patientId;
+                };
 
-                conn.Close();
+                int stt = lsvAppointment.Items.Count + 1;
+                ListViewItem appointmentItem = new ListViewItem(stt.ToString());
+                appointmentItem.SubItems.Add(txtPatientName.Text.Trim());
+                appointmentItem.SubItems.Add(dtpAge.Text);
+                appointmentItem.SubItems.Add(cbGender.Text);
+                appointmentItem.SubItems.Add(cbBloodGroup.Text);
+                appointmentItem.SubItems.Add(txtContact.Text.Trim());
+                appointmentItem.SubItems.Add(cbSelectDoctor.Text);
+                appointmentItem.SubItems.Add(dtpAppointmentDate.Value.ToString("dd-MM-yyyy"));
+                appointmentItem.SubItems.Add(cbAppointmentTime.Text);
+                appointmentItem.SubItems.Add(symptoms);
+                lsvAppointment.Items.Add(appointmentItem);
+
                 MessageBox.Show("Đặt lịch hẹn thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Reset();
             }
-
-            Reset();
-
+            catch (Exception ex)
+            {
+                MessageBox.Show("Đã xảy ra lỗi khi đặt lịch hẹn: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         // Dùng để xóa triệu chứng trong danh sách triệu chứng
@@ -237,19 +231,24 @@ namespace PresentationLayer
                 return;
             }
 
-            string id = lsvAppointment.SelectedItems[0].Text;
+            int appointmentId = int.Parse(lsvAppointment.SelectedItems[0].Text);
 
             var result = MessageBox.Show("Xác nhận xoá lịch hẹn?", "Xác nhận", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                using (SqlConnection conn = new SqlConnection(DBCommon.connString))
+                try
                 {
-                    string query = "DELETE FROM Appointment WHERE AppointmentID = @ID";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@ID", id);
-
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    AppointmentBL.DeleteAppointment(appointmentId);
+                    lsvAppointment.Items.Remove(lsvAppointment.SelectedItems[0]);
+                    for (int i = 0; i < lsvAppointment.Items.Count; i++)
+                    {
+                        lsvAppointment.Items[i].Text = (i + 1).ToString();
+                    }
+                    MessageBox.Show("Xoá lịch hẹn thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Đã xảy ra lỗi khi xoá lịch hẹn: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -272,42 +271,72 @@ namespace PresentationLayer
                 return;
             }
 
-            string query = @"UPDATE Appointment 
-                     SET PatientName = @PatientName,
-                         DateOfBirth = @DateOfBirth,
-                         Gender = @Gender,
-                         BloodGroup = @BloodGroup,
-                         Contact = @Contact,
-                         DoctorName = @DoctorName,
-                         AppointmentDate = @AppointmentDate,
-                         AppointmentTime = @AppointmentTime,
-                         Symptoms = @Symptoms
-                     WHERE AppointmentID = @AppointmentID";
-
-            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
+            string symptoms = "";
+            foreach (ListViewItem item in lsvSymptom.Items)
             {
-                cmd.Parameters.AddWithValue("@PatientName", txtPatientName.Text.Trim());
-                cmd.Parameters.AddWithValue("@DateOfBirth", dtpAge.Value.Date);
-                cmd.Parameters.AddWithValue("@Gender", cbGender.Text);
-                cmd.Parameters.AddWithValue("@BloodGroup", cbBloodGroup.Text);
-                cmd.Parameters.AddWithValue("@Contact", txtContact.Text.Trim());
-                cmd.Parameters.AddWithValue("@DoctorName", cbSelectDoctor.Text);
-                cmd.Parameters.AddWithValue("@AppointmentDate", dtpAppointmentDate.Value.Date);
-                cmd.Parameters.AddWithValue("@AppointmentTime", TimeSpan.Parse(cbAppointmentTime.Text));
-                cmd.Parameters.AddWithValue("@Symptoms", lsvSymptom.Text.Trim());
-                cmd.Parameters.AddWithValue("@AppointmentID", editingAppointmentID);
-
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                symptoms += item.SubItems[1].Text + ", ";
             }
+            symptoms = symptoms.TrimEnd(',', ' ');
 
-            MessageBox.Show("Cập nhật thành công!");
+            try
+            {
+                AppointmentDTO appointment = new AppointmentDTO
+                {
+                    AppointmentID = int.Parse(editingAppointmentID),
+                    PatientId = int.Parse(lsvAppointment.SelectedItems[0].Text),
+                    DoctorName = cbSelectDoctor.Text.Trim(),
+                    AppointmentDate = dtpAppointmentDate.Value.Date,
+                    AppointmentTime = TimeSpan.Parse(cbAppointmentTime.SelectedItem.ToString() + ":00"),
+                    Symptoms = symptoms,
+                    Status = "Chưa khám",
+                    IsArrived = false
+                };
 
-            // Cập nhật lại danh sách lịch hẹn
-
-            editingAppointmentID = null;
-            Reset();
+                PatientDTO patient = new PatientDTO()
+                {
+                    PatientId = int.Parse(lsvAppointment.SelectedItems[0].Text),
+                    Name = txtPatientName.Text.Trim(),
+                    Contact = txtContact.Text.Trim(),
+                    DateOfBirth = dtpAge.Value.Date,
+                    Gender = cbGender.Text.Trim(),
+                    BloodGroup = cbBloodGroup.Text.Trim(),
+                    Address = txtAddress.Text.Trim(),
+                    DoctorId = Convert.ToInt32(cbSelectDoctor.SelectedValue),
+                    PCode = lblPCodeNum.Text.Trim()
+                };
+                AppointmentBL.UpdateAppointment(appointment, patient);
+                // Cập nhật lại ListView
+                ListViewItem selectedItem = lsvAppointment.SelectedItems[0];
+                selectedItem.SubItems[1].Text = txtPatientName.Text.Trim();
+                selectedItem.SubItems[2].Text = dtpAge.Text;
+                selectedItem.SubItems[3].Text = cbGender.Text;
+                selectedItem.SubItems[4].Text = cbBloodGroup.Text;
+                selectedItem.SubItems[5].Text = txtContact.Text.Trim();
+                selectedItem.SubItems[6].Text = cbSelectDoctor.Text;
+                selectedItem.SubItems[7].Text = dtpAppointmentDate.Value.ToString("dd-MM-yyyy");
+                selectedItem.SubItems[8].Text = cbAppointmentTime.Text;
+                selectedItem.SubItems[9].Text = symptoms;
+                // Cập nhật lại số thứ tự (STT)
+                for (int i = 0; i < lsvAppointment.Items.Count; i++)
+                {
+                    lsvAppointment.Items[i].Text = (i + 1).ToString();
+                }
+                // Cập nhật lại danh sách triệu chứng
+                lsvSymptom.Items.Clear();
+                foreach (ListViewItem item in lsvSymptom.Items)
+                {
+                    ListViewItem newItem = new ListViewItem(item.Text);
+                    newItem.SubItems.Add(item.SubItems[1].Text);
+                    lsvSymptom.Items.Add(newItem);
+                }
+                MessageBox.Show("Cập nhật lịch hẹn thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Reset();
+                editingAppointmentID = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Đã xảy ra lỗi khi cập nhật lịch hẹn: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         // Dùng để thêm triệu chứng vào danh sách triệu chứng
