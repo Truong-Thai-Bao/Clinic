@@ -30,7 +30,7 @@ namespace PresentationLayer
             else
             {
                 this.Hide();
-                DoctorForm doctorForm = new DoctorForm();
+                DoctorForm doctorForm = new DoctorForm(currentUser);
                 doctorForm.Show();
 
             }    

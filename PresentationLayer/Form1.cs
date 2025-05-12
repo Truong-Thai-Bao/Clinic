@@ -122,7 +122,7 @@ namespace PresentationLayer
                 command.Parameters.AddWithValue("@UserPassword", txtPassword.Text.Trim());
                 command.Parameters.AddWithValue("@UserType", 1); //1 means Admin
                 command.Parameters.AddWithValue("@AddedDate", DateTime.Now);
-                //command.Parameters.AddWithValue("@AddedBy", Global.UserInfo.UserId);
+                command.Parameters.AddWithValue("@AddedBy", Global.UserInfo.UserId);
                 command.ExecuteNonQuery();
                 MessageBox.Show("Đăng ký thành công! Mời bạn đăng nhập.");
                 sqlCon.Close();

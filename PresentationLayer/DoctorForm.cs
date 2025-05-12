@@ -18,7 +18,7 @@ namespace PresentationLayer
     {
         private DataTransferLayer.UserInfo currentUser;
         SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
-        public DoctorForm()
+        public DoctorForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
 
@@ -296,7 +296,7 @@ namespace PresentationLayer
             else
             {
                 sqlCon = BusinessLayer.CmnMethods.OpenConnectionString(sqlCon);
-                string query = string.Format(@"SELECT * FROM Dianosis WHERE DoctorId = {0}", Convert.ToInt32(txtDocId.Text));
+                string query = string.Format(@"SELECT * FROM Diagnosis WHERE DoctorId = {0}", Convert.ToInt32(txtDocId.Text));
                 SqlDataAdapter sda = new SqlDataAdapter(query, sqlCon);
                 SqlCommandBuilder scb = new SqlCommandBuilder(sda);
                 var dataSet = new DataSet();
