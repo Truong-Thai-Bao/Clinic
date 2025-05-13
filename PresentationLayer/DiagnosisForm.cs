@@ -374,5 +374,11 @@ namespace PresentationLayer
                 medicineDataGridView.Rows.RemoveAt(e.RowIndex);
         }
 
+        private void pictureBoxLogout_Click_1(object sender, EventArgs e)
+        {
+            this.Hide();
+            MenuForm menuForm = new MenuForm(currentUser);
+            menuForm.Show();
+        }
     }
 }

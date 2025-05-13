@@ -18,13 +18,14 @@ namespace PresentationLayer
     public partial class PatientArrivalForm : Form
     {
         private DataTransferLayer.UserInfo currentUser;
+        private AppointmentBL appointmentBL = new AppointmentBL();
         public PatientArrivalForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
             this.currentUser = currentUser;
         }
 
-        // Dùng để logout quat về menu 
+        // Dùng để logout quay về menu 
         private void pictureBoxLogout_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -35,7 +36,6 @@ namespace PresentationLayer
         private void PatientArrivalForm_Load(object sender, EventArgs e)
         {
             btnNewAdmission.Enabled = false;
-
             rdoNo.Checked = false;
             rdoYes.Checked = false;
 
@@ -62,73 +62,26 @@ namespace PresentationLayer
         private void LoadAppointments()
         {
             lsvAppointmentList.Items.Clear();
-            List<AppointmentDTO> appointments = new List<AppointmentDTO>();
-            //string query = "SELECT * FROM Appointment";
-
-            //using (SqlConnection conn = new SqlConnection(DBCommon.connString))
-            //using (SqlCommand cmd = new SqlCommand(query, conn))
-            //{
-            //    conn.Open();
-            int stt = 1;
-            //SqlDataReader reader = cmd.ExecuteReader();
-            foreach(var app in appointments)
+            DataTable dt = appointmentBL.GetAllAppointments();
+            foreach (DataRow row in dt.Rows)
             {
-                int isArrived = 0;
-                object isArrivedValue = app.IsArrived;
-                if (isArrivedValue != DBNull.Value)
-                {
-                    isArrived = Convert.ToInt32(isArrivedValue);
-                }
-                // Lấy trạng thái của lịch hẹn
-                string status = AppointmentBUS.GetAppointmentStatus(
-                        app.AppointmentDate,
-                        app.AppointmentTime,
-                        isArrived);
-
-                ListViewItem item = new ListViewItem(app.PatientId.ToString());
-                item.SubItems.Add(app.patient.Name.ToString());
-                item.SubItems.Add(Convert.ToDateTime(app.patient.DateOfBirth).ToString("dd/MM/yyyy"));
-                item.SubItems.Add(app.patient.Gender.ToString());
-                item.SubItems.Add(app.patient.BloodGroup.ToString());
-                item.SubItems.Add(app.patient.Contact.ToString());
-                item.SubItems.Add(app.DoctorName).ToString();
-                item.SubItems.Add(Convert.ToDateTime(app.AppointmentDate).ToString("dd/MM/yyyy"));
-                item.SubItems.Add(app.AppointmentTime.ToString());
-                item.SubItems.Add(app.Symptoms.ToString());
-                item.SubItems.Add(status);
-
+                var item = new ListViewItem(row["AppointmentID"].ToString());
+                item.SubItems.Add(row["PatientName"].ToString());
+                item.SubItems.Add(Convert.ToDateTime(row["DateOfBirth"]).ToString("dd/MM/yyyy"));
+                item.SubItems.Add(row["Gender"].ToString());
+                item.SubItems.Add(row["BloodGroup"].ToString());
+                item.SubItems.Add(row["Contact"].ToString());
+                item.SubItems.Add(row["DoctorName"].ToString());
+                item.SubItems.Add(Convert.ToDateTime(row["AppointmentDate"]).ToString("dd/MM/yyyy"));
+                item.SubItems.Add(row["AppointmentTime"].ToString());
+                item.SubItems.Add(row["Symptoms"].ToString());
+                bool isArrived = Convert.ToBoolean(row["IsArrived"]);
+                item.SubItems.Add(AppointmentBUS.GetAppointmentStatus(
+                    Convert.ToDateTime(row["AppointmentDate"]),
+                    TimeSpan.Parse(row["AppointmentTime"].ToString()),
+                    isArrived ? 1 : 0));
                 lsvAppointmentList.Items.Add(item);
-                stt++;
             }
-                //while (reader.Read())
-                //{
-                //    int isArrived = 0;
-                //    object isArrivedValue = reader["IsArrived"];
-                //    if (isArrivedValue != DBNull.Value)
-                //    {
-                //        isArrived = Convert.ToInt32(isArrivedValue);
-                //    }
-                //    // Lấy trạng thái của lịch hẹn
-                //    string status = AppointmentBUS.GetAppointmentStatus(
-                //            reader.GetDateTime(reader.GetOrdinal("AppointmentDate")),
-                //            reader.GetTimeSpan(reader.GetOrdinal("AppointmentTime")),
-                //            isArrived);
-
-                //    ListViewItem item = new ListViewItem(reader["AppointmentID"].ToString());
-                //    item.SubItems.Add(reader["PatientName"].ToString());
-                //    item.SubItems.Add(Convert.ToDateTime(reader["DateOfBirth"]).ToString("dd/MM/yyyy"));
-                //    item.SubItems.Add(reader["Gender"].ToString());
-                //    item.SubItems.Add(reader["BloodGroup"].ToString());
-                //    item.SubItems.Add(reader["Contact"].ToString());
-                //    item.SubItems.Add(reader["DoctorName"].ToString());
-                //    item.SubItems.Add(Convert.ToDateTime(reader["AppointmentDate"]).ToString("dd/MM/yyyy"));
-                //    item.SubItems.Add(reader["AppointmentTime"].ToString());
-                //    item.SubItems.Add(reader["Symptoms"].ToString());
-                //    item.SubItems.Add(status);
-
-                //    lsvAppointmentList.Items.Add(item);
-                //    stt++;
-                //}
         }
 
         // Dùng để xử lý sự kiện khi người dùng nhấn nút "Tiếp nhận mới"
@@ -142,49 +95,42 @@ namespace PresentationLayer
         // Dùng để lọc danh sách lịch hẹn theo bác sĩ và ngày || Tìm kiếm lịch hẹn bằng Tên bệnh nhân hoặc SĐT
         private void FilterAppointments()
         {
-            string keyword = txtSearch.Text.Trim().ToLower();
-
             lsvAppointmentList.Items.Clear();
-
-            string query = "SELECT * FROM Appointment WHERE 1=1";
-
-            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
+            try
             {
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                string keyword = txtSearch.Text.Trim().ToLower();
+                DataTable dt = appointmentBL.GetAppointmentsByKeyword(keyword);
+
+                foreach (DataRow row in dt.Rows)
                 {
-                    string patientName = reader["PatientName"].ToString();
-                    string contact = reader["Contact"].ToString();
-
-                    // Kiểm tra từ khóa tìm kiếm
-                    if (!string.IsNullOrEmpty(keyword))
-                    {
-                        if (!patientName.ToLower().Contains(keyword) && !contact.Contains(keyword))
-                            continue;
-                    }
-
-                    int isArrived = Convert.ToInt32(reader["IsArrived"]);
+                    int isArrived = Convert.ToInt32(row["IsArrived"] ?? 0);
                     string status = AppointmentBUS.GetAppointmentStatus(
-                           reader.GetDateTime(reader.GetOrdinal("AppointmentDate")),
-                           reader.GetTimeSpan(reader.GetOrdinal("AppointmentTime")),
-                           isArrived);
+                          Convert.ToDateTime(row["AppointmentDate"]),
+                          TimeSpan.Parse(row["AppointmentTime"].ToString()),
+                          isArrived);
 
-                    ListViewItem item = new ListViewItem(reader["AppointmentID"].ToString());
-                    item.SubItems.Add(patientName);
-                    item.SubItems.Add(Convert.ToDateTime(reader["DateOfBirth"]).ToString("dd/MM/yyyy"));
-                    item.SubItems.Add(reader["Gender"].ToString());
-                    item.SubItems.Add(reader["BloodGroup"].ToString());
-                    item.SubItems.Add(contact);
-                    item.SubItems.Add(reader["DoctorName"].ToString());
-                    item.SubItems.Add(Convert.ToDateTime(reader["AppointmentDate"]).ToString("dd/MM/yyyy"));
-                    item.SubItems.Add(reader["AppointmentTime"].ToString());
-                    item.SubItems.Add(reader["Symptoms"].ToString());
+                    ListViewItem item = new ListViewItem(row["AppointmentID"].ToString());
+                    item.SubItems.Add(row["PatientName"].ToString());
+                    item.SubItems.Add(row["DateOfBirth"] != DBNull.Value
+                        ? Convert.ToDateTime(row["DateOfBirth"]).ToString("dd/MM/yyyy")
+                        : "");
+                    item.SubItems.Add(row["Gender"].ToString());
+                    item.SubItems.Add(row["BloodGroup"].ToString());
+                    item.SubItems.Add(row["Contact"].ToString());
+                    item.SubItems.Add(row["DoctorName"].ToString());
+                    item.SubItems.Add(row["AppointmentDate"] != DBNull.Value
+                        ? Convert.ToDateTime(row["AppointmentDate"]).ToString("dd/MM/yyyy")
+                        : "");
+                    item.SubItems.Add(row["AppointmentTime"].ToString());
+                    item.SubItems.Add(row["Symptoms"].ToString());
                     item.SubItems.Add(status);
 
                     lsvAppointmentList.Items.Add(item);
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi lọc danh sách lịch hẹn: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

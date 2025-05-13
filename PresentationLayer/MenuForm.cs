@@ -105,5 +105,12 @@ namespace PresentationLayer
             PatientForm patientForm = new PatientForm(currentUser);
             patientForm.Show();
         }
+
+        private void pictureBox3_Click_1(object sender, EventArgs e)
+        {
+            this.Hide();
+            PatientArrivalForm patientArrivalForm = new PatientArrivalForm(currentUser);
+            patientArrivalForm.Show();
+        }
     }
 }

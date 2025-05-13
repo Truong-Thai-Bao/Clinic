@@ -197,7 +197,7 @@ namespace PresentationLayer
                     {
                         appointmentBL.DeleteAppointment(int.Parse(appointmentId));
                         MessageBox.Show("Xoá lịch hẹn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadAppointments(); // Load lại danh sách
+                        LoadAppointments();
                     }
                     catch (Exception ex)
                     {
@@ -266,7 +266,7 @@ namespace PresentationLayer
                 try
                 {
                     appointmentBL.DeleteAppointment(int.Parse(id));
-                    MessageBox.Show("Xoá lịch hẹn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Xoá lịch hẹn thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadAppointments();
                 }
                 catch (Exception ex)
@@ -274,7 +274,6 @@ namespace PresentationLayer
                     MessageBox.Show($"Lỗi khi xoá lịch hẹn: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            LoadAppointments();
         }
     }
 }

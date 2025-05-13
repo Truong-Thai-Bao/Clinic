@@ -19,7 +19,7 @@ namespace BusinessLayer
         {
             try
             {
-                return diagnosisDL.SaveDianosisDL(diagnosis);
+                return diagnosisDL.SaveDiagnosisDL(diagnosis);
             }
             catch (Exception ex)
             {

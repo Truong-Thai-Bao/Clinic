@@ -36,7 +36,6 @@ namespace DataLayer
                         Day = reader["Day"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Day"]),
                         AddedDate = (DateTime)reader["AddedDate"],
                         Diagnosis = reader["Diagnosis"].ToString(),
-                        Type = reader["Type"].ToString()
                     });
                 }
                 conn.Close();

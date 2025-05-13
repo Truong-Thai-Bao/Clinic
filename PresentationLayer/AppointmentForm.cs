@@ -6,15 +6,16 @@ using System.Windows.Forms;
 using DataLayer;
 using BusinessLayer;
 using DataTransferLayer;
+using System.Globalization;
 
 namespace PresentationLayer
 {
     public partial class AppointmentForm : Form
     {
         private DataTransferLayer.UserInfo currentUser;
-        private DoctorBL DoctorBL = new DoctorBL();
-        private PatientBL PatientBL = new PatientBL();
-        private AppointmentBL AppointmentBL = new AppointmentBL();
+        private DoctorBL doctorBL = new DoctorBL();
+        private PatientBL patientBL = new PatientBL();
+        private AppointmentBL appointmentBL = new AppointmentBL();
         private SymptomBL symptomBL;
         public AppointmentForm(DataTransferLayer.UserInfo currentUser)
         {
@@ -38,7 +39,7 @@ namespace PresentationLayer
         {
             try
             {
-                var doctors = DoctorBL.GetAllDoctors();
+                var doctors = doctorBL.GetAllDoctors();
                 cbSelectDoctor.DisplayMember = "DocName";
                 cbSelectDoctor.ValueMember = "DoctorId";
                 cbSelectDoctor.DataSource = doctors;
@@ -54,10 +55,12 @@ namespace PresentationLayer
         {
             txtPatientName.Text = "";
             txtContact.Text = "";
-            dtpAge.CustomFormat = " ";
+            //dtpAge.CustomFormat = " ";
+            dtpAge.Value = DateTime.Today;
             dtpAge.Format = DateTimePickerFormat.Custom;
             txtOtherSymptom.Text = "";
-            dtpAppointmentDate.CustomFormat = " ";
+            //dtpAppointmentDate.CustomFormat = " ";
+            dtpAppointmentDate.Value = DateTime.Today;
             dtpAppointmentDate.Format = DateTimePickerFormat.Custom;
             cbAppointmentTime.Text = "";
             lsvSymptom.Items.Clear();
@@ -113,7 +116,8 @@ namespace PresentationLayer
                 string.IsNullOrEmpty(cbGender.Text) ||
                 string.IsNullOrEmpty(cbSelectDoctor.Text) ||
                 string.IsNullOrEmpty(dtpAppointmentDate.Text) ||
-                string.IsNullOrEmpty(cbAppointmentTime.Text))
+                string.IsNullOrEmpty(cbAppointmentTime.Text) ||
+                string.IsNullOrEmpty(txtAddress.Text))
             {
                 MessageBox.Show("Vui lòng điền đầy đủ thông tin!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -147,7 +151,7 @@ namespace PresentationLayer
                     patient.DoctorId = (int)cbSelectDoctor.SelectedValue;
                     patient.PCode = lblPCodeNum.Text.Trim();
                 };
-                int patientId = PatientBL.AddPatient(patient);
+                int patientId = patientBL.AddPatient(patient);
 
                 Symptom symptom = new Symptom();
                 {
@@ -157,7 +161,7 @@ namespace PresentationLayer
                     symptom.AddedBy = currentUser.UserId;
                 }
                 symptomBL.InsertSymtom(symptom);
-                //MessageBox.Show("hi");
+
                 // Tạo và lưu thông tin lịch hẹn
                 AppointmentDTO appointment = new AppointmentDTO();
                 {
@@ -169,7 +173,7 @@ namespace PresentationLayer
                     appointment.Status = "Chưa khám";
                     appointment.IsArrived = false;
                 };
-                AppointmentBL.AddAppointment(appointment);
+                int appointmentId = appointmentBL.AddAppointment(appointment);
 
                 // Tạo và lưu thông tin đơn thuốc
                 PrescriptionDTO prescription = new PrescriptionDTO();
@@ -188,6 +192,8 @@ namespace PresentationLayer
                 appointmentItem.SubItems.Add(dtpAppointmentDate.Value.ToString("dd-MM-yyyy"));
                 appointmentItem.SubItems.Add(cbAppointmentTime.Text);
                 appointmentItem.SubItems.Add(symptoms);
+                appointmentItem.SubItems.Add("Chưa khám");
+                appointmentItem.Tag = appointmentId; // Lưu AppointmentID
                 lsvAppointment.Items.Add(appointmentItem);
 
                 MessageBox.Show("Đặt lịch hẹn thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -233,33 +239,90 @@ namespace PresentationLayer
             cbAppointmentTime.DropDownStyle = ComboBoxStyle.DropDownList; // Không cho nhập tay
         }
 
+        // Dùng để load danh sách lịch hẹn
+        private void LoadAppointments()
+        {
+            lsvAppointment.Items.Clear();
+            try
+            {
+                DataTable dt = appointmentBL.GetAllAppointments();
+                int stt = 1;
+                foreach (DataRow row in dt.Rows)
+                {
+                    int isArrived = Convert.ToInt32(row["IsArrived"] ?? 0);
+                    string status = AppointmentBUS.GetAppointmentStatus(
+                            Convert.ToDateTime(row["AppointmentDate"]),
+                            TimeSpan.Parse(row["AppointmentTime"].ToString()),
+                            isArrived);
+
+                    ListViewItem item = new ListViewItem(row["AppointmentID"].ToString());
+                    item.SubItems.Add(row["PatientName"].ToString());
+                    // Xử lý DateOfBirth
+                    string dateOfBirth = "";
+                    if (row["DateOfBirth"] != DBNull.Value && DateTime.TryParse(row["DateOfBirth"].ToString(), out DateTime dob))
+                    {
+                        dateOfBirth = dob.ToString("dd/MM/yyyy");
+                    }
+                    else
+                    {
+                        dateOfBirth = DateTime.Today.ToString("dd/MM/yyyy"); // Giá trị mặc định
+                        MessageBox.Show($"DateOfBirth trống hoặc không hợp lệ cho AppointmentID: {row["AppointmentID"]}", "Debug");
+                    }
+                    item.SubItems.Add(row["Gender"].ToString());
+                    item.SubItems.Add(row["BloodGroup"].ToString());
+                    item.SubItems.Add(row["Contact"].ToString());
+                    item.SubItems.Add(row["DoctorName"].ToString());
+                    // Xử lý AppointmentDate
+                    string appointmentDate = "";
+                    if (row["AppointmentDate"] != DBNull.Value && DateTime.TryParse(row["AppointmentDate"].ToString(), out DateTime apptDate))
+                    {
+                        appointmentDate = apptDate.ToString("dd/MM/yyyy");
+                    }
+                    else
+                    {
+                        appointmentDate = DateTime.Today.ToString("dd/MM/yyyy");
+                        MessageBox.Show($"AppointmentDate trống hoặc không hợp lệ cho AppointmentID: {row["AppointmentID"]}", "Debug");
+                    }
+                    item.SubItems.Add(row["AppointmentTime"].ToString());
+                    item.SubItems.Add(row["Symptoms"].ToString());
+                    item.SubItems.Add(status);
+
+                    lsvAppointment.Items.Add(item);
+                    stt++;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải danh sách lịch hẹn: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         // Dùng để xóa lịch hẹn
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (lsvAppointment.SelectedItems.Count == 0)
+            if (lsvAppointment.SelectedItems.Count > 0)
             {
-                MessageBox.Show("Vui lòng chọn lịch hẹn để xoá.");
-                return;
-            }
+                ListViewItem selectedItem = lsvAppointment.SelectedItems[0];
+                int appointmentId = (int)selectedItem.Tag;
 
-            int appointmentId = int.Parse(lsvAppointment.SelectedItems[0].Text);
+                var result = MessageBox.Show("Xác nhận xoá lịch hẹn?", "Xác nhận", MessageBoxButtons.YesNo);
 
-            var result = MessageBox.Show("Xác nhận xoá lịch hẹn?", "Xác nhận", MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
-            {
-                try
+                if (result == DialogResult.Yes)
                 {
-                    AppointmentBL.DeleteAppointment(appointmentId);
-                    lsvAppointment.Items.Remove(lsvAppointment.SelectedItems[0]);
-                    for (int i = 0; i < lsvAppointment.Items.Count; i++)
+                    try
                     {
-                        lsvAppointment.Items[i].Text = (i + 1).ToString();
+                        appointmentBL.DeleteAppointment(appointmentId);
+                        lsvAppointment.Items.Remove(lsvAppointment.SelectedItems[0]);
+                        for (int i = 0; i < lsvAppointment.Items.Count; i++)
+                        {
+                            lsvAppointment.Items[i].Text = (i + 1).ToString();
+                        }
+                        MessageBox.Show("Xoá lịch hẹn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    MessageBox.Show("Xoá lịch hẹn thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Đã xảy ra lỗi khi xoá lịch hẹn: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Lỗi khi xoá lịch hẹn: { ex.Message}", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
@@ -315,7 +378,7 @@ namespace PresentationLayer
                     DoctorId = Convert.ToInt32(cbSelectDoctor.SelectedValue),
                     PCode = lblPCodeNum.Text.Trim()
                 };
-                AppointmentBL.UpdateAppointment(appointment, patient);
+                appointmentBL.UpdateAppointment(appointment, patient);
                 // Cập nhật lại ListView
                 ListViewItem selectedItem = lsvAppointment.SelectedItems[0];
                 selectedItem.SubItems[1].Text = txtPatientName.Text.Trim();
@@ -406,6 +469,7 @@ namespace PresentationLayer
 
             txtPatientName.Text = item.SubItems[1].Text;
             dtpAge.Value = DateTime.ParseExact(item.SubItems[2].Text, "dd/MM/yyyy", null);
+
             cbGender.Text = item.SubItems[3].Text;
             cbBloodGroup.Text = item.SubItems[4].Text;
             txtContact.Text = item.SubItems[5].Text;
@@ -420,8 +484,7 @@ namespace PresentationLayer
                 MessageBox.Show("Ngày sinh không hợp lệ: " + item.SubItems[2].Text);
             }
 
-            cbAppointmentTime.Text = item.SubItems[8].Text.Substring(0, 5); // Cắt bớt :00 nếu cần
-            cbSymptom.Text = item.SubItems[9].Text;
+            cbAppointmentTime.Text = item.SubItems[8].Text.Substring(0, 5); // Cắt bớt :00
         }
 
         private void btnGetPrescription_Click(object sender, EventArgs e)
@@ -429,6 +492,11 @@ namespace PresentationLayer
             this.Hide();
             DoctorPrescriptionForm form = new DoctorPrescriptionForm(currentUser);
             form.Show();
+        }
+
+        private void lsvAppointment_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
         }
     }
 }

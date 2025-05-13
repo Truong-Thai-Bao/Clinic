@@ -47,6 +47,8 @@
             this.txtPatientName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.grbPatientInfo = new System.Windows.Forms.GroupBox();
+            this.txtAddress = new System.Windows.Forms.TextBox();
+            this.lblAddress = new System.Windows.Forms.Label();
             this.txtContact = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.dtpAge = new System.Windows.Forms.DateTimePicker();
@@ -79,8 +81,6 @@
             this.lblPCodeNum = new System.Windows.Forms.Label();
             this.lblPCode = new System.Windows.Forms.Label();
             this.btnGetPrescription = new System.Windows.Forms.Button();
-            this.txtAddress = new System.Windows.Forms.TextBox();
-            this.lblAddress = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).BeginInit();
             this.grbPatientInfo.SuspendLayout();
@@ -165,6 +165,7 @@
             this.lsvAppointment.View = System.Windows.Forms.View.Details;
             this.lsvAppointment.DoubleClick += new System.EventHandler(this.lsvAppointment_DoubleClick);
             this.lsvAppointment.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lsvAppointment_MouseClick);
+            this.lsvAppointment.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lsvAppointment_MouseDoubleClick);
             // 
             // appointmentId
             // 
@@ -267,6 +268,26 @@
             this.grbPatientInfo.TabStop = false;
             this.grbPatientInfo.Text = "Thông tin bệnh nhân";
             // 
+            // txtAddress
+            // 
+            this.txtAddress.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAddress.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.txtAddress.Location = new System.Drawing.Point(156, 262);
+            this.txtAddress.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtAddress.Name = "txtAddress";
+            this.txtAddress.Size = new System.Drawing.Size(181, 32);
+            this.txtAddress.TabIndex = 40;
+            // 
+            // lblAddress
+            // 
+            this.lblAddress.AutoSize = true;
+            this.lblAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAddress.Location = new System.Drawing.Point(22, 277);
+            this.lblAddress.Name = "lblAddress";
+            this.lblAddress.Size = new System.Drawing.Size(57, 18);
+            this.lblAddress.TabIndex = 39;
+            this.lblAddress.Text = "Địa chỉ:";
+            // 
             // txtContact
             // 
             this.txtContact.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -296,6 +317,7 @@
             this.dtpAge.Location = new System.Drawing.Point(156, 82);
             this.dtpAge.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dtpAge.Name = "dtpAge";
+            this.dtpAge.ShowUpDown = true;
             this.dtpAge.Size = new System.Drawing.Size(181, 32);
             this.dtpAge.TabIndex = 33;
             // 
@@ -452,7 +474,9 @@
             this.dtpAppointmentDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpAppointmentDate.Location = new System.Drawing.Point(133, 23);
             this.dtpAppointmentDate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dtpAppointmentDate.MinDate = new System.DateTime(2025, 5, 13, 0, 0, 0, 0);
             this.dtpAppointmentDate.Name = "dtpAppointmentDate";
+            this.dtpAppointmentDate.ShowUpDown = true;
             this.dtpAppointmentDate.Size = new System.Drawing.Size(181, 32);
             this.dtpAppointmentDate.TabIndex = 39;
             // 
@@ -670,26 +694,6 @@
             this.btnGetPrescription.Text = "Lấy đơn thuốc";
             this.btnGetPrescription.UseVisualStyleBackColor = false;
             this.btnGetPrescription.Click += new System.EventHandler(this.btnGetPrescription_Click);
-            // 
-            // txtAddress
-            // 
-            this.txtAddress.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAddress.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.txtAddress.Location = new System.Drawing.Point(156, 262);
-            this.txtAddress.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(181, 32);
-            this.txtAddress.TabIndex = 40;
-            // 
-            // lblAddress
-            // 
-            this.lblAddress.AutoSize = true;
-            this.lblAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAddress.Location = new System.Drawing.Point(22, 277);
-            this.lblAddress.Name = "lblAddress";
-            this.lblAddress.Size = new System.Drawing.Size(57, 18);
-            this.lblAddress.TabIndex = 39;
-            this.lblAddress.Text = "Địa chỉ:";
             // 
             // AppointmentForm
             // 
