@@ -15,13 +15,14 @@ namespace PresentationLayer
         private DoctorBL DoctorBL = new DoctorBL();
         private PatientBL PatientBL = new PatientBL();
         private AppointmentBL AppointmentBL = new AppointmentBL();
-
+        private SymptomBL symptomBL;
         public AppointmentForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
             LoadDoctors();
             lblPCodeNum.Text = DateTime.Now.ToString("ddMMhhmmss");
             this.currentUser = currentUser;
+            this.symptomBL = new SymptomBL();
         }
 
         // Dùng để chuyển đến form MenuForm (Back Button)
@@ -131,6 +132,7 @@ namespace PresentationLayer
             }
             symptoms = symptoms.TrimEnd(',', ' ');
 
+            
             try
             {
                 // Tạo và lưu thông tin bệnh nhân
@@ -147,6 +149,15 @@ namespace PresentationLayer
                 };
                 int patientId = PatientBL.AddPatient(patient);
 
+                Symptom symptom = new Symptom();
+                {
+                    symptom.PatientId = patientId;
+                    symptom.Name = symptoms;
+                    symptom.AddedDate = DateTime.Now;
+                    symptom.AddedBy = currentUser.UserId;
+                }
+                symptomBL.InsertSymtom(symptom);
+                //MessageBox.Show("hi");
                 // Tạo và lưu thông tin lịch hẹn
                 AppointmentDTO appointment = new AppointmentDTO();
                 {
@@ -416,7 +427,7 @@ namespace PresentationLayer
         private void btnGetPrescription_Click(object sender, EventArgs e)
         {
             this.Hide();
-            DoctorPrescriptionForm form = new DoctorPrescriptionForm();
+            DoctorPrescriptionForm form = new DoctorPrescriptionForm(currentUser);
             form.Show();
         }
     }

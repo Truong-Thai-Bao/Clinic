@@ -1,5 +1,6 @@
 ﻿using BusinessLayer;
 using DataLayer;
+using DataTransferLayer;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -61,45 +62,73 @@ namespace PresentationLayer
         private void LoadAppointments()
         {
             lsvAppointmentList.Items.Clear();
-            string query = "SELECT * FROM Appointment";
+            List<AppointmentDTO> appointments = new List<AppointmentDTO>();
+            //string query = "SELECT * FROM Appointment";
 
-            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
+            //using (SqlConnection conn = new SqlConnection(DBCommon.connString))
+            //using (SqlCommand cmd = new SqlCommand(query, conn))
+            //{
+            //    conn.Open();
+            int stt = 1;
+            //SqlDataReader reader = cmd.ExecuteReader();
+            foreach(var app in appointments)
             {
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                int stt = 1;
-                while (reader.Read())
+                int isArrived = 0;
+                object isArrivedValue = app.IsArrived;
+                if (isArrivedValue != DBNull.Value)
                 {
-                    int isArrived = 0;
-                    object isArrivedValue = reader["IsArrived"];
-                    if (isArrivedValue != DBNull.Value)
-                    {
-                        isArrived = Convert.ToInt32(isArrivedValue);
-                    }
-                    // Lấy trạng thái của lịch hẹn
-                    string status = AppointmentBUS.GetAppointmentStatus(
-                            reader.GetDateTime(reader.GetOrdinal("AppointmentDate")),
-                            reader.GetTimeSpan(reader.GetOrdinal("AppointmentTime")),
-                            isArrived);
-
-                    ListViewItem item = new ListViewItem(reader["AppointmentID"].ToString());
-                    item.SubItems.Add(reader["PatientName"].ToString());
-                    item.SubItems.Add(Convert.ToDateTime(reader["DateOfBirth"]).ToString("dd/MM/yyyy"));
-                    item.SubItems.Add(reader["Gender"].ToString());
-                    item.SubItems.Add(reader["BloodGroup"].ToString());
-                    item.SubItems.Add(reader["Contact"].ToString());
-                    item.SubItems.Add(reader["DoctorName"].ToString());
-                    item.SubItems.Add(Convert.ToDateTime(reader["AppointmentDate"]).ToString("dd/MM/yyyy"));
-                    item.SubItems.Add(reader["AppointmentTime"].ToString());
-                    item.SubItems.Add(reader["Symptoms"].ToString());
-                    item.SubItems.Add(status);
-
-                    lsvAppointmentList.Items.Add(item);
-                    stt++;
+                    isArrived = Convert.ToInt32(isArrivedValue);
                 }
+                // Lấy trạng thái của lịch hẹn
+                string status = AppointmentBUS.GetAppointmentStatus(
+                        app.AppointmentDate,
+                        app.AppointmentTime,
+                        isArrived);
+
+                ListViewItem item = new ListViewItem(app.PatientId.ToString());
+                item.SubItems.Add(app.patient.Name.ToString());
+                item.SubItems.Add(Convert.ToDateTime(app.patient.DateOfBirth).ToString("dd/MM/yyyy"));
+                item.SubItems.Add(app.patient.Gender.ToString());
+                item.SubItems.Add(app.patient.BloodGroup.ToString());
+                item.SubItems.Add(app.patient.Contact.ToString());
+                item.SubItems.Add(app.DoctorName).ToString();
+                item.SubItems.Add(Convert.ToDateTime(app.AppointmentDate).ToString("dd/MM/yyyy"));
+                item.SubItems.Add(app.AppointmentTime.ToString());
+                item.SubItems.Add(app.Symptoms.ToString());
+                item.SubItems.Add(status);
+
+                lsvAppointmentList.Items.Add(item);
+                stt++;
             }
+                //while (reader.Read())
+                //{
+                //    int isArrived = 0;
+                //    object isArrivedValue = reader["IsArrived"];
+                //    if (isArrivedValue != DBNull.Value)
+                //    {
+                //        isArrived = Convert.ToInt32(isArrivedValue);
+                //    }
+                //    // Lấy trạng thái của lịch hẹn
+                //    string status = AppointmentBUS.GetAppointmentStatus(
+                //            reader.GetDateTime(reader.GetOrdinal("AppointmentDate")),
+                //            reader.GetTimeSpan(reader.GetOrdinal("AppointmentTime")),
+                //            isArrived);
+
+                //    ListViewItem item = new ListViewItem(reader["AppointmentID"].ToString());
+                //    item.SubItems.Add(reader["PatientName"].ToString());
+                //    item.SubItems.Add(Convert.ToDateTime(reader["DateOfBirth"]).ToString("dd/MM/yyyy"));
+                //    item.SubItems.Add(reader["Gender"].ToString());
+                //    item.SubItems.Add(reader["BloodGroup"].ToString());
+                //    item.SubItems.Add(reader["Contact"].ToString());
+                //    item.SubItems.Add(reader["DoctorName"].ToString());
+                //    item.SubItems.Add(Convert.ToDateTime(reader["AppointmentDate"]).ToString("dd/MM/yyyy"));
+                //    item.SubItems.Add(reader["AppointmentTime"].ToString());
+                //    item.SubItems.Add(reader["Symptoms"].ToString());
+                //    item.SubItems.Add(status);
+
+                //    lsvAppointmentList.Items.Add(item);
+                //    stt++;
+                //}
         }
 
         // Dùng để xử lý sự kiện khi người dùng nhấn nút "Tiếp nhận mới"

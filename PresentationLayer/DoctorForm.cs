@@ -17,11 +17,10 @@ namespace PresentationLayer
 {
     public partial class DoctorForm : Form
     {
-        private DataTransferLayer.UserInfo currentUser;
+        private UserInfo currentUser;
         private DoctorBL doctorBL = new DoctorBL();
 
-        SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
-        public DoctorForm(DataTransferLayer.UserInfo currentUser)
+        public DoctorForm(UserInfo currentUser)
         {
             InitializeComponent();
             this.currentUser = currentUser;

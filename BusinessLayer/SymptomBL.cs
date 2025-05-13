@@ -3,37 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
-using System.Data.SqlClient;
-using DataLayer;
 using DataTransferLayer;
+using DataLayer;
 namespace BusinessLayer
 {
-    public class UserInfoBL
+    public  class SymptomBL
     {
-        private UserInfoDL getUserInfoDL;
-        public UserInfoBL() { 
-            getUserInfoDL = new UserInfoDL();
+        private SymptomDL symptomDL;
+        public SymptomBL()
+        {
+            symptomDL = new SymptomDL();
         }
 
-        public UserInfo GetUserInfo(Account account)
+        public List<Symptom> GetSymptomsByPatientId(int patientId)
         {
             try
             {
-                return getUserInfoDL.GetUserInfo(account);
-            }
-            catch (SqlException ex)
-            {
-
-                throw ex;
-            }
-        }
-
-        public void InsertInfo(Account account) 
-        {
-            try
-            {
-                getUserInfoDL.InsertInfo(account);
+                return symptomDL.GetSymptomsByPatientId(patientId);
             }
             catch (Exception ex)
             {
@@ -42,5 +28,17 @@ namespace BusinessLayer
             }
         }
 
+        public void InsertSymtom(Symptom symptom)
+        {
+            try
+            {
+                symptomDL.SaveSymptom(symptom);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

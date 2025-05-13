@@ -53,6 +53,34 @@ namespace DataLayer
             }
         }
 
+        public List<PatientDTO> GetPatientByDoctorId(int doctorId)
+        {
+            string sql = "SELECT * FROM View_Patient WHERE DoctorId = @DoctorId";
+            SqlCommand cmd = new SqlCommand(sql, cn);
+            cmd.Parameters.AddWithValue("@DoctorId", doctorId);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            List<PatientDTO> patients = new List<PatientDTO>();
+            foreach(DataRow row in dt.Rows)
+            {
+                patients.Add(new PatientDTO
+                {
+                    PatientId = (int)row["PatientId"],
+                    PCode = row["PCode"].ToString(),
+                    Name = row["Name"].ToString(),
+                    Address = row["Address"].ToString(),
+                    Contact = row["Contact"].ToString(),
+                    Age = DateTime.Now.Year - Convert.ToDateTime(row["DateOfBirth"]).Year,
+                    Gender = row["Gender"].ToString(),
+                    BloodGroup = row["BloodGroup"].ToString(),
+                    DoctorId = (int)row["DoctorId"]
+                });
+            }
+            return patients;
+        }
+
         public int AddPatient(PatientDTO patient)
         {
             try

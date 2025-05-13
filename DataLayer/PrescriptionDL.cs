@@ -17,7 +17,7 @@ namespace DataLayer
             List<PrescriptionDTO> prescriptions = new List<PrescriptionDTO>();
             using (SqlConnection conn = new SqlConnection(DBCommon.connString))
             {
-                string query = @"SELECT * FROM Prescription WHERE PatientId = @PatientId";
+                string query = @"SELECT * FROM View_FullPrescriptionInfo WHERE PatientId = @PatientId";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@PatientId", patientId);
                 conn.Open();
@@ -29,12 +29,14 @@ namespace DataLayer
                         PrescriptionID = Convert.ToInt32(reader["PrescriptionId"]),
                         PatientId = Convert.ToInt32(reader["PatientId"]),
                         MedicineId = Convert.ToInt32(reader["MedicineId"]),
-                        //MedicineName = reader["MedicineName"].ToString(),
+                        MedicineName = reader["MedicineName"].ToString(),
                         MorningDose = reader["MorningDose"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MorningDose"]),
                         NoonDose = reader["NoonDose"] == DBNull.Value ? 0 : Convert.ToInt32(reader["NoonDose"]),
-                        Afternoon = reader["Afternoon"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Afternoon"]),
+                        AfternoonDose = reader["AfternoonDose"] == DBNull.Value ? 0 : Convert.ToInt32(reader["AfternoonDose"]),
                         Day = reader["Day"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Day"]),
-                        AddedDate = (DateTime)reader["AddedDate"]
+                        AddedDate = (DateTime)reader["AddedDate"],
+                        Diagnosis = reader["Diagnosis"].ToString(),
+                        Type = reader["Type"].ToString()
                     });
                 }
                 conn.Close();
@@ -49,16 +51,18 @@ namespace DataLayer
             {
                 using (SqlConnection conn = new SqlConnection(DBCommon.connString))
                 {
-                    string query = @"INSERT INTO Prescription (PatientId, MedicineId, MorningDose, NoonDose, Afternoon, Day, AddedDate) 
-                                 VALUES (@PatientId, @MedicineId, @MorningDose, @NoonDose, @Afternoon, @Day, @AddedDate)";
+                    string query = @"INSERT INTO Prescription (PatientId, MedicineId, MorningDose, NoonDose, AfternoonDose, Day, AddedDate,DiagnosisId,AddedBy) 
+                                 VALUES (@PatientId, @MedicineId, @MorningDose, @NoonDose, @AfternoonDose, @Day, @AddedDate,@DiagnosisId,@AddedBy)";
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@PatientId", prescription.PatientId);
                     cmd.Parameters.AddWithValue("@MedicineId", prescription.MedicineId);
                     cmd.Parameters.AddWithValue("@MorningDose", prescription.MorningDose);
                     cmd.Parameters.AddWithValue("@NoonDose", prescription.NoonDose);
-                    cmd.Parameters.AddWithValue("@Afternoon", prescription.Afternoon);
+                    cmd.Parameters.AddWithValue("@AfternoonDose", prescription.AfternoonDose);
                     cmd.Parameters.AddWithValue("@Day", prescription.Day);
                     cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@DiagnosisId", prescription.DiagnosisId);
+                    cmd.Parameters.AddWithValue("@AddedBy", prescription.AddedBy);
                     conn.Open();
                     cmd.ExecuteNonQuery();
                     conn.Close();

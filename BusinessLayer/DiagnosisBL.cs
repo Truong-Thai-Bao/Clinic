@@ -3,41 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
-using System.Data.SqlClient;
 using DataLayer;
 using DataTransferLayer;
 namespace BusinessLayer
 {
-    public class UserInfoBL
+    public class DiagnosisBL
     {
-        private UserInfoDL getUserInfoDL;
-        public UserInfoBL() { 
-            getUserInfoDL = new UserInfoDL();
+        private DiagnosisDL diagnosisDL;
+        public DiagnosisBL()
+        {
+            diagnosisDL = new DiagnosisDL();
         }
 
-        public UserInfo GetUserInfo(Account account)
+        public int SaveDiagnosisBL(Diagnosis diagnosis)
         {
             try
             {
-                return getUserInfoDL.GetUserInfo(account);
-            }
-            catch (SqlException ex)
-            {
-
-                throw ex;
-            }
-        }
-
-        public void InsertInfo(Account account) 
-        {
-            try
-            {
-                getUserInfoDL.InsertInfo(account);
+                return diagnosisDL.SaveDianosisDL(diagnosis);
             }
             catch (Exception ex)
             {
-
+                throw ex;
+            }
+        }
+        public string GetDiagnosisByPatientId(int patientId)
+        {
+            try
+            {
+                return diagnosisDL.GetDiagnosisByPatientId(patientId);
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }

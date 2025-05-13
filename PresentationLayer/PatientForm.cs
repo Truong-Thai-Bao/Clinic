@@ -10,15 +10,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataTransferLayer;
 
 namespace PresentationLayer
 {
     public partial class PatientForm : Form
     {
         private DataTransferLayer.UserInfo currentUser;
+        private DoctorBL doctorBL;
         public PatientForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
+            doctorBL = new DoctorBL();
             lblPCodeNum.Text = DateTime.Now.ToString("ddMMhhmmss");
             LoadDoctors();
             this.currentUser = currentUser;
@@ -27,23 +30,16 @@ namespace PresentationLayer
         // Dùng để load danh sách bác sĩ
         private void LoadDoctors()
         {
-            using (SqlConnection sqlCon = new SqlConnection(DBCommon.connString))
+            try
             {
-                try
-                {
-                    string query = "SELECT DoctorId, DocName FROM Doctor";
-                    SqlDataAdapter da = new SqlDataAdapter(query, sqlCon);
-                    sqlCon.Open();
-                    DataSet ds = new DataSet();
-                    da.Fill(ds, "Doctor");
-                    cbSelectDoctor.DisplayMember = "DocName";
-                    cbSelectDoctor.ValueMember = "DoctorId";
-                    cbSelectDoctor.DataSource = ds.Tables["Doctor"];
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Đã xảy ra lỗi!");
-                }
+                List<DoctorDTO> doctors = doctorBL.GetAllDoctors();
+                cbSelectDoctor.DisplayMember = "DocName";
+                cbSelectDoctor.ValueMember = "DoctorId";
+                cbSelectDoctor.DataSource = doctors;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Đã xảy ra lỗi!");
             }
         }
 
@@ -194,7 +190,7 @@ namespace PresentationLayer
                                     cmd.Parameters.AddWithValue("@PCode", lblPCodeNum.Text.Trim());
                                     cmd.Parameters.AddWithValue("@DoctorId", cbSelectDoctor.SelectedValue);
                                     cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
-                                    cmd.Parameters.AddWithValue("@AddedBy", Global.UserInfo.UserId);
+                                    cmd.Parameters.AddWithValue("@AddedBy", currentUser.UserId);
                                     int patientId = Convert.ToInt32(cmd.ExecuteScalar());
 
                                     if(patientId > 0)
@@ -208,7 +204,7 @@ namespace PresentationLayer
                                             cmd.Parameters.AddWithValue("@Name", name);
                                             cmd.Parameters.AddWithValue("@PatientId", patientId);
                                             cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
-                                            cmd.Parameters.AddWithValue("@AddedBy", Global.UserInfo.UserId);
+                                            cmd.Parameters.AddWithValue("@AddedBy", currentUser.UserId);
                                             cmd.ExecuteNonQuery();
                                         }
                                     }
@@ -236,7 +232,7 @@ namespace PresentationLayer
         private void btnGetPrescription_Click(object sender, EventArgs e)
         {
             this.Hide();
-            DoctorPrescriptionForm form = new DoctorPrescriptionForm();
+            DoctorPrescriptionForm form = new DoctorPrescriptionForm(currentUser);
             form.Show();
         }
     }

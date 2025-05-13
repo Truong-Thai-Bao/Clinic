@@ -26,5 +26,10 @@ namespace BusinessLayer
         {
             return patientDL.AddPatient(patient);
         }
+
+        public List<PatientDTO> GetPatientByDoctorId(int doctorId)
+        {
+            return patientDL.GetPatientByDoctorId(doctorId);
+        }
     }
 }

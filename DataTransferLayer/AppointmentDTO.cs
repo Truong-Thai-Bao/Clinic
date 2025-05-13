@@ -17,6 +17,8 @@ namespace DataTransferLayer
         public string Symptoms { get; set; }
         public bool IsArrived { get; set; }
 
+        public PatientDTO patient { get; set; }
+
         public AppointmentDTO(int appointmentID, int patientId, string doctorName, DateTime appointmentDate, TimeSpan appointmentTime, string status, string symptoms, bool isArrived)
         {
             AppointmentID = appointmentID;
