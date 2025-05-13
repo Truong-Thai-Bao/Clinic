@@ -8,7 +8,7 @@ namespace DataTransferLayer
 {
     public class Diagnosis : CommonProps
     {
-        public int DianosisId { get; set; }
+        public int DiagnosisId { get; set; }
 
         public int PatientId { get; set; }
 
@@ -18,7 +18,7 @@ namespace DataTransferLayer
 
         public Diagnosis(int diagnosisId, int patientId, int doctorId, string diagnosisName)
         {
-            this.DianosisId = diagnosisId;
+            this.DiagnosisId = diagnosisId;
             this.PatientId = patientId;
             this.DoctorId = doctorId;
             this.DiagnosisName = diagnosisName;

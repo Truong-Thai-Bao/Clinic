@@ -10,7 +10,7 @@ namespace DataLayer
 {
     public class DiagnosisDL : DBCommon
     {
-        public int SaveDianosisDL(Diagnosis diagnosis)
+        public int SaveDiagnosisDL(Diagnosis diagnosis)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {

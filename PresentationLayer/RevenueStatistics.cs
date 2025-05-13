@@ -45,8 +45,8 @@ namespace PresentationLayer
         private void pictureBoxLogout_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Form1 form1 = new Form1();
-            form1.Show();
+            MenuForm menuForm = new MenuForm(currentUser);
+            menuForm.Show();
         }
 
         private void btnExportExcel_Click(object sender, EventArgs e)

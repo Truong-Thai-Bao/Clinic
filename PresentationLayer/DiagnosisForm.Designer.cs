@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DiagnosisForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.labelClinicManagement = new System.Windows.Forms.Label();
-            this.pictureBoxLogout = new System.Windows.Forms.PictureBox();
             this.cbPatients = new System.Windows.Forms.ComboBox();
             this.patientBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.cMSystemDataSet1 = new PresentationLayer.CMSystemDataSet1();
@@ -89,8 +89,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.pictureBoxLogout = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.patientBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cMSystemDataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.symptomDataGridView)).BeginInit();
@@ -101,6 +101,7 @@
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -123,7 +124,7 @@
             this.label1.ForeColor = System.Drawing.Color.AliceBlue;
             this.label1.Location = new System.Drawing.Point(453, 52);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(124, 24);
+            this.label1.Size = new System.Drawing.Size(155, 29);
             this.label1.TabIndex = 10;
             this.label1.Text = "CHẨN ĐOÁN";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -136,21 +137,10 @@
             this.labelClinicManagement.ForeColor = System.Drawing.Color.AliceBlue;
             this.labelClinicManagement.Location = new System.Drawing.Point(309, 20);
             this.labelClinicManagement.Name = "labelClinicManagement";
-            this.labelClinicManagement.Size = new System.Drawing.Size(368, 26);
+            this.labelClinicManagement.Size = new System.Drawing.Size(459, 32);
             this.labelClinicManagement.TabIndex = 9;
             this.labelClinicManagement.Text = "CLINIC MANAGEMENT SYSTEM";
             this.labelClinicManagement.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // pictureBoxLogout
-            // 
-            this.pictureBoxLogout.Location = new System.Drawing.Point(925, 553);
-            this.pictureBoxLogout.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBoxLogout.Name = "pictureBoxLogout";
-            this.pictureBoxLogout.Size = new System.Drawing.Size(63, 38);
-            this.pictureBoxLogout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxLogout.TabIndex = 23;
-            this.pictureBoxLogout.TabStop = false;
-            this.pictureBoxLogout.Click += new System.EventHandler(this.pictureBoxLogout_Click);
             // 
             // cbPatients
             // 
@@ -161,7 +151,7 @@
             this.cbPatients.Location = new System.Drawing.Point(28, 112);
             this.cbPatients.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbPatients.Name = "cbPatients";
-            this.cbPatients.Size = new System.Drawing.Size(253, 35);
+            this.cbPatients.Size = new System.Drawing.Size(253, 41);
             this.cbPatients.TabIndex = 24;
             this.cbPatients.ValueMember = "PatientId";
             this.cbPatients.SelectedValueChanged += new System.EventHandler(this.cbPatients_SelectedValueChanged);
@@ -300,6 +290,7 @@
             this.MedicineId.Name = "MedicineId";
             this.MedicineId.ReadOnly = true;
             this.MedicineId.Visible = false;
+            this.MedicineId.Width = 125;
             // 
             // Type
             // 
@@ -328,7 +319,7 @@
             this.cbMedicine.Location = new System.Drawing.Point(27, 20);
             this.cbMedicine.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbMedicine.Name = "cbMedicine";
-            this.cbMedicine.Size = new System.Drawing.Size(732, 24);
+            this.cbMedicine.Size = new System.Drawing.Size(732, 27);
             this.cbMedicine.TabIndex = 24;
             this.cbMedicine.SelectedIndexChanged += new System.EventHandler(this.cbMedicine_SelectedIndexChanged);
             this.cbMedicine.SelectedValueChanged += new System.EventHandler(this.cbPatients_SelectedValueChanged);
@@ -372,7 +363,7 @@
             this.lbType.Location = new System.Drawing.Point(684, 17);
             this.lbType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbType.Name = "lbType";
-            this.lbType.Size = new System.Drawing.Size(41, 20);
+            this.lbType.Size = new System.Drawing.Size(52, 25);
             this.lbType.TabIndex = 9;
             this.lbType.Text = "Viên";
             // 
@@ -384,7 +375,7 @@
             this.label6.Location = new System.Drawing.Point(72, 17);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(47, 20);
+            this.label6.Size = new System.Drawing.Size(59, 25);
             this.label6.TabIndex = 0;
             this.label6.Text = "Sáng";
             // 
@@ -396,7 +387,7 @@
             this.label7.Location = new System.Drawing.Point(195, 17);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(41, 20);
+            this.label7.Size = new System.Drawing.Size(53, 25);
             this.label7.TabIndex = 0;
             this.label7.Text = "Trưa";
             // 
@@ -405,7 +396,7 @@
             this.txtDay.Location = new System.Drawing.Point(514, 17);
             this.txtDay.Margin = new System.Windows.Forms.Padding(4);
             this.txtDay.Name = "txtDay";
-            this.txtDay.Size = new System.Drawing.Size(40, 22);
+            this.txtDay.Size = new System.Drawing.Size(40, 26);
             this.txtDay.TabIndex = 1;
             this.txtDay.Text = "7";
             this.txtDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -420,7 +411,7 @@
             this.label8.Location = new System.Drawing.Point(329, 17);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(50, 20);
+            this.label8.Size = new System.Drawing.Size(64, 25);
             this.label8.TabIndex = 0;
             this.label8.Text = "Chiều";
             // 
@@ -432,7 +423,7 @@
             this.lbNum.Location = new System.Drawing.Point(636, 17);
             this.lbNum.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbNum.Name = "lbNum";
-            this.lbNum.Size = new System.Drawing.Size(40, 20);
+            this.lbNum.Size = new System.Drawing.Size(50, 25);
             this.lbNum.TabIndex = 0;
             this.lbNum.Text = "num";
             // 
@@ -441,7 +432,7 @@
             this.txtAfternoon.Location = new System.Drawing.Point(280, 15);
             this.txtAfternoon.Margin = new System.Windows.Forms.Padding(4);
             this.txtAfternoon.Name = "txtAfternoon";
-            this.txtAfternoon.Size = new System.Drawing.Size(40, 22);
+            this.txtAfternoon.Size = new System.Drawing.Size(40, 26);
             this.txtAfternoon.TabIndex = 1;
             this.txtAfternoon.Text = "1";
             this.txtAfternoon.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -456,7 +447,7 @@
             this.label10.Location = new System.Drawing.Point(562, 17);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(62, 20);
+            this.label10.Size = new System.Drawing.Size(80, 25);
             this.label10.TabIndex = 0;
             this.label10.Text = "Ngày = ";
             // 
@@ -468,7 +459,7 @@
             this.label9.Location = new System.Drawing.Point(490, 17);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(16, 20);
+            this.label9.Size = new System.Drawing.Size(22, 25);
             this.label9.TabIndex = 0;
             this.label9.Text = "x";
             // 
@@ -477,7 +468,7 @@
             this.txtNoon.Location = new System.Drawing.Point(147, 15);
             this.txtNoon.Margin = new System.Windows.Forms.Padding(4);
             this.txtNoon.Name = "txtNoon";
-            this.txtNoon.Size = new System.Drawing.Size(40, 22);
+            this.txtNoon.Size = new System.Drawing.Size(40, 26);
             this.txtNoon.TabIndex = 1;
             this.txtNoon.Text = "1";
             this.txtNoon.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -489,7 +480,7 @@
             this.txtMorning.Location = new System.Drawing.Point(24, 15);
             this.txtMorning.Margin = new System.Windows.Forms.Padding(4);
             this.txtMorning.Name = "txtMorning";
-            this.txtMorning.Size = new System.Drawing.Size(40, 22);
+            this.txtMorning.Size = new System.Drawing.Size(40, 26);
             this.txtMorning.TabIndex = 8;
             this.txtMorning.Text = "1";
             this.txtMorning.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -503,7 +494,7 @@
             this.label5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label5.Location = new System.Drawing.Point(23, 224);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(127, 27);
+            this.label5.Size = new System.Drawing.Size(165, 34);
             this.label5.TabIndex = 36;
             this.label5.Text = "Chẩn đoán bệnh";
             // 
@@ -579,7 +570,7 @@
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(3, 78);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(104, 15);
+            this.label11.Size = new System.Drawing.Size(125, 18);
             this.label11.TabIndex = 35;
             this.label11.Text = "Triệu chứng khác:";
             // 
@@ -600,7 +591,7 @@
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(3, 37);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(75, 15);
+            this.label12.Size = new System.Drawing.Size(89, 18);
             this.label12.TabIndex = 28;
             this.label12.Text = "Triệu chứng:";
             // 
@@ -611,7 +602,7 @@
             this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label2.Location = new System.Drawing.Point(286, 34);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(89, 27);
+            this.label2.Size = new System.Drawing.Size(114, 34);
             this.label2.TabIndex = 36;
             this.label2.Text = "Nhóm máu";
             // 
@@ -622,7 +613,7 @@
             this.txtGender.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtGender.Name = "txtGender";
             this.txtGender.ReadOnly = true;
-            this.txtGender.Size = new System.Drawing.Size(55, 33);
+            this.txtGender.Size = new System.Drawing.Size(55, 40);
             this.txtGender.TabIndex = 30;
             this.txtGender.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -633,7 +624,7 @@
             this.txtAge.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtAge.Name = "txtAge";
             this.txtAge.ReadOnly = true;
-            this.txtAge.Size = new System.Drawing.Size(55, 33);
+            this.txtAge.Size = new System.Drawing.Size(55, 40);
             this.txtAge.TabIndex = 28;
             this.txtAge.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -644,7 +635,7 @@
             this.txtBlood.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtBlood.Name = "txtBlood";
             this.txtBlood.ReadOnly = true;
-            this.txtBlood.Size = new System.Drawing.Size(55, 33);
+            this.txtBlood.Size = new System.Drawing.Size(55, 40);
             this.txtBlood.TabIndex = 28;
             this.txtBlood.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -655,7 +646,7 @@
             this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label4.Location = new System.Drawing.Point(582, 37);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(71, 27);
+            this.label4.Size = new System.Drawing.Size(94, 34);
             this.label4.TabIndex = 36;
             this.label4.Text = "Giới tính";
             // 
@@ -666,7 +657,7 @@
             this.lblAge.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblAge.Location = new System.Drawing.Point(460, 37);
             this.lblAge.Name = "lblAge";
-            this.lblAge.Size = new System.Drawing.Size(40, 27);
+            this.lblAge.Size = new System.Drawing.Size(52, 34);
             this.lblAge.TabIndex = 41;
             this.lblAge.Text = "Tuổi";
             // 
@@ -677,7 +668,7 @@
             this.txtPatientCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPatientCode.Name = "txtPatientCode";
             this.txtPatientCode.ReadOnly = true;
-            this.txtPatientCode.Size = new System.Drawing.Size(136, 33);
+            this.txtPatientCode.Size = new System.Drawing.Size(136, 40);
             this.txtPatientCode.TabIndex = 26;
             this.txtPatientCode.Text = "MÃ BỆNH NHÂN";
             this.txtPatientCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -689,7 +680,7 @@
             this.txtContact.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtContact.Name = "txtContact";
             this.txtContact.ReadOnly = true;
-            this.txtContact.Size = new System.Drawing.Size(171, 33);
+            this.txtContact.Size = new System.Drawing.Size(171, 40);
             this.txtContact.TabIndex = 25;
             this.txtContact.Text = "LIÊN HỆ";
             this.txtContact.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -720,7 +711,7 @@
             this.label14.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label14.Location = new System.Drawing.Point(12, 102);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(98, 27);
+            this.label14.Size = new System.Drawing.Size(127, 34);
             this.label14.TabIndex = 36;
             this.label14.Text = "Triệu Chứng";
             // 
@@ -731,7 +722,7 @@
             this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label3.Location = new System.Drawing.Point(24, 34);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(64, 27);
+            this.label3.Size = new System.Drawing.Size(83, 34);
             this.label3.TabIndex = 36;
             this.label3.Text = "Liên hệ";
             // 
@@ -742,7 +733,7 @@
             this.label13.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label13.Location = new System.Drawing.Point(23, 167);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(117, 27);
+            this.label13.Size = new System.Drawing.Size(150, 34);
             this.label13.TabIndex = 36;
             this.label13.Text = "MÃ BỆNH NHÂN";
             // 
@@ -758,12 +749,24 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Kê Thuốc";
             // 
+            // pictureBoxLogout
+            // 
+            this.pictureBoxLogout.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxLogout.Image")));
+            this.pictureBoxLogout.Location = new System.Drawing.Point(998, 558);
+            this.pictureBoxLogout.Name = "pictureBoxLogout";
+            this.pictureBoxLogout.Size = new System.Drawing.Size(50, 50);
+            this.pictureBoxLogout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxLogout.TabIndex = 38;
+            this.pictureBoxLogout.TabStop = false;
+            this.pictureBoxLogout.Click += new System.EventHandler(this.pictureBoxLogout_Click_1);
+            // 
             // DiagnosisForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MintCream;
             this.ClientSize = new System.Drawing.Size(1067, 620);
+            this.Controls.Add(this.pictureBoxLogout);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
@@ -774,7 +777,6 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.cbPatients);
-            this.Controls.Add(this.pictureBoxLogout);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.MintCream;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -785,7 +787,6 @@
             this.Load += new System.EventHandler(this.DiagnosisForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.patientBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cMSystemDataSet1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.symptomDataGridView)).EndInit();
@@ -799,6 +800,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogout)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -809,7 +811,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelClinicManagement;
-        private System.Windows.Forms.PictureBox pictureBoxLogout;
         private System.Windows.Forms.ComboBox cbPatients;
         private System.Windows.Forms.DataGridView symptomDataGridView;
         private System.Windows.Forms.Button btnAdd;
@@ -866,5 +867,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
         private System.Windows.Forms.DataGridViewImageColumn Delete;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.PictureBox pictureBoxLogout;
     }
 }

@@ -27,10 +27,14 @@ namespace PresentationLayer
         private MedicineBL medicineBL = new MedicineBL();
         private DoctorBL doctorBL = new DoctorBL();
 
+
+        int _patientId = 0;
         PatientDL patient = new PatientDL();
+        MedicineDL medicineDL = new MedicineDL();
+        private List<MedicineDTO> medicines;
 
         SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
-        int _patientId = 0;
+        
 
         // Khai báo các thành phần giao diện
         private PrintPreviewDialog printPreviewPrescription = new PrintPreviewDialog();
@@ -45,6 +49,7 @@ namespace PresentationLayer
             this.currentUser = currentUser;
             printPrescription.PrintPage += new PrintPageEventHandler(printDocumentPrescription_PrintPage);
             printInvoice.PrintPage += new PrintPageEventHandler(printDocumentInvoice_PrintPage);
+            medicines = medicineDL.GetMedicinesByPatientId(_patientId);
         }
 
         private void LoadPatients()
@@ -55,9 +60,6 @@ namespace PresentationLayer
                 cbPatientCode.DisplayMember = "PCode";
                 cbPatientCode.ValueMember = "PatientId";
                 cbPatientCode.DataSource = patients;
-
-                //Debug
-                //MessageBox.Show("Số lượng bệnh nhân: " + cbPatientCode.Items.Count);
             }
             catch
             (Exception ex)
@@ -120,7 +122,6 @@ namespace PresentationLayer
             }
 
             _patientId = Convert.ToInt32(cbPatientCode.SelectedValue);
-            //MessageBox.Show($"Đang xem đơn thuốc cho bệnh nhân ID: {_patientId}", "Debug");
             PatientDTO patientDTO = patientBL.GetPatientInfo(_patientId);
             if (patientDTO == null)
             {
@@ -131,16 +132,9 @@ namespace PresentationLayer
             List<PrescriptionDTO> prescriptions = prescriptionBL.GetPrescriptionsByPatientId(_patientId);
             if (prescriptions == null || prescriptions.Count == 0)
             {
-                MessageBox.Show("Không tìm thấy đơn thuốc cho bệnh nhân này.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Không tìm thấy hóa đơn cho bệnh nhân này.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            //List<MedicineDTO> medicines = medicineBL.GetMedicinesByPatientId(_patientId);
-            //if (medicines == null || medicines.Count == 0)
-            //{
-            //    MessageBox.Show("Không tìm thấy thông tin thuốc cho bệnh nhân này.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    return;
-            //}
 
             printPreviewInvoice.Document = printInvoice;
             printPreviewInvoice.ShowDialog();
@@ -159,9 +153,7 @@ namespace PresentationLayer
 
         private void printDocumentPrescription_PrintPage(object sender, PrintPageEventArgs e)
         {
-            //_patientId = Convert.ToInt32(cbPatientCode.SelectedValue);
             if (_patientId <= 0) return;
-            //MessageBox.Show(_patientId.ToString());
             PatientDTO patientInfo = patientBL.GetPatientInfo(_patientId);
             if (patientInfo == null)
             {
@@ -183,8 +175,6 @@ namespace PresentationLayer
                 return;
             }
             string diagnosis = diagnosisBL.GetDiagnosisByPatientId(_patientId);
-            // Debug: Kiểm tra dữ liệu
-            //MessageBox.Show($"Patient ID: {_patientId}\nPrescriptions Count: {prescriptions.Count}", "Debug");
 
             e.Graphics.DrawString("ĐƠN THUỐC", new Font("Centuary", 22, FontStyle.Bold), Brushes.Red, new Point(300, 40));
 
@@ -278,20 +268,10 @@ namespace PresentationLayer
                     MessageBox.Show("Không tìm thấy đơn thuốc cho bệnh nhân này.");
                     return;
                 }
-                // Lấy danh sách thuốc
-                //List<MedicineDTO> medicines = medicineBL.GetMedicinesByPatientId(_patientId);
-                //if (medicines == null)
-                //{
-                //    MessageBox.Show("Không tìm thấy thông tin thuốc.");
-                //    return;
-                //}
 
                 // Tính tiền
                 decimal totalMedicinePrice = 0;
                 int startY = 205;
-
-                // Debug: Kiểm tra dữ liệu
-                //MessageBox.Show($"Patient ID: {_patientId}\nPrescriptions Count: {prescriptions.Count}\nMedicines Count: {medicines.Count}", "Debug");
 
                 int startX = 80;
                 int currentY = 205;
@@ -316,12 +296,19 @@ namespace PresentationLayer
 
                 // Bảng thuốc
                 currentY += 30;
+                int i = 1;
                 foreach (var pres in prescriptions)
                 {
-                    totalMedicinePrice += pres.Price;
-                    string line = $"{pres.MedicineName} - {pres.Type} - {pres.Price:N0} VNĐ";
+                    // Lấý giá thuốc từ bảng Medicine theo MedicineId
+                    MedicineDTO medInfo = medicineBL.GetMedicineById(pres.MedicineId);
+                    decimal medPrice = medInfo != null ? medInfo.Price : 0;
+
+                    totalMedicinePrice += medPrice;
+                    string line = $"{pres.MedicineName}-{pres.Price:N0} VNĐ";
                     e.Graphics.DrawString(line, contentFont, Brushes.Black, new Point(startX + 20, currentY));
+                    
                     currentY += 25;
+                    ++i;
                 }
 
                 // Tiền khám
@@ -332,7 +319,7 @@ namespace PresentationLayer
                 e.Graphics.DrawString("Tiền khám : " + consultationFee.ToString("N0") + " VNĐ", contentFont, Brushes.Black, new Point(startX, currentY));
                 currentY += 25;
 
-                // Tổng tiền (nổi bật)
+                // Tổng tiền
                 decimal totalAmount = totalMedicinePrice + consultationFee;
                 e.Graphics.DrawString("TỔNG TIỀN : " + totalAmount.ToString("N0") + " VNĐ", totalFont, Brushes.Red, new Point(startX, currentY));
 

@@ -24,5 +24,10 @@ namespace BusinessLayer
         {
             return MedicineDL.GetMedicinesByPatientId(patientId);
         }
+
+        public MedicineDTO GetMedicineById(int medicineId)
+        {
+            return MedicineDL.GetMedicineById(medicineId);
+        }
     }
 }

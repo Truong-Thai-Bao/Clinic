@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer
 {
-    public class AppointmentDL:DBCommon
+    public class AppointmentDL : DBCommon
     {
         public DataTable GetAllAppointment()
         {
@@ -93,8 +93,8 @@ namespace DataLayer
                             {
                                 filteredDt.ImportRow(row);
                             }
-                            return filteredDt;
                         }
+                        return filteredDt;
                     }
                     return dt;
                 }
@@ -104,44 +104,143 @@ namespace DataLayer
                 throw new Exception($"Lỗi khi lọc lịch hẹn: {ex.Message}");
             }
         }
-        public void AddAppointment(AppointmentDTO appointment)
+
+        public DataTable FilterAppointmentByKeyword(string keyword)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    string query = @"
+                        SELECT a.AppointmentID, a.PatientId, a.DoctorName, a.AppointmentDate, a.AppointmentTime, 
+                               a.Symptoms, a.Status, a.IsArrived, 
+                               p.Name AS PatientName, p.DateOfBirth, p.Gender, p.BloodGroup, p.Contact
+                        FROM Appointment a
+                        INNER JOIN Patient p ON a.PatientId = p.PatientId
+                        WHERE 1=1";
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    // Lọc theo từ khóa (tên bệnh nhân hoặc liên lạc)
+                    if (!string.IsNullOrEmpty(keyword))
+                    {
+                        keyword = keyword.ToLower();
+                        DataTable filteredDt = dt.Clone();
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            string patientName = row["PatientName"].ToString().ToLower();
+                            string contact = row["Contact"].ToString().ToLower();
+                            if (patientName.Contains(keyword) || contact.Contains(keyword))
+                            {
+                                filteredDt.ImportRow(row);
+                            }
+                        }
+                        return filteredDt;
+                    }
+                    return dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Lỗi khi lọc lịch hẹn: {ex.Message}");
+            }
+        }
+
+        public int AddAppointment(AppointmentDTO appointment)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string query = @"
                     INSERT INTO Appointment
                     (PatientId, DoctorName, AppointmentDate, AppointmentTime, Symptoms, Status, IsArrived)
+                    OUTPUT INSERTED.AppointmentID
                     VALUES
                     (@PatientId, @DoctorName, @AppointmentDate, @AppointmentTime, @Symptoms, @Status, @IsArrived)";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@PatientID", appointment.PatientId);
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@PatientId", appointment.PatientId);
                     cmd.Parameters.AddWithValue("@DoctorName", appointment.DoctorName);
                     cmd.Parameters.AddWithValue("@AppointmentDate", appointment.AppointmentDate);
                     cmd.Parameters.AddWithValue("@AppointmentTime", appointment.AppointmentTime);
-                    cmd.Parameters.AddWithValue("@Symptoms", appointment.Symptoms);
-                    cmd.Parameters.AddWithValue("@Status", appointment.Status);
+                    cmd.Parameters.AddWithValue("@Symptoms", appointment.Symptoms ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Status", appointment.Status ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@IsArrived", appointment.IsArrived);
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    return (int)cmd.ExecuteScalar();
+                }
             }
         }
 
         public void DeleteAppointment(int appointmentID)
         {
-            try
+            if (appointmentID <= 0)
             {
-                using (SqlConnection conn = new SqlConnection(connString))
-                {
-                    string query = "DELETE FROM Appointment WHERE AppointmentID = @AppointmentID";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@AppointmentID", appointmentID);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
+                throw new ArgumentException("AppointmentID không hợp lệ");
             }
-            catch (Exception ex)
+
+            using (SqlConnection conn = new SqlConnection(connString))
             {
-                throw new Exception($"Lỗi khi xóa lịch hẹn: {ex.Message}");
+                conn.Open();
+                SqlTransaction transaction = conn.BeginTransaction();
+
+                try
+                {
+                    int patientId;
+                    // Lấy PatientId từ Appointment
+                    string selectQuery = "SELECT PatientId FROM Appointment WHERE AppointmentID = @AppointmentID";
+                    using (SqlCommand selectCmd = new SqlCommand(selectQuery, conn, transaction))
+                    {
+                        selectCmd.Parameters.AddWithValue("@AppointmentID", appointmentID);
+                        object result = selectCmd.ExecuteScalar();
+                        if (result == null)
+                        {
+                            throw new Exception($"Không tìm thấy lịch hẹn với AppointmentID = {appointmentID}");
+                        }
+                        patientId = Convert.ToInt32(result);
+                    }
+
+                    // Xóa Symptom
+                    string symptomQuery = "DELETE FROM Symptom WHERE PatientId = @PatientId";
+                    using (SqlCommand symptomCmd = new SqlCommand(symptomQuery, conn, transaction))
+                    {
+                        symptomCmd.Parameters.AddWithValue("@PatientId", patientId);
+                        symptomCmd.ExecuteNonQuery();
+                    }
+
+                    // Xóa Appointment
+                    string appointmentQuery = "DELETE FROM Appointment WHERE AppointmentID = @AppointmentID";
+                    using (SqlCommand appointmentCmd = new SqlCommand(appointmentQuery, conn, transaction))
+                    {
+                        appointmentCmd.Parameters.AddWithValue("@AppointmentID", appointmentID);
+                        int rowsAffected = appointmentCmd.ExecuteNonQuery();
+                        if (rowsAffected == 0)
+                        {
+                            throw new Exception($"Không thể xóa lịch hẹn với AppointmentID = {appointmentID}");
+                        }
+                    }
+
+                    // Xóa Patient
+                    string patientQuery = "DELETE FROM Patient WHERE PatientId = @PatientId";
+                    using (SqlCommand patientCmd = new SqlCommand(patientQuery, conn, transaction))
+                    {
+                        patientCmd.Parameters.AddWithValue("@PatientId", patientId);
+                        int rowsAffected = patientCmd.ExecuteNonQuery();
+                        if (rowsAffected == 0)
+                        {
+                            throw new Exception($"Không thể xóa bệnh nhân với PatientId = {patientId}");
+                        }
+                    }
+
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception($"Lỗi khi xóa lịch hẹn và thông tin liên quan: {ex.Message}");
+                }
             }
         }
 

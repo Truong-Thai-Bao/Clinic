@@ -37,19 +37,52 @@ namespace BusinessLayer
                 throw new Exception($"Lỗi khi lọc lịch hẹn: {ex.Message}");
             }
         }
-        public void AddAppointment(AppointmentDTO appointment)
+
+        public DataTable GetAppointmentsByKeyword(string keyword)
         {
-            appointmentDL.AddAppointment(appointment);
+            try
+            {
+                return appointmentDL.FilterAppointmentByKeyword(keyword);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Lỗi khi lọc lịch hẹn: {ex.Message}");
+            }
+        }
+        public int AddAppointment(AppointmentDTO appointment)
+        {
+            try
+            {
+                return appointmentDL.AddAppointment(appointment);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Lỗi khi thêm lịch hẹn: {ex.Message}");
+            }
         }
 
         public void UpdateAppointment(AppointmentDTO appointment, PatientDTO patient)
         {
-            appointmentDL.UpdateAppointment(appointment, patient);
+            try
+            {
+                appointmentDL.UpdateAppointment(appointment, patient);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Lỗi khi cập nhật lịch hẹn: {ex.Message}");
+            }
         }
 
         public void DeleteAppointment(int appointmentId)
         {
-            appointmentDL.DeleteAppointment(appointmentId);
+            try
+            {
+                appointmentDL.DeleteAppointment(appointmentId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Lỗi khi xóa lịch hẹn: {ex.Message}");
+            }
         }
     }
 }
