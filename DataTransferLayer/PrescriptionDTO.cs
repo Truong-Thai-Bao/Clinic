@@ -12,6 +12,8 @@ namespace DataTransferLayer
         public int DiagnosisId { get; set; } = 0;
 
         public string Type { get; set; }
+
+        public int Price { get; set; } = 0;
         public string Diagnosis { get; set; }
         public int MedicineId { get; set; } = 0;
         public string MedicineName { get; set; } = "";
@@ -23,7 +25,7 @@ namespace DataTransferLayer
         public DateTime AddedDate { get; set; }
         public PrescriptionDTO() { }
 
-        public PrescriptionDTO(int prescriptionID, string diagnosis, int morningDose, int noonDose, int afternoon, int patientId, int day,string medicinename, string type)
+        public PrescriptionDTO(int prescriptionID, string diagnosis, int morningDose, int noonDose, int afternoon, int patientId, int day,string medicinename, string type,int price)
         {
             this.PrescriptionID = prescriptionID;
             this.Diagnosis = diagnosis;
@@ -34,6 +36,7 @@ namespace DataTransferLayer
             this.PatientId = patientId;
             this.MedicineName = medicinename;
             Type = type;
+            this.Price = price;
         }
     }
 }
