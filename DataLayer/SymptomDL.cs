@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 using DataTransferLayer;
 namespace DataLayer
 {
-    public class SymptomDL :DBCommon
+    public class SymptomDL : DBCommon
     {
         public List<Symptom> GetSymptomsByPatientId(int id)
         {
-			try
-			{
-                using (SqlConnection conn = new SqlConnection(DBCommon.connString))
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
                 {
                     conn.Open();
                     string query = @"SELECT Name FROM Symptom WHERE PatientId = @PatientId";
@@ -34,10 +34,10 @@ namespace DataLayer
                 }
             }
             catch (Exception ex)
-			{
+            {
 
-				throw ex;
-			}
+                throw ex;
+            }
         }
 
         public void SaveSymptom(Symptom symptom)

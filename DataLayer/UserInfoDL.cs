@@ -41,5 +41,21 @@ namespace DataLayer
                 Disconnect();
             }
         }
+
+        public void InsertInfo(Account account) 
+        {
+            string query = @"INSERT INTO UserInfo (Username, UserPassword, UserType, AddedDate) VALUES (@Username, @UserPassword, @UserType, @AddedDate)";
+
+            using (SqlConnection sqlCon = new SqlConnection(connString))
+            {
+                sqlCon.Open();
+                SqlCommand command = new SqlCommand(query, sqlCon);
+                command.Parameters.AddWithValue("@Username",account.username);
+                command.Parameters.AddWithValue("@UserPassword", account.password);
+                command.Parameters.AddWithValue("@UserType", 1); //1 means Admin
+                command.Parameters.AddWithValue("@AddedDate", DateTime.Now);
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }

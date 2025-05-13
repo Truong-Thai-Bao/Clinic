@@ -48,6 +48,7 @@
     <Compile Include="MedicineDL.cs" />
     <Compile Include="PatientDL.cs" />
     <Compile Include="PrescriptionDL.cs" />
+    <Compile Include="SymptomDL.cs" />
     <Compile Include="UserInfoDL.cs" />
     <Compile Include="LoginDL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
