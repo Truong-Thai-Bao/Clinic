@@ -157,7 +157,7 @@ namespace PresentationLayer
                     symptom.AddedBy = currentUser.UserId;
                 }
                 symptomBL.InsertSymtom(symptom);
-                MessageBox.Show("hi");
+                //MessageBox.Show("hi");
                 // Tạo và lưu thông tin lịch hẹn
                 AppointmentDTO appointment = new AppointmentDTO();
                 {
@@ -427,7 +427,7 @@ namespace PresentationLayer
         private void btnGetPrescription_Click(object sender, EventArgs e)
         {
             this.Hide();
-            DoctorPrescriptionForm form = new DoctorPrescriptionForm();
+            DoctorPrescriptionForm form = new DoctorPrescriptionForm(currentUser);
             form.Show();
         }
     }

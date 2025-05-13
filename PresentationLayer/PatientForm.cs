@@ -232,7 +232,7 @@ namespace PresentationLayer
         private void btnGetPrescription_Click(object sender, EventArgs e)
         {
             this.Hide();
-            DoctorPrescriptionForm form = new DoctorPrescriptionForm();
+            DoctorPrescriptionForm form = new DoctorPrescriptionForm(currentUser);
             form.Show();
         }
     }

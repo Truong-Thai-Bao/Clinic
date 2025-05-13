@@ -23,6 +23,10 @@ namespace DataTransferLayer
             this.DoctorId = doctorId;
             this.DiagnosisName = diagnosisName;
         }
+        public Diagnosis(string diagnosisName)
+        {
+            this.DiagnosisName = diagnosisName;
+        }
         public Diagnosis() { }
     }
 }

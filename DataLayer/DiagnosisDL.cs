@@ -47,5 +47,17 @@ namespace DataLayer
                 }
             }
         }
+
+        public string GetDiagnosisByPatientId(int patientId)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string query = @"SELECT Diagnosis FROM Diagnosis WHERE PatientId = @PatientId";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@PatientId", patientId);
+                conn.Open();
+                return (string)cmd.ExecuteScalar();
+            }
+        }
     }
 }

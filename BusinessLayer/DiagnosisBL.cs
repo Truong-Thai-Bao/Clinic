@@ -26,6 +26,17 @@ namespace BusinessLayer
                 throw ex;
             }
         }
+        public string GetDiagnosisByPatientId(int patientId)
+        {
+            try
+            {
+                return diagnosisDL.GetDiagnosisByPatientId(patientId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }

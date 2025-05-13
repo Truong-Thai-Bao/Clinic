@@ -21,7 +21,7 @@ namespace PresentationLayer
     public partial class DoctorPrescriptionForm : Form
     {
         private DataTransferLayer.UserInfo currentUser;
-
+        private DiagnosisBL diagnosisBL = new DiagnosisBL();
         private PatientBL patientBL = new PatientBL();
         private PrescriptionBL prescriptionBL = new PrescriptionBL();
         private MedicineBL medicineBL = new MedicineBL();
@@ -38,11 +38,11 @@ namespace PresentationLayer
         private PrintDocument printPrescription = new PrintDocument();
         private PrintDocument printInvoice = new PrintDocument();
 
-        public DoctorPrescriptionForm()
+        public DoctorPrescriptionForm(UserInfo currentUser)
         {
             InitializeComponent();
             LoadPatients();
-
+            this.currentUser = currentUser;
             printPrescription.PrintPage += new PrintPageEventHandler(printDocumentPrescription_PrintPage);
             printInvoice.PrintPage += new PrintPageEventHandler(printDocumentInvoice_PrintPage);
         }
@@ -57,7 +57,7 @@ namespace PresentationLayer
                 cbPatientCode.DataSource = patients;
 
                 //Debug
-                MessageBox.Show("Số lượng bệnh nhân: " + cbPatientCode.Items.Count);
+                //MessageBox.Show("Số lượng bệnh nhân: " + cbPatientCode.Items.Count);
             }
             catch
             (Exception ex)
@@ -81,7 +81,7 @@ namespace PresentationLayer
             }
 
             _patientId = Convert.ToInt32(cbPatientCode.SelectedValue);
-            MessageBox.Show($"Đang xem đơn thuốc cho bệnh nhân ID: {_patientId}", "Debug");
+            //MessageBox.Show($"Đang xem đơn thuốc cho bệnh nhân ID: {_patientId}", "Debug");
             PatientDTO patientDTO = patientBL.GetPatientInfo(_patientId);
             if (patientDTO == null)
             {
@@ -120,7 +120,7 @@ namespace PresentationLayer
             }
 
             _patientId = Convert.ToInt32(cbPatientCode.SelectedValue);
-            MessageBox.Show($"Đang xem hóa đơn cho bệnh nhân ID: {_patientId}", "Debug");
+            //MessageBox.Show($"Đang xem hóa đơn cho bệnh nhân ID: {_patientId}", "Debug");
 
             PatientDTO patientInfo = patientBL.GetPatientInfo(_patientId);
             if (patientInfo == null)
@@ -162,7 +162,7 @@ namespace PresentationLayer
         {
             //_patientId = Convert.ToInt32(cbPatientCode.SelectedValue);
             if (_patientId <= 0) return;
-
+            //MessageBox.Show(_patientId.ToString());
             PatientDTO patientInfo = patientBL.GetPatientInfo(_patientId);
             if (patientInfo == null)
             {
@@ -183,9 +183,9 @@ namespace PresentationLayer
                 MessageBox.Show("Không tìm thấy đơn thuốc cho bệnh nhân này.");
                 return;
             }
-
+            string diagnosis = diagnosisBL.GetDiagnosisByPatientId(_patientId);
             // Debug: Kiểm tra dữ liệu
-            MessageBox.Show($"Patient ID: {_patientId}\nPrescriptions Count: {prescriptions.Count}", "Debug");
+            //MessageBox.Show($"Patient ID: {_patientId}\nPrescriptions Count: {prescriptions.Count}", "Debug");
 
             e.Graphics.DrawString("ĐƠN THUỐC", new Font("Centuary", 22, FontStyle.Bold), Brushes.Red, new Point(300, 40));
 
@@ -197,18 +197,23 @@ namespace PresentationLayer
             e.Graphics.DrawString("Nhóm máu: " + patientInfo.BloodGroup, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 165));
             e.Graphics.DrawString("Mã BN: " + patientInfo.PCode, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 185));
             e.Graphics.DrawString("Bác sĩ điều trị: " + doctor.DocName, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 205));
+            e.Graphics.DrawString("Chẩn đoán: " + diagnosis, new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, 225));
 
-            int currentY = 245;
+            int currentY = 265;
+            int i = 1;
             foreach (var pres in prescriptions)
             {
                 // In tên thuốc
-                e.Graphics.DrawString(pres.MedicineName, new Font("Arial", 16, FontStyle.Italic), Brushes.Black, new Point(120, currentY));
+                e.Graphics.DrawString(i.ToString() + pres.MedicineName, new Font("Arial", 12, FontStyle.Italic), Brushes.Black, new Point(120, currentY));
                 currentY += 25;
+                ++i;
                 // In liều dùng
                 e.Graphics.DrawString("Sáng: " + pres.MorningDose +
                                         "   Trưa: " + pres.NoonDose +
-                                        "   Chiều: " + pres.AfternoonDose,
-                                        new Font("Arial", 14, FontStyle.Regular), Brushes.Black, new Point(120, currentY));
+                                        "   Chiều: " + pres.AfternoonDose +
+                                        + pres.Day + "x   Ngày =  " + (pres.MorningDose + pres.NoonDose + pres.AfternoonDose) * pres.Day +
+                                        " "+ pres.Type,
+                new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(120, currentY));
                 currentY += 35;
             }
 
