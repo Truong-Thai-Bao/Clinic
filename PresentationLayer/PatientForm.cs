@@ -18,10 +18,14 @@ namespace PresentationLayer
     {
         private DataTransferLayer.UserInfo currentUser;
         private DoctorBL doctorBL;
+        private SymptomBL  symptomBL;
+        private PatientBL patientBL;
         public PatientForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
+            symptomBL = new SymptomBL();
             doctorBL = new DoctorBL();
+            patientBL = new PatientBL();
             lblPCodeNum.Text = DateTime.Now.ToString("ddMMhhmmss");
             LoadDoctors();
             this.currentUser = currentUser;
@@ -171,58 +175,75 @@ namespace PresentationLayer
                     var confirmResult = MessageBox.Show("Bạn có chắc chắn muốn lưu thông tin bệnh nhân này?", "Lưu thông tin bệnh nhân", MessageBoxButtons.YesNo);
                     if (confirmResult == DialogResult.Yes)
                     {
-                        using (SqlConnection conn = new SqlConnection(DBCommon.connString))
+                        try
                         {
-                            conn.Open();
-                            using (SqlTransaction transaction = conn.BeginTransaction())
+                            //string query = @"INSERT INTO Patient (Name,Address,Contact,DateOfBirth,Gender,BloodGroup,Pcode,DoctorId,AddedDate,AddedBy) VALUES (@Name,@Address,@Contact,@DateOfBirth,@Gender,@BloodGroup,@PCode,@DoctorId,@AddedDate,@AddedBy);
+                            //SELECT SCOPE_IDENTITY()";
+                            //SqlCommand cmd = new SqlCommand(query, conn, transaction);
+                            //cmd.Parameters.AddWithValue("@Name", txtPatientName.Text.Trim());
+                            //cmd.Parameters.AddWithValue("@Address", txtAddress.Text.Trim());
+                            //cmd.Parameters.AddWithValue("@Contact", txtContact.Text.Trim());
+                            //cmd.Parameters.AddWithValue("@DateOfBirth", dtpAge.Value.Date);
+                            //cmd.Parameters.AddWithValue("@BloodGroup", cbBlood.Text.Trim());
+                            //cmd.Parameters.AddWithValue("@Gender", cbGender.Text.Trim());
+                            //cmd.Parameters.AddWithValue("@PCode", lblPCodeNum.Text.Trim());
+                            //cmd.Parameters.AddWithValue("@DoctorId", cbSelectDoctor.SelectedValue);
+                            //cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
+                            //cmd.Parameters.AddWithValue("@AddedBy", currentUser.UserId);
+                            int patientId = patientBL.AddPatient(new PatientDTO(
+                                PatientName: txtPatientName.Text.Trim(),
+                                Address: txtAddress.Text.Trim(),
+                                Contact: txtContact.Text.Trim(),
+                                DateOfBirth: dtpAge.Value.Date,
+                                Gender: cbGender.Text.Trim(),
+                                BloodGroup: cbBlood.Text.Trim(),
+                                PCode: lblPCode.Text.Trim(),
+                                DoctorId: Convert.ToInt32(cbSelectDoctor.SelectedValue),
+                                addDate: DateTime.Now,
+                                by: currentUser.UserId));
+
+                            if (patientId > 0)
                             {
-                                try
+                                for (int i = 0; i < symptomDataGridView.Rows.Count - 1; i++)
                                 {
-                                    string query = @"INSERT INTO Patient (Name,Address,Contact,DateOfBirth,Gender,BloodGroup,Pcode,DoctorId,AddedDate,AddedBy) VALUES (@Name,@Address,@Contact,@DateOfBirth,@Gender,@BloodGroup,@PCode,@DoctorId,@AddedDate,@AddedBy);
-                                    SELECT SCOPE_IDENTITY()";
-                                    SqlCommand cmd = new SqlCommand(query, conn, transaction);
-                                    cmd.Parameters.AddWithValue("@Name", txtPatientName.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@Address", txtAddress.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@Contact", txtContact.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@DateOfBirth", dtpAge.Value.Date);
-                                    cmd.Parameters.AddWithValue("@BloodGroup", cbBlood.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@Gender", cbGender.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@PCode", lblPCodeNum.Text.Trim());
-                                    cmd.Parameters.AddWithValue("@DoctorId", cbSelectDoctor.SelectedValue);
-                                    cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
-                                    cmd.Parameters.AddWithValue("@AddedBy", currentUser.UserId);
-                                    int patientId = Convert.ToInt32(cmd.ExecuteScalar());
+                                    string name = symptomDataGridView.Rows[i].Cells["Name"].Value.ToString();
 
-                                    if(patientId > 0)
-                                    {
-                                        for (int i = 0; i < symptomDataGridView.Rows.Count - 1; i++)
-                                        {
-                                            string name = symptomDataGridView.Rows[i].Cells["Name"].Value.ToString();
-
-                                            query = @"INSERT INTO Symptom (Name,PatientId,AddedDate,AddedBy) VALUES (@Name,@PatientId,@AddedDate,@AddedBy);";
-                                            cmd = new SqlCommand(query, conn, transaction);
-                                            cmd.Parameters.AddWithValue("@Name", name);
-                                            cmd.Parameters.AddWithValue("@PatientId", patientId);
-                                            cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
-                                            cmd.Parameters.AddWithValue("@AddedBy", currentUser.UserId);
-                                            cmd.ExecuteNonQuery();
-                                        }
-                                    }
-                                    transaction.Commit();
-                                    MessageBox.Show("Thông tin bệnh nhân đã được lưu thành công!");
-                                    Reset();
-                                }
-                                catch (Exception ex)
-                                {
-                                    MessageBox.Show(ex.Message);
-                                    transaction.Rollback();
-                                }
-                                finally
-                                {
-                                    conn.Close();
+                                    //query = @"INSERT INTO Symptom (Name,PatientId,AddedDate,AddedBy) VALUES (@Name,@PatientId,@AddedDate,@AddedBy);";
+                                    //cmd = new SqlCommand(query, conn, transaction);
+                                    //cmd.Parameters.AddWithValue("@Name", name);
+                                    //cmd.Parameters.AddWithValue("@PatientId", patientId);
+                                    //cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
+                                    //cmd.Parameters.AddWithValue("@AddedBy", currentUser.UserId);
+                                    //cmd.ExecuteNonQuery();
+                                    symptomBL.InsertSymtom(new Symptom(
+                                        name: name,
+                                        patientId: patientId,
+                                        by: currentUser.UserId,
+                                        date: DateTime.Now
+                                        ));
                                 }
                             }
+                            //transaction.Commit();
+                            MessageBox.Show("Thông tin bệnh nhân đã được lưu thành công!");
+                            Reset();
                         }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                            //transaction.Rollback();
+                        }
+                        finally
+                        {
+                            //conn.Close();
+                        }
+                        //using (SqlConnection conn = new SqlConnection(DBCommon.connString))
+                        //{
+                        //    conn.Open();
+                        //    using (SqlTransaction transaction = conn.BeginTransaction())
+                        //    {
+                                
+                        //    }
+                        //}
                     }
                 }
             }

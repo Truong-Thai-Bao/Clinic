@@ -1,17 +1,16 @@
-﻿using DataLayer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
 
-namespace BusinessLayer
+namespace DataLayer
 {
-    public class RevenueStatisticsBUS
+    public class RevenueStatisticDL
     {
-        public DataTable GetRevenueStatistics()
+        public DataTable GetRevenue()
         {
             using (SqlConnection conn = new SqlConnection(DBCommon.connString))
             {
@@ -22,6 +21,5 @@ namespace BusinessLayer
                 return dt;
             }
         }
-
     }
 }

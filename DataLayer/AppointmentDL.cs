@@ -291,6 +291,27 @@ namespace DataLayer
                 throw new Exception($"Lỗi khi cập nhật lịch hẹn hoặc bệnh nhân: {ex.Message}");
             }
         }
-        
+
+        public int GetAppId(int patientId, string doctorName)
+        {
+            string sql = $"select AppointmentID from Appointment where PatientId = {patientId} and DoctorName = '{doctorName}'";
+            using(SqlConnection cn = new SqlConnection(connString))
+            {
+                cn.Open();
+                SqlCommand cmd = new SqlCommand(sql, cn);
+                return (int)cmd.ExecuteScalar();
+            }
+        }
+
+        public void UpdateStatus(int appointmentId)
+        {
+            string sql = $"update Appointment set Status =N'Đã khám' where AppointmentId = {appointmentId}";
+            using (SqlConnection cn = new SqlConnection(connString))
+            {
+                cn.Open();
+                SqlCommand cmd = new SqlCommand(sql, cn);
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }

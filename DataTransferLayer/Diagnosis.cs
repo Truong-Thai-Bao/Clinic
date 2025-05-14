@@ -15,13 +15,15 @@ namespace DataTransferLayer
         public int DoctorId { get; set; }
 
         public string DiagnosisName { get; set; }
-
-        public Diagnosis(int diagnosisId, int patientId, int doctorId, string diagnosisName)
+        
+        public int appointmentId { get; set; }
+        public Diagnosis(int diagnosisId, int patientId, int doctorId, string diagnosisName, int appointmentId)
         {
             this.DiagnosisId = diagnosisId;
             this.PatientId = patientId;
             this.DoctorId = doctorId;
             this.DiagnosisName = diagnosisName;
+            this.appointmentId = appointmentId;
         }
         public Diagnosis(string diagnosisName)
         {

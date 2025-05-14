@@ -84,5 +84,29 @@ namespace BusinessLayer
                 throw new Exception($"Lỗi khi xóa lịch hẹn: {ex.Message}");
             }
         }
+        public int GetAppointment(int patientId,string  doctorName)
+        {
+            try
+            {
+                return appointmentDL.GetAppId(patientId, doctorName);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public void UpdateStatusById(int appointmentId)
+        {
+            try
+            {
+                appointmentDL.UpdateStatus(appointmentId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

@@ -18,16 +18,20 @@ namespace PresentationLayer
     {
         private DataTransferLayer.UserInfo currentUser;
         private SymptomBL symptomBL;
+        private DoctorBL doctorBL;
         private DiagnosisBL diagnosisBL;
         private MedicineBL mediicineBL;
         private PatientBL patientBL;
         private PrescriptionBL prescriptionBL;
+        private AppointmentBL appointmentBL;
         private List<MedicineDTO> medicines = new List<MedicineDTO>();
         SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
         private static int count = 0;
         public DiagnosisForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
+            this.appointmentBL = new AppointmentBL();
+            doctorBL = new DoctorBL();
             medicineDataGridView.DefaultCellStyle.ForeColor = Color.Black;
             patientBL = new PatientBL();
             this.currentUser = currentUser;
@@ -174,6 +178,11 @@ namespace PresentationLayer
             {
                 // Lưu thông tin Diagnosis
                 // Tạo chuỗi chẩn đoán từ ListView triệu chứng
+                DoctorDTO doctor = doctorBL.GetDoctorById(currentUser.DoctorId);
+                MessageBox.Show(doctor.DocName);
+                int appointmentId = appointmentBL.GetAppointment(Convert.ToInt32(cbPatients.SelectedValue),doctor.DocName);
+                MessageBox.Show(appointmentId.ToString());
+
                 string diagnosises = "";
                 foreach (ListViewItem item in lsvDiagnosis.Items)
                 {
@@ -186,7 +195,8 @@ namespace PresentationLayer
                     DoctorId = currentUser.DoctorId,
                     AddedDate = DateTime.Now,
                     AddedBy = currentUser.UserId,
-                    DiagnosisName = diagnosises
+                    DiagnosisName = diagnosises,
+                    appointmentId = appointmentId,
                 };
                 
                 int diagnosisId =  diagnosisBL.SaveDiagnosisBL(diagnosis);
@@ -219,6 +229,9 @@ namespace PresentationLayer
                         AddedBy = currentUser.UserId
                     });
                 }
+
+                appointmentBL.UpdateStatusById(appointmentId);
+
                 MessageBox.Show("Lưu thành công!");
                 lsvDiagnosis.Items.Clear();
                 medicineDataGridView.Rows.Clear();
@@ -379,6 +392,11 @@ namespace PresentationLayer
             this.Hide();
             MenuForm menuForm = new MenuForm(currentUser);
             menuForm.Show();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

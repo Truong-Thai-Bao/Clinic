@@ -35,5 +35,18 @@ namespace DataTransferLayer
             this.DoctorId = DoctorId;
 
         }
+        public PatientDTO(string PatientName, string Address, string Contact, DateTime DateOfBirth, string Gender, string BloodGroup, string PCode, int DoctorId,DateTime addDate,int by)
+        {
+            this.Name = PatientName;
+            this.Address = Address;
+            this.Contact = Contact;
+            this.DateOfBirth = DateOfBirth;
+            this.Gender = Gender;
+            this.BloodGroup = BloodGroup;
+            this.PCode = PCode;
+            this.DoctorId = DoctorId;
+            this.AddedDate = addDate;
+            this.AddedBy = by;
+        }
     }
 }

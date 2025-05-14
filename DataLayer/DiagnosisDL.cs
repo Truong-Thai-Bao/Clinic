@@ -18,15 +18,15 @@ namespace DataLayer
                 try
                 {
                     // Lưu thông tin Diagnosis
-                    string query = @"INSERT INTO Diagnosis (PatientId, DoctorId, AddedDate, AddedBy,Diagnosis)
+                    string query = @"INSERT INTO Diagnosis (PatientId, DoctorId, AddedDate, AddedBy,Diagnosis,AppointmentId)
                             OUTPUT INSERTED.DiagnosisId
-                             VALUES (@PatientId, @DoctorId, @AddedDate, @AddedBy,@Diagnosis)";
+                             VALUES (@PatientId, @DoctorId, @AddedDate, @AddedBy,@Diagnosis,@AppointmentId)";
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@PatientId", diagnosis.PatientId);
                     cmd.Parameters.AddWithValue("@DoctorId", diagnosis.DoctorId);
                     cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
                     cmd.Parameters.AddWithValue("@AddedBy", diagnosis.AddedBy);
-
+                    cmd.Parameters.AddWithValue("@AppointmentId",diagnosis.appointmentId);
                     //// Tạo chuỗi chẩn đoán từ ListView triệu chứng
                     //string diagnosises = "";
                     //foreach (ListViewItem item in lsvDiagnosis.Items)

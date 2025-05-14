@@ -11,24 +11,26 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.IO;
 using DataTransferLayer;
+using BusinessLayer;
 
 namespace PresentationLayer
 {
     public partial class RevenueStatistics : Form
     {
         private DataTransferLayer.UserInfo currentUser;
-        private BusinessLayer.RevenueStatisticsBUS revenueStatisticsBUS = new BusinessLayer.RevenueStatisticsBUS();
+        private RevenueStatisticsBL RevenueStatisticsBL;
         public RevenueStatistics(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
             this.currentUser = currentUser;
+            RevenueStatisticsBL = new RevenueStatisticsBL();
         }
 
         private void btnViewRevenue_Click(object sender, EventArgs e)
         {
             try
             {
-                DataTable dt = revenueStatisticsBUS.GetRevenueStatistics();
+                DataTable dt = RevenueStatisticsBL.GetRevenueStatistics();
                 dgvRevenue.DataSource = dt;
             }
             catch (Exception ex)
