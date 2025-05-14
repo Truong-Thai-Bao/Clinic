@@ -15,7 +15,7 @@ namespace BusinessLayer
     public class MedicineBL
     {
         private MedicineDL MedicineDL = new MedicineDL();
-        public List<MedicineDTO> GetMedicinesByPatientId()
+        public List<MedicineDTO> GetMedicines()
         {
             return MedicineDL.GetAllMedicines();
         }
@@ -23,6 +23,11 @@ namespace BusinessLayer
         public List<MedicineDTO> GetMedicinesByPatientId(int patientId)
         {
             return MedicineDL.GetMedicinesByPatientId(patientId);
+        }
+
+        public MedicineDTO GetMedicineById(int medicineId)
+        {
+            return MedicineDL.GetMedicineById(medicineId);
         }
     }
 }

@@ -10,23 +10,27 @@ using System.Windows.Forms;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.IO;
-
+using DataTransferLayer;
+using BusinessLayer;
 
 namespace PresentationLayer
 {
     public partial class RevenueStatistics : Form
     {
-        private BusinessLayer.RevenueStatisticsBUS revenueStatisticsBUS = new BusinessLayer.RevenueStatisticsBUS();
-        public RevenueStatistics()
+        private DataTransferLayer.UserInfo currentUser;
+        private RevenueStatisticsBL RevenueStatisticsBL;
+        public RevenueStatistics(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
+            this.currentUser = currentUser;
+            RevenueStatisticsBL = new RevenueStatisticsBL();
         }
 
         private void btnViewRevenue_Click(object sender, EventArgs e)
         {
             try
             {
-                DataTable dt = revenueStatisticsBUS.GetRevenueStatistics();
+                DataTable dt = RevenueStatisticsBL.GetRevenueStatistics();
                 dgvRevenue.DataSource = dt;
             }
             catch (Exception ex)
@@ -43,8 +47,8 @@ namespace PresentationLayer
         private void pictureBoxLogout_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Form1 form1 = new Form1();
-            form1.Show();
+            MenuForm menuForm = new MenuForm(currentUser);
+            menuForm.Show();
         }
 
         private void btnExportExcel_Click(object sender, EventArgs e)

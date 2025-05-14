@@ -77,12 +77,6 @@ namespace PresentationLayer
 
         }
 
-        private void pictureBoxMedicines_Click(object sender, EventArgs e)
-        {
-            if(Global.UserInfo.UserType != 1) { 
-                
-            }
-        }
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
@@ -100,7 +94,7 @@ namespace PresentationLayer
             else
             {
                 this.Hide();
-                RevenueStatistics revenueStatistics = new RevenueStatistics();
+                RevenueStatistics revenueStatistics = new RevenueStatistics(currentUser);
                 revenueStatistics.Show();
             }
         }
@@ -110,6 +104,13 @@ namespace PresentationLayer
             this.Hide();
             PatientForm patientForm = new PatientForm(currentUser);
             patientForm.Show();
+        }
+
+        private void pictureBox3_Click_1(object sender, EventArgs e)
+        {
+            this.Hide();
+            PatientArrivalForm patientArrivalForm = new PatientArrivalForm(currentUser);
+            patientArrivalForm.Show();
         }
     }
 }

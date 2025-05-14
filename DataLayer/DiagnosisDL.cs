@@ -10,7 +10,7 @@ namespace DataLayer
 {
     public class DiagnosisDL : DBCommon
     {
-        public int SaveDianosisDL(Diagnosis diagnosis)
+        public int SaveDiagnosisDL(Diagnosis diagnosis)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -18,15 +18,15 @@ namespace DataLayer
                 try
                 {
                     // Lưu thông tin Diagnosis
-                    string query = @"INSERT INTO Diagnosis (PatientId, DoctorId, AddedDate, AddedBy,Diagnosis)
+                    string query = @"INSERT INTO Diagnosis (PatientId, DoctorId, AddedDate, AddedBy,Diagnosis,AppointmentId)
                             OUTPUT INSERTED.DiagnosisId
-                             VALUES (@PatientId, @DoctorId, @AddedDate, @AddedBy,@Diagnosis)";
+                             VALUES (@PatientId, @DoctorId, @AddedDate, @AddedBy,@Diagnosis,@AppointmentId)";
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@PatientId", diagnosis.PatientId);
                     cmd.Parameters.AddWithValue("@DoctorId", diagnosis.DoctorId);
                     cmd.Parameters.AddWithValue("@AddedDate", DateTime.Now);
                     cmd.Parameters.AddWithValue("@AddedBy", diagnosis.AddedBy);
-
+                    cmd.Parameters.AddWithValue("@AppointmentId",diagnosis.appointmentId);
                     //// Tạo chuỗi chẩn đoán từ ListView triệu chứng
                     //string diagnosises = "";
                     //foreach (ListViewItem item in lsvDiagnosis.Items)
@@ -45,6 +45,18 @@ namespace DataLayer
                 {
                     conn.Close();
                 }
+            }
+        }
+
+        public string GetDiagnosisByPatientId(int patientId)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string query = @"SELECT Diagnosis FROM Diagnosis WHERE PatientId = @PatientId";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@PatientId", patientId);
+                conn.Open();
+                return (string)cmd.ExecuteScalar();
             }
         }
     }

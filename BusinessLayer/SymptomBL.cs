@@ -3,40 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataLayer;
 using DataTransferLayer;
+using DataLayer;
 namespace BusinessLayer
 {
-    public class DiagnosisBL
+    public  class SymptomBL
     {
-        private DiagnosisDL diagnosisDL;
-        public DiagnosisBL()
+        private SymptomDL symptomDL;
+        public SymptomBL()
         {
-            diagnosisDL = new DiagnosisDL();
+            symptomDL = new SymptomDL();
         }
 
-        public int SaveDiagnosisBL(Diagnosis diagnosis)
+        public List<Symptom> GetSymptomsByPatientId(int patientId)
         {
             try
             {
-                return diagnosisDL.SaveDiagnosisDL(diagnosis);
+                return symptomDL.GetSymptomsByPatientId(patientId);
             }
             catch (Exception ex)
             {
-                throw ex;
-            }
-        }
-        public string GetDiagnosisByPatientId(int patientId)
-        {
-            try
-            {
-                return diagnosisDL.GetDiagnosisByPatientId(patientId);
-            }
-            catch (Exception ex)
-            {
+
                 throw ex;
             }
         }
 
+        public void InsertSymtom(Symptom symptom)
+        {
+            try
+            {
+                symptomDL.SaveSymptom(symptom);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

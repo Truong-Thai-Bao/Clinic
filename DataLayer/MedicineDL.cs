@@ -26,7 +26,7 @@ namespace DataLayer
                     {
                         MedicineId = Convert.ToInt32(reader["MedicineId"]),
                         MedicineName = reader["MedicineName"].ToString(),
-                        Price = (decimal)reader["Price"],
+                        Price = Convert.ToInt32(reader["Price"]),
                         Type = reader["Type"].ToString()
                     });
                 }
@@ -64,11 +64,35 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                // Handle exception (e.g., log it)
                 Console.WriteLine("Lỗi khi lấy danh sách thuốc: " + ex.Message);
                 return new List<MedicineDTO>();
             }
             return medicines;
+        }
+
+        public MedicineDTO GetMedicineById(int medicineId)
+        {
+            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
+            {
+                string query = "SELECT MedicineId, MedicineName, Price, Type FROM Medicine WHERE MedicineId = @MedicineId";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MedicineId", medicineId);
+
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    return new MedicineDTO
+                    {
+                        MedicineId = Convert.ToInt32(reader["MedicineId"]),
+                        MedicineName = reader["MedicineName"].ToString(),
+                        Price = Convert.ToInt32(reader["Price"]),
+                        Type = reader["Type"].ToString()
+                    };
+                }
+                conn.Close();
+            }
+            return null;
         }
     }
 }

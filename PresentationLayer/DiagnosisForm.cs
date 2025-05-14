@@ -17,36 +17,30 @@ namespace PresentationLayer
     public partial class DiagnosisForm : Form
     {
         private DataTransferLayer.UserInfo currentUser;
+        private SymptomBL symptomBL;
+        private DoctorBL doctorBL;
         private DiagnosisBL diagnosisBL;
+        private MedicineBL mediicineBL;
         private PatientBL patientBL;
         private PrescriptionBL prescriptionBL;
+        private AppointmentBL appointmentBL;
         private List<MedicineDTO> medicines = new List<MedicineDTO>();
         SqlConnection sqlCon = new SqlConnection(DBCommon.connString);
         private static int count = 0;
         public DiagnosisForm(DataTransferLayer.UserInfo currentUser)
         {
             InitializeComponent();
-            symptomDataGridView.DefaultCellStyle.ForeColor = Color.Black;
+            this.appointmentBL = new AppointmentBL();
+            doctorBL = new DoctorBL();
             medicineDataGridView.DefaultCellStyle.ForeColor = Color.Black;
             patientBL = new PatientBL();
             this.currentUser = currentUser;
+            this.symptomBL = new SymptomBL();
             this.diagnosisBL = new DiagnosisBL();
             this.prescriptionBL = new PrescriptionBL();
+            mediicineBL = new MedicineBL();
             CalculateTotalPills();
             LoadPatients();
-        }
-
-        //Tính tuổi từ ngày sinh
-        private int CalculateAge(DateTime birthDate)
-        {
-            DateTime today = DateTime.Today;
-            int age = today.Year - birthDate.Year;
-
-            // Nếu chưa đến sinh nhật năm nay thì trừ đi 1
-            if (birthDate.Date > today.AddYears(-age))
-                age--;
-
-            return age;
         }
 
         private void LoadPatients()
@@ -85,36 +79,28 @@ namespace PresentationLayer
             LoadSymptoms(patientId);
             if (patientId > 0)
             {
-                SqlConnection conn = new SqlConnection(DBCommon.connString);
-
-                #region Load Patients
-                conn.Open();
-
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Patient WHERE PatientId = @PatientId", conn);
-                cmd.Parameters.AddWithValue("@PatientId", patientId);
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        txtBlood.Text = String.Format("{0}", reader["BloodGroup"]);
-                        DateTime dateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
-                        txtAge.Text = CalculateAge(dateOfBirth).ToString();
-                        txtGender.Text = String.Format("{0}", reader["Gender"]);
-                        txtContact.Text = String.Format("{0}", reader["Contact"]);
-                        txtPatientCode.Text = String.Format("{0}", reader["PCode"]);
-                    }
-                }
-                conn.Close();
-                #endregion
+                PatientDTO patient = patientBL.GetPatientInfo(patientId);
+                txtBlood.Text = patient.BloodGroup;
+                txtAge.Text = patient.Age.ToString();
+                txtGender.Text = patient.Gender.ToString();
+                txtContact.Text = patient.Contact.ToString();
+                txtPatientCode.Text = patient.PCode;
             }
         }
 
         private void medicineDataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            foreach (DataGridViewRow item in this.medicineDataGridView.SelectedRows)
+            if(e.RowIndex >= 0 && e.RowIndex < medicineDataGridView.Rows.Count)
             {
-                medicineDataGridView.Rows.RemoveAt(item.Index); //Remove Medicine
+                DataGridViewRow row = medicineDataGridView.Rows[e.RowIndex];
+                txtAfternoon.Text = row.Cells["AfternoonDose"].Value.ToString();
+                txtMorning.Text = row.Cells["MorningDose"].Value.ToString();
+                txtNoon.Text = row.Cells["NoonDose"].Value.ToString();
+                txtDay.Text = row.Cells["day"].Value.ToString();
+                cbMedicine.Text = row.Cells["MedicineName"].Value.ToString();
+                lbType.Text = row.Cells["Type"].Value.ToString();
             }
+
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -192,6 +178,11 @@ namespace PresentationLayer
             {
                 // Lưu thông tin Diagnosis
                 // Tạo chuỗi chẩn đoán từ ListView triệu chứng
+                DoctorDTO doctor = doctorBL.GetDoctorById(currentUser.DoctorId);
+                MessageBox.Show(doctor.DocName);
+                int appointmentId = appointmentBL.GetAppointment(Convert.ToInt32(cbPatients.SelectedValue),doctor.DocName);
+                MessageBox.Show(appointmentId.ToString());
+
                 string diagnosises = "";
                 foreach (ListViewItem item in lsvDiagnosis.Items)
                 {
@@ -204,7 +195,8 @@ namespace PresentationLayer
                     DoctorId = currentUser.DoctorId,
                     AddedDate = DateTime.Now,
                     AddedBy = currentUser.UserId,
-                    DiagnosisName = diagnosises
+                    DiagnosisName = diagnosises,
+                    appointmentId = appointmentId,
                 };
                 
                 int diagnosisId =  diagnosisBL.SaveDiagnosisBL(diagnosis);
@@ -237,9 +229,13 @@ namespace PresentationLayer
                         AddedBy = currentUser.UserId
                     });
                 }
+
+                appointmentBL.UpdateStatusById(appointmentId);
+
                 MessageBox.Show("Lưu thành công!");
                 lsvDiagnosis.Items.Clear();
                 medicineDataGridView.Rows.Clear();
+                cbMedicine.Text = string.Empty;
                 LoadPatients();
                 }
                 catch (Exception ex)
@@ -258,38 +254,38 @@ namespace PresentationLayer
         }
         private void LoadMedicineComboBox()
         {
-            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
-            {
-                conn.Open();
-                string query = "SELECT MedicineId, MedicineName,Type FROM Medicine";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                cbMedicine.DataSource = dt;
+                List<MedicineDTO> medicines = mediicineBL.GetMedicines();
+                cbMedicine.DataSource = medicines;
                 cbMedicine.DisplayMember = "MedicineName";
                 cbMedicine.ValueMember = "MedicineId";
                 cbMedicine.SelectedIndex = -1; // Không chọn gì mặc định
-            }
         }
 
         private void LoadSymptoms(int patientId)
         {
-            using (SqlConnection conn = new SqlConnection(DBCommon.connString))
+            symptomDataGridView.BackgroundColor = Color.White;
+            symptomDataGridView.DefaultCellStyle.ForeColor = Color.Black;
+            symptomDataGridView.DefaultCellStyle.BackColor = Color.White;
+            symptomDataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
+            symptomDataGridView.EnableHeadersVisualStyles = false;
+            List<Symptom> symptoms = symptomBL.GetSymptomsByPatientId(patientId);
+            symptomDataGridView.DataSource = symptoms;
+            symptomDataGridView.AutoGenerateColumns = false;
+            symptomDataGridView.Columns.Clear();
+
+            symptomDataGridView.Columns.Add(new DataGridViewTextBoxColumn
             {
-                conn.Open();
-                string query = @"SELECT Name FROM Symptom WHERE PatientId = @PatientId";
+                DataPropertyName = "Name",
+                HeaderText = "Triệu chứng",
+                Name = "Name",
+                Width = 565
+            });
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@PatientId", patientId);
-
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                symptomDataGridView.DataSource = dt;
-            }
         }
+
+
+
+
 
         private void DiagnosisForm_Load(object sender, EventArgs e)
         {
@@ -300,8 +296,8 @@ namespace PresentationLayer
         }
 
 
-        //Hiển thị lên label 
-        private void CalculateTotalPills()
+    //Hiển thị lên label 
+    private void CalculateTotalPills()
         {
             // Lấy số lượng từ các TextBox (mặc định = 0 nếu không nhập hoặc nhập sai)
             int morning = int.TryParse(txtMorning.Text, out int m) ? m : 0;
@@ -326,9 +322,9 @@ namespace PresentationLayer
 
         private void cbMedicine_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbMedicine.SelectedIndex != -1 && cbMedicine.SelectedItem is DataRowView row)
+            if (cbMedicine.SelectedIndex != -1 && cbMedicine.SelectedItem is MedicineDTO selectedMedicine)
             {
-                lbType.Text = row["Type"].ToString();
+                lbType.Text = selectedMedicine.Type;
             }
             else
             {
@@ -361,6 +357,7 @@ namespace PresentationLayer
                 listItem.SubItems.Add(txtDiagnosis.Text.Trim());
                 lsvDiagnosis.Items.Add(listItem);
                 txtDiagnosis.Clear();
+                txtDiagnosis.Focus();
             }
             else
             {
@@ -390,9 +387,11 @@ namespace PresentationLayer
                 medicineDataGridView.Rows.RemoveAt(e.RowIndex);
         }
 
-        private void cbPatients_SelectedIndexChanged(object sender, EventArgs e)
+        private void pictureBoxLogout_Click_1(object sender, EventArgs e)
         {
-
+            this.Hide();
+            MenuForm menuForm = new MenuForm(currentUser);
+            menuForm.Show();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)

@@ -16,7 +16,7 @@ namespace BusinessLayer
             getUserInfoDL = new UserInfoDL();
         }
 
-        public DataTransferLayer.UserInfo GetUserInfo(Account account)
+        public UserInfo GetUserInfo(Account account)
         {
             try
             {
@@ -28,5 +28,19 @@ namespace BusinessLayer
                 throw ex;
             }
         }
+
+        public void InsertInfo(Account account) 
+        {
+            try
+            {
+                getUserInfoDL.InsertInfo(account);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
     }
 }

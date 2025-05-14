@@ -17,7 +17,7 @@ namespace DataLayer
             List<PrescriptionDTO> prescriptions = new List<PrescriptionDTO>();
             using (SqlConnection conn = new SqlConnection(DBCommon.connString))
             {
-                string query = @"SELECT * FROM Prescription WHERE PatientId = @PatientId";
+                string query = @"SELECT * FROM View_FullPrescriptionInfo WHERE PatientId = @PatientId";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@PatientId", patientId);
                 conn.Open();
@@ -29,12 +29,13 @@ namespace DataLayer
                         PrescriptionID = Convert.ToInt32(reader["PrescriptionId"]),
                         PatientId = Convert.ToInt32(reader["PatientId"]),
                         MedicineId = Convert.ToInt32(reader["MedicineId"]),
-                        //MedicineName = reader["MedicineName"].ToString(),
+                        MedicineName = reader["MedicineName"].ToString(),
                         MorningDose = reader["MorningDose"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MorningDose"]),
                         NoonDose = reader["NoonDose"] == DBNull.Value ? 0 : Convert.ToInt32(reader["NoonDose"]),
-                        AfternoonDose = reader["Afternoon"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Afternoon"]),
+                        AfternoonDose = reader["AfternoonDose"] == DBNull.Value ? 0 : Convert.ToInt32(reader["AfternoonDose"]),
                         Day = reader["Day"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Day"]),
-                        AddedDate = (DateTime)reader["AddedDate"]
+                        AddedDate = (DateTime)reader["AddedDate"],
+                        Diagnosis = reader["Diagnosis"].ToString(),
                     });
                 }
                 conn.Close();

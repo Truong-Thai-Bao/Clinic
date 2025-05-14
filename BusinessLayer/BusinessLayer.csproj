@@ -158,21 +158,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppointmentBL.cs" />
-    <Compile Include="Appointment.cs" />
     <Compile Include="AppointmentBUS.cs" />
     <Compile Include="CommonProps.cs" />
-    <Compile Include="Common\CmnMethods.cs" />
-    <Compile Include="Common\Global.cs" />
     <Compile Include="DiagnosisBL.cs" />
     <Compile Include="DoctorBL.cs" />
     <Compile Include="MedicineBL.cs" />
     <Compile Include="PatientBL.cs" />
     <Compile Include="PrescriptionBL.cs" />
+    <Compile Include="SymptomBL.cs" />
     <Compile Include="UserInfoBL.cs" />
     <Compile Include="LoginBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RevenueStatisticsBUS.cs" />
-    <Compile Include="UserInfo.cs" />
+    <Compile Include="RevenueStatisticsBL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj">
